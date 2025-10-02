@@ -1,0 +1,15 @@
+# Ignoriere Medien & Cache
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+
+# DB/Backups
+*.sql
+*.zip
+*.tar
+*.gz
+
+# IDE & System
+.DS_Store
+Thumbs.db
+*.log
