@@ -36,10 +36,11 @@ class Pro_Install_Menu_Item implements Admin_Menu_Item_With_Page {
 	}
 
 	public function is_visible(): bool {
-		return true;
+		return false;
 	}
 
 	public function render() {
+		$this->enqueue_scripts();
 		?>
 		<div class="wrap elementor-admin-page-license">
 			<h2 class="wp-heading-inline"><?php echo esc_html( $this->get_page_title() ); ?></h2>
@@ -71,7 +72,7 @@ class Pro_Install_Menu_Item implements Admin_Menu_Item_With_Page {
 			</p>
 
 			<div class="elementor-box-action">
-				<a class="button button-primary" href="<?php echo esc_url( $connect_url ); ?>">
+				<a id="elementor-connect-license" class="button button-primary" href="<?php echo esc_url( $connect_url ); ?>">
 					<?php echo esc_html__( 'Connect to Elementor', 'elementor' ); ?>
 				</a>
 			</div>
@@ -158,17 +159,18 @@ class Pro_Install_Menu_Item implements Admin_Menu_Item_With_Page {
 	}
 
 	private function render_install_or_activate_box() {
-		$cta_data = $this->get_cta_data();
+		$ctr_data = $this->get_cta_data();
 		$ctr_url = wp_nonce_url( admin_url( 'admin-post.php?action=elementor_do_pro_install' ), 'elementor_do_pro_install' );
+		$ctr_id = $this->is_pro_installed() ? 'elementor-connect-activate-pro' : 'elementor-connect-install-pro';
 
 		?>
 		<div class="elementor-license-box">
 			<h3><?php echo esc_html__( 'You\'ve got Elementor Pro', 'elementor' ); ?></h3>
 
-			<p><?php echo esc_html( $cta_data['description'] ); ?></p>
+			<p><?php echo esc_html( $ctr_data['description'] ); ?></p>
 			<p class="elementor-box-action">
-				<a class="button button-primary" href="<?php echo esc_url( $ctr_url ); ?>">
-					<?php echo esc_html( $cta_data['button_text'] ); ?>
+				<a id="<?php echo esc_attr( $ctr_id ); ?>" class="button button-primary" href="<?php echo esc_url( $ctr_url ); ?>">
+					<?php echo esc_html( $ctr_data['button_text'] ); ?>
 				</a>
 			</p>
 		</div>
@@ -191,5 +193,15 @@ class Pro_Install_Menu_Item implements Admin_Menu_Item_With_Page {
 
 	private function get_elementor_pro_file_path(): string {
 		return 'elementor-pro/elementor-pro.php';
+	}
+
+	private function enqueue_scripts() {
+		wp_enqueue_script(
+			'elementor-pro-install-events',
+			ELEMENTOR_URL . 'modules/pro-install/assets/js/pro-install-events.js',
+			[ 'elementor-common' ],
+			ELEMENTOR_VERSION,
+			true
+		);
 	}
 }

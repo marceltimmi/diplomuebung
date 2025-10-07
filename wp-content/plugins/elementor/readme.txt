@@ -4,7 +4,7 @@ Tags: page builder, editor, landing page, drag-and-drop, elementor,
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.32.1
+Stable tag: 3.32.3
 Beta tag: 3.32.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -348,6 +348,18 @@ You can also add a new language via [translate.wordpress.org](https://go.element
 6. **Motion Effects** - Add entrance animations and transitions to any element in your website to captivate visitors.
 
 == Changelog ==
+
+= 3.32.3 - 2025-09-29 =
+
+* Fix: Custom post types are imported even when unselected in Website Templates import
+* Fix: Taxonomy queries not connected properly to widgets in Website Templates import
+
+= 3.32.2 - 2025-09-18 =
+
+* Tweak: Improved compatibility for 3rd-party plugins serving templates
+* Fix: Structure Panel indicators not visible in RTL layouts
+* Fix: Issues with loading Google Fonts when enabling or disabling Load Google Fonts Locally option ([#32795](https://github.com/elementor/elementor/issues/32795))
+* Fix: Background videos not displaying correctly on RTL websites
 
 = 3.32.1 - 2025-09-16 =
 

@@ -107,7 +107,7 @@ body.rtl {
   position: absolute;
   inset-block-start: 50%;
   inset-inline-start: 50%;
-  transform: translate(calc(-50% * var(--direction-multiplier)), -50%);
+  transform: translate(-50%, -50%);
 }
 .elementor .elementor-background-video-hosted {
   object-fit: cover;

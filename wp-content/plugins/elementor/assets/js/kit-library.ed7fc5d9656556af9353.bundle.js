@@ -1,4 +1,4 @@
-/*! elementor - v3.32.0 - 16-09-2025 */
+/*! elementor - v3.32.0 - 29-09-2025 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["kit-library"],{
 
 /***/ "../app/modules/kit-library/assets/js/app.js":
@@ -3992,10 +3992,14 @@ function ConnectScreen(_ref) {
         height: 700
       },
       success: function success(_event, data) {
+        var isTrackingOptedInConnect = data.tracking_opted_in && elementorCommon.config.editor_events;
         elementorCommon.config.library_connect.is_connected = true;
         elementorCommon.config.library_connect.current_access_level = data.kits_access_level || data.access_level || 0;
         elementorCommon.config.library_connect.current_access_tier = data.access_tier;
         elementorCommon.config.library_connect.plan_type = data.plan_type;
+        if (isTrackingOptedInConnect) {
+          elementorCommon.config.editor_events.can_send_events = true;
+        }
         onConnectSuccess === null || onConnectSuccess === void 0 || onConnectSuccess();
       },
       error: function error() {
@@ -5499,4 +5503,4 @@ var isTierAtLeast = exports.isTierAtLeast = function isTierAtLeast(currentTier, 
 /***/ })
 
 }]);
-//# sourceMappingURL=kit-library.ec0bc60dc8032de3d113.bundle.js.map
+//# sourceMappingURL=kit-library.ed7fc5d9656556af9353.bundle.js.map

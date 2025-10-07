@@ -1,4 +1,4 @@
-/*! elementor - v3.32.0 - 16-09-2025 */
+/*! elementor - v3.32.0 - 29-09-2025 */
 :root {
   --direction-multiplier: 1;
 }
@@ -108,7 +108,7 @@ body.rtl {
   position: absolute;
   inset-block-start: 50%;
   inset-inline-start: 50%;
-  transform: translate(calc(-50% * var(--direction-multiplier)), -50%);
+  transform: translate(-50%, -50%);
 }
 .elementor .elementor-background-video-hosted {
   -o-object-fit: cover;
