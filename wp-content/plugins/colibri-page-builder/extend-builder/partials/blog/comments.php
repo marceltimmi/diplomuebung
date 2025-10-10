@@ -32,11 +32,11 @@ $colibri_post_comments_atts = \ExtendBuilder\colibri_cache_get( 'post_comments_a
         <div class="navigation">
             <div class="prev-posts">
 				<?php previous_comments_link( __( '<i class="font-icon-post fa fa-angle-double-left"></i> Older Comments',
-					'colibri-wp' ) ); ?>
+					'colibri-page-builder' ) ); ?>
             </div>
             <div class="next-posts">
 				<?php next_comments_link( __( 'Newer Comments <i class="font-icon-post fa fa-angle-double-right"></i>',
-					'colibri-wp' ) ); ?>
+					'colibri-page-builder' ) ); ?>
             </div>
         </div>
 	<?php
@@ -46,7 +46,7 @@ $colibri_post_comments_atts = \ExtendBuilder\colibri_cache_get( 'post_comments_a
 	<?php
 	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ):
 		?>
-        <p class="no-comments"><?php _e( 'Comments are closed.', 'colibri-wp' );// phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction?></p>
+        <p class="no-comments"><?php _e( 'Comments are closed.', 'colibri-page-builder' );// phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction?></p>
 	<?php
 	endif;
 	?>

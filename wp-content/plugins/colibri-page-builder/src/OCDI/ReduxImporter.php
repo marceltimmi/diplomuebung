@@ -50,11 +50,13 @@ class ReduxImporter {
 
                 // Add this message to log file.
                 $log_added = Helpers::append_to_file(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                     sprintf( esc_html__( 'Redux settings import for: %s finished successfully!', 'colibri-page-builder'), $redux_item['option_name'] ),
                     $log_file_path,
                     esc_html__( 'Importing Redux settings', 'colibri-page-builder')
                 );
             } else {
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                 $error_message = sprintf( esc_html__( 'The Redux option name: %s, was not found in this WP site, so it was not imported!', 'colibri-page-builder'), $redux_item['option_name'] );
 
                 // Add any error messages to the frontend_error_messages variable in OCDI main class.

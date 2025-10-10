@@ -154,6 +154,7 @@ class ImportContentHook extends ImportHook
 
 		foreach ($guids_to_update as $id => $guid) {
 			$query = $wpdb->prepare("UPDATE  {$wpdb->prefix}posts SET guid=%s WHERE ID=%d", $guid, $id);
+            //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, 	WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->query($query);
 		}
 	}
@@ -211,6 +212,7 @@ class ImportContentHook extends ImportHook
 		}, array_keys($batch));
 		$query = "SELECT ID AS id, guid FROM $wpdb->posts WHERE guid IN (" . implode(",", $guids) . ")";
 
+        //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, 	WordPress.DB.DirectDatabaseQuery.NoCaching, 	WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$entities = $wpdb->get_results($query);
 
 		$map = array();

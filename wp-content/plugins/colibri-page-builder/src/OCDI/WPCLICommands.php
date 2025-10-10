@@ -115,6 +115,7 @@ class WPCLICommands extends WP_CLI_Command {
         $selected_files = $this->ocdi->import_files[ $predefined_index ];
 
         if ( ! empty( $selected_files['import_file_name'] ) ) {
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
             WP_CLI::log( sprintf( esc_html__( 'Selected predefined demo import: %s', 'colibri-page-builder'), $selected_files['import_file_name'] ) );
         }
 
@@ -184,6 +185,7 @@ class WPCLICommands extends WP_CLI_Command {
      */
     private function do_action( $action, $import_files = array(), $all_import_files = array(), $selected_index = null ) {
         if ( false !== has_action( $action ) ) {
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
             WP_CLI::log( sprintf( esc_html__( 'Executing action: %s ...', 'colibri-page-builder'), $action ) );
 
             ob_start();

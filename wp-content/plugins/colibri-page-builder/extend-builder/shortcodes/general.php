@@ -72,6 +72,7 @@ add_shortcode('colibri_svg_icon', function ($attrs) {
 add_shortcode('colibri_copyright', function ($attrs, $content) {
   $default = '&copy; {year} {site-name}. Built using WordPress and <a target="_blank" href="https://colibriwp.com">Colibri</a>';
 	$msg       = $content ? $content : $default;
+    //phpcs:ignore 	WordPress.DateTime.RestrictedFunctions.date_date
 	$msg = str_replace( "{year}", date('Y'), $msg );
 	$msg = str_replace( "{site-name}", get_bloginfo('name'), $msg );
 	return wp_kses_post($msg);

@@ -84,7 +84,7 @@ class ActivationForm {
         </style>
 		<?php
 		$content = ob_get_clean();
-
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		return strip_tags( $content );
 	}
 
@@ -169,7 +169,7 @@ class ActivationForm {
         </script>
 		<?php
 		$content = ob_get_clean();
-
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		return strip_tags( $content );
 	}
 
@@ -269,7 +269,7 @@ class ActivationForm {
         </script>
 		<?php
 		$content = ob_get_clean();
-
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		return strip_tags( $content );
 	}
 
@@ -359,6 +359,7 @@ class ActivationForm {
 
 	public function callActivateLicenseEndpoint() {
 		check_ajax_referer('colibriwp-page-builder-activate-nonce');
+        //phpcs:ignore 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$key = isset( $_REQUEST['key'] ) ? sanitize_text_field($_REQUEST['key']) : false;
 
 		if ( ! $key ) {

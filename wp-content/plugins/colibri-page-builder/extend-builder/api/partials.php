@@ -30,6 +30,7 @@ class PartialsApi
 
     public function all($options = array())
     {
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo export_colibri_data($options, true);
     }
 

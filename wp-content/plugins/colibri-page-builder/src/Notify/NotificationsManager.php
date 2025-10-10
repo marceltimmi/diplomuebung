@@ -188,6 +188,7 @@ class NotificationsManager {
 			die();
 		}
 
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$notification = isset( $_REQUEST['notification'] ) ? sanitize_text_field( $_REQUEST['notification']) : false;
 
 		if ( $notification ) {

@@ -8,6 +8,7 @@ add_action( 'after_setup_theme', function () {
 
 	foreach ( $colors_list as $index => $item ) {
 		$colors[] = array(
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
 			'name'  => sprintf( __( 'Color %d', 'colibri-page-builder' ), $index + 1 ),
 			'slug'  => 'colibri-color-' . ( $index + 1 ),
 			'color' => $item

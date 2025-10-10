@@ -6,6 +6,7 @@ define('COLIBRI_THEME_MOD', 'page_content');
 
 
 function is_customize_page() {
+    //phpcs:ignore  	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     return ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
 }
 

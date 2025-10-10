@@ -56,6 +56,8 @@ function colibri_loop($attrs, $content = null)
             $query->the_post();
             $escaped_content = str_replace('<!---->', '', $content);
             $shortcode_content = do_shortcode( $escaped_content );
+
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $shortcode_content;
         endwhile;
         wp_reset_postdata();

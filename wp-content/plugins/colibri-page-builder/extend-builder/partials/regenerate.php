@@ -88,6 +88,7 @@ class Regenerate
 
 	public static function getGeneratorCallback()
 	{
+        //phpcs:ignore  WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$callback           = isset($_REQUEST['colibri_generator_callback']) ? sanitize_text_field($_REQUEST['colibri_generator_callback']) : '';
 		$possible_callbacks = array('customizer', 'site_imported_notice');
 
@@ -112,6 +113,7 @@ class Regenerate
 	public static function check()
 	{
 		if (colibri_user_can_customize()) {
+            //phpcs:ignore  WordPress.Security.NonceVerification.Recommended
 			if (isset($_REQUEST['colibri_page_builder_regenerate_unset'])) {
 				self::end();
 			}
@@ -129,6 +131,7 @@ class Regenerate
 
 	public static function doing_ajax()
 	{
+        //phpcs:ignore  WordPress.Security.NonceVerification.Recommended
 		return (defined('DOING_AJAX') && DOING_AJAX) || (isset($_REQUEST['action']) && $_REQUEST['action'] == "extend_builder");
 	}
 
@@ -149,7 +152,7 @@ class Regenerate
 												'plugin_url' => PageBuilder::instance()->rootURL(),
 											)
 										)); ?>;
-			var _colibriAllPartialsExport = <?php echo "'" . export_colibri_data(array("exclude_generated" => true), true) . "'"; ?>;
+			var _colibriAllPartialsExport = <?php echo "'" . export_colibri_data(array("exclude_generated" => true), true) . "'";//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
 			document.addEventListener("DOMContentLoaded", function() {
 				colibriVirtual.renderer.generate(_colibriAllPartialsExport, {}).then(function() {
 					try {

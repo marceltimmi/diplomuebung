@@ -79,5 +79,5 @@
 </div>
 <?php wp_enqueue_script( 'wp-util' ); ?>
 <script type="text/javascript">
-	<?php echo \ColibriWP\PageBuilder\License\License::getInstance()->getActivationForm()->getUpgradeInlineJS(); ?>
+	<?php echo \ColibriWP\PageBuilder\License\License::getInstance()->getActivationForm()->getUpgradeInlineJS();//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </script>

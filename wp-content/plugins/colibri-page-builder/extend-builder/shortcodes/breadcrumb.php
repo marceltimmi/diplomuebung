@@ -43,7 +43,7 @@ function colibri_breadcrumb_element_shortcode( $atts ) {
 
     ?>
 
-    <div class="<?= esc_attr($atts['id']) ?>-dls-wrapper breadcrumb-items__wrapper">
+    <div class="<?php echo esc_attr($atts['id']);  ?>-dls-wrapper breadcrumb-items__wrapper">
         <?php if ( $use_prefix ): ?>
             <span class="breadcrumb-items__prefix"><?php echo wp_kses_post($breadcrumb_prefix); ?></span>
         <?php endif; ?>
@@ -139,16 +139,16 @@ function colibri_breadcrumb_element_shortcode( $atts ) {
 
 
     ob_start();
-
+    //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
     $breadcrumb_selector = strip_tags('#' . $atts['id']);
 
     ?>
     <style type="text/css">
         /* breadcrumb separator symbol */
 
-        <?php echo strip_tags($breadcrumb_selector); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
+        <?php echo strip_tags($breadcrumb_selector); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.AlternativeFunctions.strip_tags_strip_tags?>
         .colibri-breadcrumb > li + li:before {
-            content: "<?php echo strip_tags($breadcrumb_separator); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>";
+            content: "<?php echo strip_tags($breadcrumb_separator); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.AlternativeFunctions.strip_tags_strip_tags?>";
             white-space: pre;
         }
     </style>

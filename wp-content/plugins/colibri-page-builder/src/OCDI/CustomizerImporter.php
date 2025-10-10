@@ -72,7 +72,9 @@ class CustomizerImporter {
         if ( ! file_exists( $import_file_path ) ) {
             return new WP_Error(
                 'missing_cutomizer_import_file',
+
                 sprintf(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                     esc_html__( 'Error: The customizer import file is missing! File path: %s', 'colibri-page-builder'),
                     $import_file_path
                 )
@@ -230,6 +232,7 @@ class CustomizerImporter {
 
             // If error storing permanently, unlink.
             if ( is_wp_error( $id ) ) {
+                //phpcs:ignore 		WordPress.WP.AlternativeFunctions.unlink_unlink
                 unlink( $file_array['tmp_name'] );
 
                 return $id;

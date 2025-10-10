@@ -81,6 +81,7 @@ class Customizer {
 
 
 		add_action( 'customize_controls_print_scripts', function () {
+            //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_REQUEST['cp__changeset__preview'] ) ): ?>
                 <style>
                     #customize-controls {
@@ -212,6 +213,7 @@ class Customizer {
 	}
 
 	public function insideCustomizer() {
+        //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		return isset( $_GET['customize_messenger_channel'] );
 	}
 
@@ -258,6 +260,7 @@ class Customizer {
 		add_action( 'wp_footer', function () use ( $self ) {
 		     global  $wp, $wp_query, $post;
 		      $mainQueryVars = $wp->query_vars;
+            //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		      foreach ($_GET as $name => $value) {
 		        if (!isset($mainQueryVars[$name])) {
 		            $mainQueryVars[$name] = $value;

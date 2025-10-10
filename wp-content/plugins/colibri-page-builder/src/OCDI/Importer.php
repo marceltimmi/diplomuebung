@@ -94,6 +94,7 @@ class Importer {
         $this->microtime = microtime( true );
 
         // Increase PHP max execution time. Just in case, even though the AJAX calls are only 25 sec long.
+        //phpcs:ignore  Squiz.PHP.DiscouragedFunctions.Discouraged
         set_time_limit( apply_filters( 'extendthemes-ocdi/set_time_limit_for_demo_data_import', 300 ) );
 
         // Disable import of authors.
@@ -126,6 +127,7 @@ class Importer {
     public function import( $data_file ) {
 
         add_action( 'http_api_curl', function ( $ch ) {
+            //phpcs:ignore  	WordPress.WP.AlternativeFunctions.curl_curl_setopt
             curl_setopt( $ch, CURLOPT_ENCODING, 'gzip' );
         } );
 

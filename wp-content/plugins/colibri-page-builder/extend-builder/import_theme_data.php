@@ -28,6 +28,7 @@ class ColibriThemeDataImporter {
 	public function __construct() {
 		$current_data = [];
 
+        //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
 		$this->page_builder_data          = get_theme_data();
 		$this->page_builder_data['rules'] = get_sheet_rules();
 

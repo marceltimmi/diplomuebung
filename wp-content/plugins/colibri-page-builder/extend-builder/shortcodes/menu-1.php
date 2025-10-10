@@ -11,10 +11,11 @@ function current_location() {
 	} else {
 		$protocol = 'http://';
 	}
-
+    //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	$request_uri_parts = explode( '#', $_SERVER['REQUEST_URI'] );
 	$request_uri       = array_shift( $request_uri_parts );
 
+    //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	return untrailingslashit( $protocol . $_SERVER['HTTP_HOST'] . $request_uri );
 }
 

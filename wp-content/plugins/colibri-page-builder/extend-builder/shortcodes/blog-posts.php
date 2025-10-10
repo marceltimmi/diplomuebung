@@ -346,7 +346,7 @@ function colibri_blog_posts_shortcode( $attrs ) {
 				wp_reset_postdata();
 			else:
 				?>
-                <div style="text-align: center; width: 100%"><?php echo __('No posts found', 'colbri-page-builder'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+                <div style="text-align: center; width: 100%"><?php echo __('No posts found', 'colibri-page-builder'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 			<?php
 			endif;
 			?>

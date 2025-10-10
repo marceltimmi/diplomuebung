@@ -17,8 +17,10 @@ class Updater {
     public function __construct( $path ) {
         if ( is_admin() ) {
             $this->path = $path;
+            $filter = 'pre_set_site_transient';
             if ( $this->canCheckForUpdates() ) {
-                add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkForUpdate' ) );
+                $filter .= '_update_plugins';
+                add_filter( $filter, array( $this, 'checkForUpdate' ) );
             }
             add_filter( 'plugins_api', array( $this, 'pluginsApiHandler' ), 10, 3 );
         }

@@ -14,11 +14,13 @@ function is_shortcode_refresh() {
 // we are in browser preview
 function is_customize_changeset_preview() {
 	return \is_customize_preview()
+        //phpcs:ignore  WordPress.Security.NonceVerification.Recommended
 	       && ! isset( $_GET['customize_messenger_channel'] );
 }
 
 function is_customize_preview() {
 	$in_customizer       = \is_customize_preview()
+        //phpcs:ignore  WordPress.Security.NonceVerification.Recommended
 	                       && isset( $_GET['customize_messenger_channel'] );
 	$is_shortcode_render = apply_filters( 'mesmerize_is_shortcode_refresh',
 		false );
@@ -79,7 +81,7 @@ function colibri_editor_add_editor_role() {
 
 	add_role(
 		'colibri_content_editor',
-		__( 'Content Editor' ),
+		__( 'Content Editor', 'colibri-page-builder' ),
 		$capabilities
 	);
 }

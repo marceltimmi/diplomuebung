@@ -91,6 +91,7 @@ class WXRImporter extends \ProteusThemes\WPContentImporter2\WXRImporter {
                         'attribute_orderby' => 'menu_order',
                         'attribute_public'  => 0
                     );
+                    //phpcs:ignore 	WordPress.DB.DirectDatabaseQuery.DirectQuery
                     $wpdb->insert( $wpdb->prefix . 'woocommerce_attribute_taxonomies', $attribute );
                     delete_transient( 'wc_attribute_taxonomies' );
                 }

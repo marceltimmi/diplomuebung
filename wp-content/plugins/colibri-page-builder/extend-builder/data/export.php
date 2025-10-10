@@ -190,6 +190,7 @@ class Export {
 						}
 
 						if ( ! $hash_found ) {
+                            //phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 							$parsed_url     = parse_url( $url );
 							$pathinfo       = pathinfo( $parsed_url['path'] );
 							$extension      = $pathinfo['extension'];
@@ -300,6 +301,7 @@ class Export {
 	}
 
 	public static function generate_export_to_file( $key, $data ) {
+        //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 		$value = var_export( $data, true );
 		$result
 		       = '<?php namespace ExtendBuilder; load_file_value(\'' . $key
@@ -380,6 +382,7 @@ class Export {
 
 		$result
 			= '<?php namespace ExtendBuilder; load_file_value(\'theme_default\', '
+            //phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 			  . var_export( $export, true ) . ');';
 
 		if ( $file_path ) {

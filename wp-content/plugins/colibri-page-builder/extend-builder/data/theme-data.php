@@ -40,7 +40,7 @@ function get_colibri_options() {
     foreach ($options as $option_name) {
         $value[$option_name] = get_plugin_option($option_name);
     }
-
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
     $value["theme"] = get_theme_data();
 
     maybe_inflate_values($value);
@@ -140,6 +140,7 @@ function get_plugin_option($option_name, $default = null)
     if (use_plugin_options()) {
         return get_option(get_colibri_option_name($option_name), $default);
     } else {
+        //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
         $theme_data = get_theme_data();
         $extracted = extract_options_from_theme($theme_data);
         $options = $extracted['options'];
@@ -151,6 +152,7 @@ function get_sheet_rules() {
     if (use_plugin_options()) {
         $rules = get_plugin_option(ColibriOptionsIds::RULES, "{}");
     } else {
+        //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
         $rules = get_theme_data('rules', false, "{}");
     }
     return json_decode( $rules, true );
@@ -180,11 +182,13 @@ function save_theme_data($data, $backup = false)
 
 function get_theme_path($path, $use_current_data = false, $default = null)
 {
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
     return get_theme_data($path, $use_current_data, $default);
 }
 
 function set_theme_path($path, $value)
 {
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
     $old = get_theme_data();
     array_set_value($old, $path, $value);
     save_theme_data($old);
@@ -221,5 +225,6 @@ function get_theme_data($key = false, $use_current_data = false, $default = null
 
 function get_current_theme_data($path, $default = null)
 {
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
 	return get_theme_data($path, true, $default);
 }

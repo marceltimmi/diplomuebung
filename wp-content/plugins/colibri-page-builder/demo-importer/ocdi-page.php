@@ -51,9 +51,11 @@ wp_localize_script( 'extendthemes-ocdi-main-js', 'extendthemes_ocdi',
  * Hook for adding the custom plugin page header
  */
 do_action( 'pt-ocdi/plugin_page_header' );
+
 ?>
 
     <div class="ocdi  wrap  about-wrap">
+        <?php //phpcs:ignore 		WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
         <link type="text/css" rel='stylesheet'
               href="<?php echo PageBuilder::instance()->assetsRootURL() //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>/ocdi/main.css"/>
         <?php
@@ -61,7 +63,8 @@ do_action( 'pt-ocdi/plugin_page_header' );
         // Display warrning if PHP safe mode is enabled, since we wont be able to change the max_execution_time.
         if ( ini_get( 'safe_mode' ) ) {
             printf(
-                esc_html__( '%sWarning: your server is using %sPHP safe mode%s. This means that you might experience server timeout errors.%s', 'pt-ocdi' ),
+                //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
+                esc_html__( '%sWarning: your server is using %sPHP safe mode%s. This means that you might experience server timeout errors.%s', 'colibri-page-builder' ),
                 '<div class="notice  notice-warning  is-dismissible"><p>',
                 '<strong>',
                 '</strong>',
@@ -73,31 +76,31 @@ do_action( 'pt-ocdi/plugin_page_header' );
         ?>
 
         <div class="ocdi__intro-notice  notice  notice-warning  is-dismissible">
-            <p><?php esc_html_e( 'Before you begin, make sure all the required plugins are activated.', 'pt-ocdi' ); ?></p>
+            <p><?php esc_html_e( 'Before you begin, make sure all the required plugins are activated.', 'colibri-page-builder' ); ?></p>
         </div>
 
     </div>
 
     <div class="ocdi__file-upload-container">
-        <h2><?php esc_html_e( 'Manual demo files upload', 'pt-ocdi' ); ?></h2>
+        <h2><?php esc_html_e( 'Manual demo files upload', 'colibri-page-builder' ); ?></h2>
 
         <div class="ocdi__file-upload">
             <h3>
-                <label for="content-file-upload"><?php esc_html_e( 'Choose a XML file for content import:', 'pt-ocdi' ); ?></label>
+                <label for="content-file-upload"><?php esc_html_e( 'Choose a XML file for content import:', 'colibri-page-builder' ); ?></label>
             </h3>
             <input id="ocdi__content-file-upload" type="file" name="content-file-upload">
         </div>
 
         <div class="ocdi__file-upload">
             <h3>
-                <label for="widget-file-upload"><?php esc_html_e( 'Choose a WIE or JSON file for widget import:', 'pt-ocdi' ); ?></label>
+                <label for="widget-file-upload"><?php esc_html_e( 'Choose a WIE or JSON file for widget import:', 'colibri-page-builder' ); ?></label>
             </h3>
             <input id="ocdi__widget-file-upload" type="file" name="widget-file-upload">
         </div>
 
         <div class="ocdi__file-upload">
             <h3>
-                <label for="customizer-file-upload"><?php esc_html_e( 'Choose a DAT file for customizer import:', 'pt-ocdi' ); ?></label>
+                <label for="customizer-file-upload"><?php esc_html_e( 'Choose a DAT file for customizer import:', 'colibri-page-builder' ); ?></label>
             </h3>
             <input id="ocdi__customizer-file-upload" type="file" name="customizer-file-upload">
         </div>
@@ -105,12 +108,12 @@ do_action( 'pt-ocdi/plugin_page_header' );
     </div>
 
     <p class="ocdi__button-container">
-        <button class="ocdi__button  button  button-hero  button-primary  js-ocdi-import-data"><?php esc_html_e( 'Import Demo Data', 'pt-ocdi' ); ?></button>
+        <button class="ocdi__button  button  button-hero  button-primary  js-ocdi-import-data"><?php esc_html_e( 'Import Demo Data', 'colibri-page-builder' ); ?></button>
     </p>
 
 
     <p class="ocdi__ajax-loader  js-ocdi-ajax-loader">
-        <span class="spinner"></span> <?php esc_html_e( 'Importing, please wait!', 'pt-ocdi' ); ?>
+        <span class="spinner"></span> <?php esc_html_e( 'Importing, please wait!', 'colibri-page-builder' ); ?>
     </p>
 
     <div class="ocdi__response  js-ocdi-ajax-response"></div>

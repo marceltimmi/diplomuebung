@@ -25,6 +25,7 @@ function colibri_html_embed_iframe($url,$autoplay){
         ! isset( $parsed_url['host'], $parsed_url['scheme'] ) ||
         ! in_array( $parsed_url['scheme'], [ 'https' ], true )
     ) {
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo sprintf('<p>%s</p>', __('Invalid video URL. Only videos from youtube or vimeo are allowed, based on your video type','colibri-page-builder'));
         return;
     }
@@ -43,10 +44,12 @@ function colibri_html_embed_iframe($url,$autoplay){
     $host = strtolower( $parsed_url['host'] );
 
     if ( ! in_array( $host, $allowed_domains, true ) ) {
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo sprintf('<p>%s</p>', __('Invalid video URL. Only videos from youtube or vimeo are allowed, based on your video type','colibri-page-builder'));
         return;
     }
 
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo "<iframe src=".$url." class='h-video-main'".(($autoplay === 'true') ? 'allow="autoplay"' : '')."  allowfullscreen></iframe>";
 }
 

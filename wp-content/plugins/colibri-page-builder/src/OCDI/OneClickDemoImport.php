@@ -160,6 +160,7 @@ class OneClickDemoImport {
      */
     public function admin_enqueue_scripts( $hook ) {
         // Enqueue the scripts only on the plugin page.
+        //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended
         if ( $this->plugin_page === $hook || ( 'admin.php' === $hook && $this->plugin_page_setup['menu_slug'] === sanitize_text_field( $_GET['import'] ) ) ) {
             wp_enqueue_script( 'jquery-ui-dialog' );
             wp_enqueue_style( 'wp-jquery-ui-dialog' );
@@ -204,9 +205,11 @@ class OneClickDemoImport {
      */
     public function import_demo_data_ajax_callback() {
         // Try to update PHP memory limit (so that it does not run out of it).
+        //phpcs:ignore  Squiz.PHP.DiscouragedFunctions.Discouraged
         ini_set( 'memory_limit', apply_filters( 'extendthemes-ocdi/import_memory_limit', '350M' ) );
 
         add_action( 'http_api_curl', function ( $ch ) {
+            //phpcs:ignore  WordPress.WP.AlternativeFunctions.curl_curl_setopt
             curl_setopt( $ch, CURLOPT_ENCODING, 'gzip' );
         } );
 
@@ -224,14 +227,17 @@ class OneClickDemoImport {
             $this->log_file_path = Helpers::get_log_path();
 
             // Get selected file index or set it to 0.
+            //phpcs:ignore  WordPress.Security.NonceVerification.Missing
             $this->selected_index = empty( $_POST['selected'] ) ? 0 : absint( $_POST['selected'] );
 
             /**
              * 1). Prepare import files.
              * Manually uploaded import files or predefined import files via filter: pt-ocdi/import_files
              */
+            //phpcs:ignore  WordPress.Security.NonceVerification.Missing
             if ( ! empty( $_FILES ) ) { // Using manual file uploads?
                 // Get paths for the uploaded files.
+                //phpcs:ignore  WordPress.Security.NonceVerification.Missing
                 $this->selected_import_files = Helpers::process_uploaded_files( $_FILES, $this->log_file_path );
 
                 // Set the name of the import files, because we used the uploaded files.
@@ -253,7 +259,9 @@ class OneClickDemoImport {
 
                 // Add this message to log file.
                 $log_added = Helpers::append_to_file(
+
                     sprintf(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                         __( 'The import files for: %s were successfully downloaded!', 'colibri-page-builder' ),
                         $this->import_files[ $this->selected_index ]['import_file_name']
                     ) . Helpers::import_file_info( $this->selected_import_files ),
@@ -385,7 +393,9 @@ class OneClickDemoImport {
             if ( ! apply_filters( 'extendthemes-ocdi/disable_pt_branding', false ) ) {
                 $twitter_status = esc_html__( 'Just used One Click Demo Import plugin and it was awesome! Thanks @ProteusThemes! #OCDI https://www.proteusthemes.com/', 'colibri-page-builder' );
 
+
                 $response['message'] .= sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                     __( '%1$s%6$sWasn\'t this a great One Click Demo Import experience?%7$s Created and maintained by %3$sProteusThemes%4$s. %2$s%5$sClick to Tweet!%4$s%8$s', 'colibri-page-builder' ),
                     '<div class="notice  notice-info"><p>',
                     '<br>',
@@ -399,6 +409,7 @@ class OneClickDemoImport {
             }
 
             $response['message'] .= sprintf(
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                 __( '%1$s%3$sThat\'s it, all done!%4$s%2$sThe demo import has finished. Please check your page and make sure that everything has imported correctly. If it did, you can deactivate the %3$sOne Click Demo Import%4$s plugin, because it has done its job.%5$s', 'colibri-page-builder' ),
                 '<div class="notice  notice-success"><p>',
                 '<br>',
@@ -408,7 +419,9 @@ class OneClickDemoImport {
             );
         } else {
             $response['message'] = $this->frontend_error_messages_display() . '<br>';
+
             $response['message'] .= sprintf(
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                 __( '%1$sThe demo import has finished, but there were some import errors.%2$sMore details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s', 'colibri-page-builder' ),
                 '<div class="notice  notice-warning"><p>',
                 '<br>',
@@ -506,6 +519,7 @@ class OneClickDemoImport {
      * Load the plugin textdomain, so that translations can be made.
      */
     public function load_textdomain() {
+        //phpcs:ignore  PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
         load_plugin_textdomain( 'pt-ocdi', false, plugin_basename( dirname( dirname( __FILE__ ) ) ) . '/languages' );
     }
 

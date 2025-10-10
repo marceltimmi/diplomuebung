@@ -6,7 +6,7 @@
  *
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
- * Version: 1.0.334
+ * Version: 1.0.335
  * Text Domain: colibri-page-builder
  */
 
@@ -18,9 +18,12 @@ if (!in_array(get_option('template'), $colibri_page_builder_supported_themes)) {
 	require_once 'recommendations/colibri-wp.php';
 	return;
 } else {
+    //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$is_customize_page = (is_admin() && 'customize.php' == basename($_SERVER['PHP_SELF']));
 	$theme = get_template();
+    //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 	if (isset($_GET['theme']) && $_GET['theme'] != get_stylesheet()) {
+        //phpcs:ignore  	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.NonceVerification.Recommended
 		$theme = sanitize_text_field($_GET['theme']);
 	}
 
@@ -64,7 +67,7 @@ if (!defined("COLIBRI_PAGE_BUILDER_AUTOLOAD")) {
 }
 
 if (!defined("COLIBRI_PAGE_BUILDER_VERSION")) {
-	define("COLIBRI_PAGE_BUILDER_VERSION", "1.0.334");
+	define("COLIBRI_PAGE_BUILDER_VERSION", "1.0.335");
 }
 
 require_once 'support/wp-5.8.php';

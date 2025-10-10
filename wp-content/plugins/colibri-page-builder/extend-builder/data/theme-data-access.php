@@ -4,7 +4,6 @@ namespace ExtendBuilder;
 
 use function file_exists;
 use function get_option;
-use function rename;
 use function str_replace;
 
 class OptionThemeData
@@ -39,6 +38,7 @@ class FileThemeData
         $file_path = $this->file_path('test-'.time());
         $write = file_put_contents($file_path, 1);
         if ($write !== false){
+            //phpcs:ignore 	WordPress.WP.AlternativeFunctions.unlink_unlink
             unlink($file_path);
             return true;
         }
@@ -46,6 +46,7 @@ class FileThemeData
     }
 
     public function generateUniqId() {
+        //phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
         return dechex(mt_rand())."-".dechex(mt_rand())."-".dechex(mt_rand())."-".dechex(mt_rand());
     }
 
@@ -152,6 +153,7 @@ class FileThemeData
         if ($backups && $count > $max) {
             usort( $backups, function( $a, $b ) { return filemtime($a) - filemtime($b); } );
             for ($i = 0; $i < ($count - $max); $i++) {
+                //phpcs:ignore 	WordPress.WP.AlternativeFunctions.unlink_unlink
                 unlink($backups[$i]);
             }
         }

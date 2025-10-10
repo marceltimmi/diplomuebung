@@ -43,6 +43,7 @@ class Import {
 
 	public static function default_is_imported( $key ) {
 		$import_flag = "imported.$key";
+        //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
 		$imported    = get_theme_data( $import_flag );
 
 		return ! ! $imported;
@@ -69,6 +70,7 @@ class Import {
 			try {
 				require $full_path;
 			} catch ( Exception $e ) {
+                //phpcs:ignore 	WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				print_r( $e );
 			}
 
@@ -397,6 +399,7 @@ class Import {
 
 
 	public static function update_partial_visibility_id( $old_id, $new_id ) {
+        //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
 		$theme_data = get_theme_data();
 
 
@@ -425,6 +428,7 @@ class Import {
 			try {
 				require_once $full_path;
 			} catch ( Exception $e ) {
+                //phpcs:ignore 	WordPress.PHP.DevelopmentFunctions.error_log_print_r
 				print_r( $e );
 			}
 

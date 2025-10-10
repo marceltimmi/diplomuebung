@@ -53,7 +53,7 @@ function print_navigation_button( $type, $button_text ) {
 		'in_same_term'       => false,
 		'excluded_terms'     => '',
 		'taxonomy'           => 'category',
-		'screen_reader_text' => __( 'Post navigation' ),
+		'screen_reader_text' => __( 'Post navigation', 'colibri-page-builder' ),
 	);
 
 	$navigation        = '';
@@ -144,6 +144,8 @@ function numbers_pagination( $args, $atts ) {
             <div class="nav-links"><div class="numbers-navigation">'
           . $nav_links . '</div></div>
             </div>';
+
+      //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
       echo $template;
   }
 }

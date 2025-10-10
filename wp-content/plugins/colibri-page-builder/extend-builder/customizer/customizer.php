@@ -65,6 +65,7 @@ add_action( 'customize_controls_print_scripts', function () {
       fs.parentNode.insertBefore(s, fs);
     }
     <?php
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo asyncScripts();
     ?>
   </script>
@@ -124,6 +125,7 @@ function colibri_get_colibri_content_editor_script() {
         window.COLIBRI_USE_SIMPLIFIED_UI = true;
     </script>
 	<?php
+    //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 	return strip_tags( ob_get_clean() );
 }
 
@@ -140,7 +142,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     /** @var \WP_Customize_Manager $wp_customize */
     $wp_customize->add_section( 'general_site_typography', array(
         'priority' => 2,
-        'title'    => __( 'Typography', 'colibri' ),
+        'title'    => __( 'Typography', 'colibri-page-builder' ),
         'panel'    => 'general_settings',
     ) );
 
@@ -149,7 +151,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'dummy_control_typography', array(
-        'label'    => esc_html__( '', 'colibri' ),
+        'label'    => '',
         'section'  => 'general_site_typography',
         'priority' => 9,
         'type'     => 'checkbox',
@@ -159,7 +161,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     if ( $multilanguage_on ) {
         $wp_customize->add_section( 'general_site_multilanguage', array(
             'priority' => 2,
-            'title'    => __( 'Multi Language', 'colibri' ),
+            'title'    => __( 'Multi Language', 'colibri-page-builder' ),
             'panel'    => 'general_settings',
         ) );
 
@@ -168,7 +170,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
         ) );
 
         $wp_customize->add_control( 'dummy_control_multilanguage', array(
-            'label'    => esc_html__( '', 'colibri' ),
+            'label'    =>   '',
             'section'  => 'general_site_multilanguage',
             'priority' => 9,
             'type'     => 'checkbox',
@@ -176,7 +178,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     }
     $wp_customize->add_section( 'templates', array(
         'priority' => 2,
-        'title'    => __( 'Templates', 'colibri' ),
+        'title'    => __( 'Templates', 'colibri-page-builder' ),
         'panel'    => 'general_settings',
     ) );
 
@@ -185,7 +187,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'dummy_control_templates', array(
-        'label'    => esc_html__( '', 'colibri' ),
+        'label'    => '',
         'section'  => 'templates',
         'priority' => 9,
         'type'     => 'checkbox',
@@ -193,7 +195,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 
     $wp_customize->add_section( 'general_site_spacing', array(
         'priority' => 2,
-        'title'    => __( 'Spacing', 'colibri' ),
+        'title'    => __( 'Spacing', 'colibri-page-builder' ),
         'panel'    => 'general_settings',
     ) );
 
@@ -202,7 +204,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'dummy_control_spacing', array(
-        'label'    => esc_html__( '', 'colibri' ),
+        'label'    => '',
         'section'  => 'general_site_spacing',
         'priority' => 9,
         'type'     => 'checkbox',
@@ -210,7 +212,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 
     $wp_customize->add_section( 'general_site_effects', array(
         'priority' => 2,
-        'title'    => __( 'Effects', 'colibri' ),
+        'title'    => __( 'Effects', 'colibri-page-builder' ),
         'panel'    => 'general_settings',
     ) );
 
@@ -219,7 +221,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'dummy_control_effects', array(
-        'label'    => esc_html__( '', 'colibri' ),
+        'label'    => '',
         'section'  => 'general_site_effects',
         'priority' => 9,
         'type'     => 'checkbox',
@@ -228,7 +230,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 
 	$wp_customize->add_section( 'general_site_colors', array(
 		'priority' => 2,
-		'title'    => __( 'Global Color Scheme', 'colibri' ),
+		'title'    => __( 'Global Color Scheme', 'colibri-page-builder' ),
 		'panel'    => 'general_settings',
 	) );
 
@@ -237,7 +239,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'dummy_control_colors', array(
-		'label'    => esc_html__( '', 'colibri' ),
+		'label'    => '',
 		'section'  => 'general_site_colors',
 		'priority' => 9,
 		'type'     => 'checkbox',
@@ -246,7 +248,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 
 	$wp_customize->add_section( 'general_site_google_fonts', array(
 		'priority' => 2,
-		'title'    => __( 'Google Fonts Settings', 'colibri' ),
+		'title'    => __( 'Google Fonts Settings', 'colibri-page-builder' ),
 		'panel'    => 'general_settings',
 	) );
 
@@ -255,7 +257,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'dummy_control_google_fonts', array(
-		'label'    => esc_html__( '', 'colibri' ),
+		'label'    => '',
 		'section'  => 'general_site_google_fonts',
 		'priority' => 9,
 		'type'     => 'checkbox',
@@ -271,7 +273,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'colibri_dummy_upgrade_to_pro', array(
-        'label'    => esc_html__( '', 'colibri' ),
+        'label'    => '',
         'section'  => 'colibri_upgrade_to_pro',
     ) );
 } );

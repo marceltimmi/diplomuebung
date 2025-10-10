@@ -314,7 +314,7 @@ function export_colibri_data($options = array(), $encode = false)
             array_push($partials, $partial);
         }
     }
-
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
     $theme_data = get_theme_data();
 
     if ($exclude_generated) {

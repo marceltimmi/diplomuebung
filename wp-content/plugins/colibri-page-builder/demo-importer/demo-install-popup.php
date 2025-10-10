@@ -39,7 +39,9 @@
             <div class="popup-footer">
                 <# if(data.pro && !data.allow_pro){ #>
                 <div class="colibri-demo-import-popup-pro">
-                    <h2><?php echo esc_html( sprintf( __( 'This demo site is available only in %s',
+                    <h2><?php
+                        //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                        echo esc_html( sprintf( __( 'This demo site is available only in %s',
 						    'colibri-page-builder' ),
 						    'Colibri Page Builder PRO' ) ); ?></h2>
                     <a href='https://colibriwp.com'

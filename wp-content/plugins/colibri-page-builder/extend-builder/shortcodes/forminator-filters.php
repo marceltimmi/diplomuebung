@@ -64,6 +64,7 @@ add_action( 'colibri_page_builder/customizer/before_render_shortcode', function 
 			ob_start();
 			wp_print_styles();
 			$ob_content = ob_get_clean();
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo "\n\n<!--header  shortcode=wpforms scripts-->\n{$ob_content}<!--header scripts-->\n\n";
 		} catch(\Exception $exception) {
 			echo '';

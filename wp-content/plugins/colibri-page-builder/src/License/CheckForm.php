@@ -46,6 +46,7 @@ class CheckForm {
             }
         </style>
 		<?php
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		return strip_tags( ob_get_clean() );
 	}
 
@@ -84,6 +85,7 @@ class CheckForm {
             });
         </script>
 		<?php
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		return strip_tags( ob_get_clean() );
 	}
 

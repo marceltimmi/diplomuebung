@@ -44,12 +44,14 @@ class GoogleFontsLocalLoader {
 		$this->local_fonts_url = "{$upload_dir['baseurl']}/{$this->uploads_dir}";
 
 		if ( ! file_exists( $this->local_fonts_dir ) ) {
+            //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
 			mkdir( $this->local_fonts_dir, 0777, true );
 		}
 	}
 
 
 	public function resolveFontsCSS() {
+        //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		$action = array_get_value( $_REQUEST, 'action' );
 
 		if ( $action !== $this->fonts_css_action ) {
@@ -59,6 +61,7 @@ class GoogleFontsLocalLoader {
 		header( 'Content-type: text/css' );
 		header( 'Cache-control: public' );
 
+        //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		$key    = sanitize_text_field(array_get_value( $_REQUEST, 'key', '' ));
 		$cached = $this->getCachedDataByKey( $key );
 
@@ -267,43 +270,6 @@ class GoogleFontsLocalLoader {
 
 		$css = $this->getCSS( $query, false );
 
-//		if ( $subset === 'all' ) {
-//			$subset_regex = '/\/\*([^*\/]*)\*\//i';
-//			preg_match_all( $subset_regex, $css, $matches, PREG_SET_ORDER );
-//			$subsets_list = array();
-//			foreach ( $matches as $match ) {
-//				$current_subset = trim( $match[1] );
-//				if ( ! in_array( $current_subset, $subsets_list ) ) {
-//					$subsets_list[] = $current_subset;
-//				}
-//			}
-//			$all_fonts = array();
-//			foreach ( $subsets_list as $subset_item ) {
-//				$fonts     = $this->getFontsMap( $query, $subset_item );
-//				$all_fonts = array_merge( $all_fonts, $fonts );
-//			}
-//
-//			//sorts fonts faces
-//			usort(
-//				$all_fonts,
-//				function( $a, $b ) {
-//					$order = ['font-family', 'font-style', 'font-weight', 'subset'];
-//					foreach($order as $property) {
-//						$diff = strcmp($a[$property], $b[$property]);
-//						if( $diff!== 0) {
-//							return $diff;
-//						}
-//					}
-//					//if no difference were found return 0
-//					return 0;
-////
-////					return array( $a['font-family'], $a['font-style'], $a['font-weight'], $a['subset'] )
-////					<=>
-////					array( $b['font-family'], $b['font-style'], $b['font-weight'], $b['subset'] );
-//				}
-//			);
-//			return $all_fonts;
-//		}
 
 		// prepare subset
 		$css = preg_replace( '#/\*\s+?(' . $subset . ")\s+?\*/(.*\n?)@font-face#", 'is_subset_match', $css );
@@ -358,14 +324,16 @@ class GoogleFontsLocalLoader {
 
 	public function resolveFont() {
 
+        //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		$font_file    = sanitize_text_field( array_get_value( $_REQUEST, 'font', '' ) );
+        //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 		$security_key = sanitize_text_field( array_get_value( $_REQUEST, 'security', '' ) );
 
 		$valid_nonce = $this->verifySecurityKey( $security_key, "{$this->font_file_action}_{$font_file}" );
 
 		if ( ! $valid_nonce ) {
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			wp_die( __( 'Frobidden', 'colibri' ), 403 );
+			wp_die( __( 'Frobidden', 'colibri-page-builder' ), 403 );
 		}
 
 		$content = $this->resolveFontFileContent( $font_file );
@@ -374,7 +342,7 @@ class GoogleFontsLocalLoader {
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			wp_die( $content, 404 );
 		}
-
+        //phpcs:ignore 	WordPress.DateTime.RestrictedFunctions.date_date
 		$this_year = strtotime( date( 'Y' ) . '-01-01' );
 		header( 'Content-type: font/woff2' );
 		header( 'Cache-control: public' );
@@ -390,7 +358,7 @@ class GoogleFontsLocalLoader {
 		if ( $this->localFontFileExists( $font_file ) ) {
 			return file_get_contents( $this->getLocalFontFilePath( $font_file ) );
 		}
-
+        //phpcs:ignore 	WordPress.WP.AlternativeFunctions.file_system_operations_is_writable
 		if ( ! is_writable( $this->local_fonts_dir ) ) {
 			return new \WP_Error( 'folder_not_writable' );
 		}

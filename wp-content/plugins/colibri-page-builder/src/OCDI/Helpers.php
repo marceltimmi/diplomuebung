@@ -197,7 +197,9 @@ class Helpers {
         if ( ! $wp_filesystem->put_contents( $file_path, $content ) ) {
             return new WP_Error(
                 'failed_writing_file_to_server',
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'An error occurred while writing file to your server! Tried to write a file to: %s%s.', 'colibri-page-builder'),
                     '<br>',
                     $file_path
@@ -219,7 +221,9 @@ class Helpers {
         if ( ! ( 'direct' === get_filesystem_method() ) ) {
             return new WP_Error(
                 'no_direct_file_access',
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'This WordPress page does not have %sdirect%s write file access. This plugin needs it in order to save the demo import xml file to the upload directory of your site. You can change this setting with these instructions: %s.', 'colibri-page-builder'),
                     '<strong>',
                     '</strong>',
@@ -288,7 +292,9 @@ class Helpers {
         if ( ! $data ) {
             return new WP_Error(
                 'failed_reading_file_from_server',
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'An error occurred while reading a file from your server! Tried reading file from path: %s%s.', 'colibri-page-builder'),
                     '<br>',
                     $file_path
@@ -365,7 +371,7 @@ class Helpers {
         if ( ! current_user_can( 'import' ) ) {
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             wp_die(
-                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                 sprintf(__( '%sYour user role isn\'t high enough. You don\'t have permission to import demo data.%s', 'colibri-page-builder'), '<div class="notice  notice-error"><p>', '</p></div>')
             );
         }
@@ -395,9 +401,13 @@ class Helpers {
         );
 
         // Handle demo content and widgets file upload.
+        //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing
         $content_file_info    = wp_handle_upload( $_FILES['content_file'], $upload_overrides );
+        //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing
         $widget_file_info     = wp_handle_upload( $_FILES['widget_file'], $upload_overrides );
+        //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing
         $customizer_file_info = wp_handle_upload( $_FILES['customizer_file'], $upload_overrides );
+        //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing
         $redux_file_info      = wp_handle_upload( $_FILES['redux_file'], $upload_overrides );
 
         // Process content import file.
@@ -407,7 +417,9 @@ class Helpers {
         } else {
             // Add this error to log file.
             $log_added = self::append_to_file(
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'Content file was not uploaded. Error: %s', 'colibri-page-builder'),
                     $widget_file_info['error']
                 ),
@@ -423,7 +435,9 @@ class Helpers {
         } else {
             // Add this error to log file.
             $log_added = self::append_to_file(
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'Widget file was not uploaded. Error: %s', 'colibri-page-builder'),
                     $widget_file_info['error']
                 ),
@@ -439,7 +453,9 @@ class Helpers {
         } else {
             // Add this error to log file.
             $log_added = self::append_to_file(
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'Customizer file was not uploaded. Error: %s', 'colibri-page-builder'),
                     $customizer_file_info['error']
                 ),
@@ -450,6 +466,7 @@ class Helpers {
 
         // Process Redux import file.
         if ( $redux_file_info && ! isset( $redux_file_info['error'] ) ) {
+            //phpcs:ignore  WordPress.Security.NonceVerification.Missing
             if ( isset( $_POST['redux_option_name'] ) && empty( $_POST['redux_option_name'] ) ) {
                 // Write error to log file and send an AJAX response with the error.
                 self::log_error_and_send_ajax_response(
@@ -462,6 +479,7 @@ class Helpers {
             // Set uploaded Redux file.
             $selected_import_files['redux'] = array(
                 array(
+                    //phpcs:ignore 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Missing
                     'option_name' => sanitize_text_field($_POST['redux_option_name']),
                     'file_path'   => $redux_file_info['file'],
                 ),
@@ -469,7 +487,9 @@ class Helpers {
         } else {
             // Add this error to log file.
             $log_added = self::append_to_file(
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'Redux file was not uploaded. Error: %s', 'colibri-page-builder'),
                     $redux_file_info['error']
                 ),
@@ -520,7 +540,9 @@ class Helpers {
         if ( ! $wp_filesystem->put_contents( $file_path, $existing_data . $separator . $content . PHP_EOL ) ) {
             return new WP_Error(
                 'failed_writing_file_to_server',
+
                 sprintf(
+                //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                     __( 'An error occurred while writing file to your server! Tried to write a file to: %s%s.', 'colibri-page-builder'),
                     '<br>',
                     $file_path
@@ -565,11 +587,15 @@ class Helpers {
         }
 
         return PHP_EOL .
+
                sprintf(
+               //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                    __( 'Initial max execution time = %s', 'colibri-page-builder'),
                    ini_get( 'max_execution_time' )
                ) . PHP_EOL .
+
                sprintf(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
                    __( 'Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = %4$s%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s', 'colibri-page-builder'),
                    PHP_EOL,
                    get_site_url(),
@@ -584,6 +610,7 @@ class Helpers {
      * Set the $demo_import_start_time class variable with the current date and time string.
      */
     public static function set_demo_import_start_time() {
+        //phpcs:ignore  WordPress.DateTime.RestrictedFunctions.date_date
         self::$demo_import_start_time = date( apply_filters( 'extendthemes-ocdi/date_format_for_file_names', 'Y-m-d__H-i-s' ) );
     }
 

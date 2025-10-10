@@ -8,10 +8,10 @@ require_once __DIR__ . "/demo-install-popup.php";
 <div class="colibri-demo-import-indeterminate-loader">
     <div class="colibi-loader-message">
         <span>
-            <?php esc_html_e( 'Please wait!', 'mesmerize-companion' ); ?>
+            <?php esc_html_e( 'Please wait!', 'colibri-page-builder' ); ?>
         </span>
         <span>
-          <?php esc_html_e( 'The import process can take a few minutes.', 'mesmerize-companion' ); ?>
+          <?php esc_html_e( 'The import process can take a few minutes.', 'colibri-page-builder' ); ?>
         </span>
     </div>
     <span class="colibri-demo-import-progress-bar">

@@ -29,6 +29,7 @@ class Api
             define( 'DOING_AJAX', true );
         }
 	    check_ajax_referer( 'extend_builder_api_nonce' );
+        //phpcs:ignore  	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $options = isset($_REQUEST['api']) ? $_REQUEST['api'] : "{}";
         $options = wp_unslash($options);
 

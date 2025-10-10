@@ -192,7 +192,8 @@ function lana_breadcrumb($atts)
     if (is_search()) {
         $breadcrumb_elements['active'] = array(
             'href' => '',
-            'text' => sprintf(__('Search Results for &#8220;%s&#8221;', 'lana-breadcrumb'), wp_kses_post(get_search_query()))
+            //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
+            'text' => sprintf(__('Search Results for &#8220;%s&#8221;', 'colibri-page-builder'), wp_kses_post(get_search_query()))
         );
     }
 
@@ -202,7 +203,7 @@ function lana_breadcrumb($atts)
     if (is_404()) {
         $breadcrumb_elements['active'] = array(
             'href' => '',
-            'text' => __('Page not found', 'lana-breadcrumb')
+            'text' => __('Page not found', 'colibri-page-builder')
         );
     }
 

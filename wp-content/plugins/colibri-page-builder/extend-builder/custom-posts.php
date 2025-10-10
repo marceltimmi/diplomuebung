@@ -23,8 +23,8 @@ function post_types() {
 function custom_post_type_options( $key ) {
 	return array(
 		'labels'           => array(
-			'name'          => __( "Extend Builder Page $key" ),
-			'singular_name' => __( "Extend Builder Page $key" ),
+			'name'          => "Extend Builder Page $key",
+			'singular_name' =>  "Extend Builder Page $key",
 		),
 		'public'           => false,
 		'hierarchical'     => false,

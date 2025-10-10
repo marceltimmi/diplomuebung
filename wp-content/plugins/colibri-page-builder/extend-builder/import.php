@@ -135,6 +135,7 @@ add_action('init', function () {
 	$extra_partials      = extra_partials();
 	$all_partials        = all_partials();
 	$default_is_imported = Import::default_is_imported( Import::$theme_default_data_key );
+    //phpcs:ignore 	WordPress.WP.DeprecatedFunctions.get_theme_dataFound
 	$old_format_imported = get_theme_data( "imported.theme_default" );
 	if ( $old_format_imported ) {
 		// if single file theme default was already imported, import only new available partials files like blog, woocommerce, etc.

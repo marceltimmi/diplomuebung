@@ -30,7 +30,7 @@ function colibri_gallery_placeholder($atts, $defaultNumberOfPictures, $galleryIm
 
                         <!-- Used for overlay option -->
                         <?php if ($galleryImageOverlayClass)  : ?>
-                            <div class=<?= "{$galleryImageOverlayClass} " // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>></div>
+                            <div class=<?php echo "{$galleryImageOverlayClass} " // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>></div>
                         <?php endif; ?>
 
                     </a>

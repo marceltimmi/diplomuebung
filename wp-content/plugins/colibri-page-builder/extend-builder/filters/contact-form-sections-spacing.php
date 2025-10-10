@@ -46,5 +46,7 @@ add_action('wp_head',  function () {
         }
     </style>
     <?php
+
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo ob_get_clean();
 });

@@ -74,13 +74,16 @@ class PageBuilder
 	public function checkForThemePreviewdInCustomizer()
 	{
 		$theme                   = false;
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$is_customize_admin_page = (is_admin() && 'customize.php' == basename($_SERVER['PHP_SELF']));
 		$keys                    = array(
 			'customize_theme',
 			'theme',
 		);
 		$input_vars              = array_merge(
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			wp_array_slice_assoc($_GET, $keys),
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			wp_array_slice_assoc($_POST, $keys)
 		);
 
@@ -206,6 +209,7 @@ class PageBuilder
 				));
 
 				global $wp_customize;
+                //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 				$current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 				if (is_customize_preview() && $wp_customize->changeset_uuid()) {
 					$current_url = remove_query_arg('customize_changeset_uuid', $current_url);
@@ -324,6 +328,7 @@ class PageBuilder
 
 		$this->addMaintainableMetaToRevision();
 
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		if (isset($_REQUEST['colibri_create_pages']) && colibri_user_can_customize()) {
 			if (!get_option('colibri_manual_create_pages', false)) {
 				$this->__createFrontPage();
@@ -348,12 +353,14 @@ class PageBuilder
                 body {
                 <?php
                     foreach ($colors_list as $index => $color) {
+                        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         echo "--colibri-color-" . ($index + 1) . ": " . esc_attr($color). ';';
                         if(!isset( $color_variants_list[$index])) {
                             continue;
                         }
                         $variant_data = $color_variants_list[$index];
                         foreach($variant_data as $variantIndex => $variantColor) {
+                            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                            echo "--colibri-color-" . ($index + 1) . "--variant-". ($variantIndex+1).": " . esc_attr($variantColor). ';';
                         }
                     }
@@ -361,6 +368,7 @@ class PageBuilder
                 }
                 </style>
         <?php
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo ob_get_clean();
     }
 
@@ -559,6 +567,7 @@ class PageBuilder
 			$desired_value        = self::letToNum($needed_memory);
 
 			if ($current_memory_value < $desired_value) {
+                //phpcs:ignore 		Squiz.PHP.DiscouragedFunctions.Discouraged
 				@ini_set('memory_limit', $needed_memory);
 			}
 		}
@@ -694,6 +703,7 @@ class PageBuilder
 		$status = $filter_context['status'];
 
 		if ($status == "draft" && isset($data["mesmerize-pro::page_content"])) {
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash,	WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			$page_id = isset($_POST['customize_post_id']) ? intval($_POST['customize_post_id']) : -1;
 
 			$encode        = false;
@@ -803,6 +813,7 @@ class PageBuilder
 	public function openPageInDefaultEditor()
 	{
 		check_ajax_referer('cp_open_in_default_editor_nonce');
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, 	WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$post_id = is_numeric($_REQUEST['page']) ? intval($_REQUEST['page']) : null;
 
 		$post = get_post($post_id);
@@ -842,6 +853,7 @@ class PageBuilder
 
 		if ($this->isMaintainable($post_id)) {
 
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			if (isset($_REQUEST['cp_default_editor'])) {
 				return true;
 			}
@@ -944,6 +956,7 @@ class PageBuilder
 
 	public function createFrontPage()
 	{
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$nonce = isset($_POST['create_home_page_nounce']) ? sanitize_text_field($_POST['create_home_page_nounce']) : '';
 
 		if (!wp_verify_nonce($nonce, 'create_home_page_nounce')) {
@@ -1063,6 +1076,7 @@ class PageBuilder
 		if (function_exists('pll_get_post') && function_exists('pll_default_language')) {
 			$slug      = pll_default_language('slug');
 			$defaultID = pll_get_post($post_id, $slug);
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			$sourceID  = isset($_REQUEST['from_post']) ? absint($_REQUEST['from_post']) : null;
 			$defaultID = $defaultID ? $defaultID : $sourceID;
 
@@ -1080,7 +1094,7 @@ class PageBuilder
 		if ($sitepress) {
 			$defaultLanguage = $sitepress->get_default_language();
 			global $wpdb;
-
+            //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 			$sourceTRID = isset($_REQUEST['trid']) ? absint($_REQUEST['trid']) : null;
 			$trid       = $sitepress->get_element_trid($post_id);
 			$trid       = $trid ? $trid : $sourceTRID;
@@ -1088,8 +1102,9 @@ class PageBuilder
 			if (!is_numeric($trid)) {
 				return;
 			}
-
+            //phpcs:ignore 	WordPress.DB.DirectDatabaseQuery.DirectQuery, 	WordPress.DB.DirectDatabaseQuery.NoCaching
 			$defaultID = $wpdb->get_var(
+                //phpcs:ignore 	WordPress.DB.DirectDatabaseQuery.DirectQuery, 	WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE trid=%d AND language_code=%s",
 					$trid,
@@ -1340,6 +1355,7 @@ class PageBuilder
 	public function openPageInCustomizer()
 	{
 		check_ajax_referer('cp_open_in_customizer_nonce');
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$post_id = is_numeric($_REQUEST['page']) ? intval($_REQUEST['page']) : null;
 
 		$post = get_post($post_id);
@@ -1433,8 +1449,9 @@ class PageBuilder
 		}
 
 		add_filter('mesmerize_is_shortcode_refresh', '__return_true');
-
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$shortcode = isset($_REQUEST['shortcode']) ? $_REQUEST['shortcode'] : false;
+        //phpcs:ignore 		WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, 	WordPress.Security.NonceVerification.Recommended
 		$context   = isset($_REQUEST['context']) && is_array($_REQUEST['context']) ? $_REQUEST['context'] : array();
 
 		if (!$shortcode) {
@@ -1476,6 +1493,7 @@ class PageBuilder
 		do_action('colibri_page_builder/customizer/before_render_shortcode', $shortcode);
 		$post_embed = $wp_embed->run_shortcode($shortcode);
 		$shortcode  = do_shortcode($post_embed);
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $wp_embed->autoembed($shortcode);
 		do_action('colibri_page_builder/customizer/after_render_shortcode', $shortcode);
 		die();

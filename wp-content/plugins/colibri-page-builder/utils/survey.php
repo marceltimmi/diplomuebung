@@ -27,12 +27,13 @@ if (!function_exists('extendthemes_show_survey')) {
 			add_action('wp_enqueue_scripts', function () {
 				add_thickbox();
 			});
+            $image_url = "https://colibriwp.com/assets/colibri-logo.svg";
 
 ?>
 			<div id="colibri-survey-modal" style="display:none;">
 				<div class="colibri-survey">
 					<div class="header">
-						<img src="https://colibriwp.com/assets/colibri-logo.svg" class="logo">
+						<img src="<?php esc_url($image_url); ?>" class="logo">
 						<div class="title">
 							<h1><?php _e('Quick feedback', 'colibri-page-builder'); //phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction ?></h1>
 							<p><?php _e('If you have a moment, can you please give us a feedback?', 'colibri-page-builder'); //phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction ?></p>

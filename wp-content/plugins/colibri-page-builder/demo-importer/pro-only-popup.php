@@ -17,7 +17,9 @@
         </div>
         <div class="popup-footer">
             <div class="footer-content">
-                <h2><?php echo esc_html( sprintf( __( 'This demo site is available only in %s',
+                <h2><?php
+                    //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                    echo esc_html( sprintf( __( 'This demo site is available only in %s',
                         'colibri-page-builder' ),
                         apply_filters( "mesmerize_demos_available_in_pro", "Colibri Page Builder PRO" ) ) ); ?></h2>
                 <a href='http://colibriwp.com' class='button button-hero button-primary upgrade-to-pro'

@@ -38,12 +38,12 @@ function colibri_contact_form_shortcode( $atts ) {
 			return colibri_forminator_get_auth_placeholder();
 		}
 		if ( $atts['use_shortcode_style'] == '0' ) {
-			return colibri_forminator_form_shortcode( $shortcode );
+			return colibri_forminator_form_shortcode( wp_kses_post($shortcode) );
 		} else {
-			return do_shortcode( $shortcode );
+			return do_shortcode( wp_kses_post($shortcode) );
 		}
 	} else {
-		return do_shortcode( $shortcode );
+		return do_shortcode( wp_kses_post($shortcode) );
 	}
 }
 

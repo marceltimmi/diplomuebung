@@ -58,8 +58,7 @@ class PageView {
 			PageBuilder::instance()->getVersion(),
 			true
 		);
-
-        ?>
+        //phpcs:ignore 		WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
         <link rel="stylesheet"
               href="<?php echo esc_attr( PageBuilder::instance()->assetsRootURL() . "/css/demo-import.css?ver=" . PageBuilder::instance()->getVersion() ) ?>"/>
         <?php

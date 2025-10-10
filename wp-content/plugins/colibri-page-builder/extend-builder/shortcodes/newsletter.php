@@ -119,5 +119,5 @@ function colibri_newsletter_shortcode($atts)
     $attrs['shortcode'] = colibri_shortcode_decode($attrs['shortcode']);
     $attrs['submit_button_icon'] = colibri_shortcode_decode($attrs['submit_button_icon']);
     colibri_cache_set('colibri_newsletter_attrs', $attrs);
-    return do_shortcode($attrs['shortcode']);
+    return do_shortcode( wp_kses_post($attrs['shortcode']));
 }

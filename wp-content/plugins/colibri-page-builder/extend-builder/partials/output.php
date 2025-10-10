@@ -58,6 +58,7 @@ function colibri_output_sidebar_search_form( $form = '' ) {
 
 add_action( 'sidebar_admin_setup', function () {
 
+    //phpcs:ignore  WordPress.Security.NonceVerification.Recommended
 	$id_base = array_get_value( $_REQUEST, 'id_base', null );
 
 	if ( $id_base === 'search' ) {

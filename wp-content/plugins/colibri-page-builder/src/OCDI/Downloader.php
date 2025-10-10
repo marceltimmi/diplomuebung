@@ -80,6 +80,7 @@ class Downloader {
             return new WP_Error(
                 'download_error',
                 sprintf(
+                    //phpcs:ignore 	WordPress.WP.I18n.MissingTranslatorsComment
                     __( 'An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - %6$s.', 'colibri-page-builder' ),
                     '<strong>',
                     $url,

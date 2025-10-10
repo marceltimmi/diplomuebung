@@ -206,49 +206,6 @@ if ($theme && $__is_colibri_theme) {
     }, 11);
 }
 
-///*
-//	enable theme updates, by sending the version parameter
-//*/
-//
-//add_filter('http_request_args', function ($r, $url) {
-//    if (strpos($url, "mesmerize-pro") !== false) {
-//        $r['body'] = array("v" => "1.0");
-//    }
-//
-//    return $r;
-//}, PHP_INT_MAX, 2);
-
-///*
-//	fix updates apearring for pro child theme instead of pro theme
-//*/
-//
-//add_filter('pre_set_site_transient_update_themes', function ($transient) {
-//
-//    if (property_exists($transient, 'response') && is_array($transient->response)) {
-//        foreach ($transient->response as $slug => $value) {
-//            if ($slug != "mesmerize-pro" && strpos($value["package"], "mesmerize-pro") !== false) {
-//
-//                $theme = wp_get_theme();
-//                if ($theme->parent() && $theme->parent()->template == "mesmerize-pro") {
-//                    // if different version, add as pro update//
-//
-//                    if ($theme->parent()->version != $value['new_version']) {
-//                        $transient->response['mesmerize-pro'] = $value;
-//                        $transient->checked['mesmerize-pro'] = $theme->parent()->version;
-//                    }
-//                }
-//
-//                unset($transient->response[$slug]);
-//
-//                if (isset($transient->checked[$slug])) {
-//                    unset($transient->checked[$slug]);
-//                }
-//            }
-//        }
-//    }
-//
-//    return $transient;
-//}, PHP_INT_MAX);
 
 add_action('wp_dashboard_setup', 'ExtendBuilder\my_custom_dashboard_widgets');
 
@@ -264,5 +221,6 @@ function my_custom_dashboard_widgets()
 
 function colibri_updates_notice()
 {
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo colibri_get_dashboard_updates_msg();
 }

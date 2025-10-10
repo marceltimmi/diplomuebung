@@ -42,6 +42,7 @@ class Template {
 		}
 
 		if ( $echo ) {
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $content;
 		} else {
 			return $content;

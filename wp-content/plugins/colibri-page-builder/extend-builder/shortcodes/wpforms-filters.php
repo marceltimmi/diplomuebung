@@ -30,6 +30,7 @@ add_action( 'colibri_page_builder/customizer/before_render_shortcode', function 
 		ob_start();
 		wp_print_styles();
 		$ob_content = ob_get_clean();
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo "\n\n<!--header  shortcode=wpforms scripts-->\n{$ob_content}<!--header scripts-->\n\n";
 
 	}
@@ -48,6 +49,7 @@ add_action( 'colibri_page_builder/customizer/after_render_shortcode', function (
 		<?php
 		wp_print_footer_scripts();
 		$ob_content = ob_get_clean();
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo "\n\n<!--footer scripts shortcode=wpforms-->\n{$ob_content}<!--footer scripts-->\n\n";
 	}
 
