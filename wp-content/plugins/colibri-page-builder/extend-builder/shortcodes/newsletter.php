@@ -101,6 +101,24 @@ function colibri_mc4wp_filter($content)
 add_shortcode('colibri_newsletter', '\ExtendBuilder\colibri_newsletter_shortcode');
 
 
+
+/**
+ * Colibri Newsletter Shortcode Handler
+ *
+ * This shortcode is a safe wrapper that only processes other registered WordPress shortcodes.
+ *
+ * Security measures:
+ * - Only processes content through WordPress's built-in shortcode system
+ * - Uses colibri_parse_and_render_shortcodes() which only finds and renders registered shortcodes
+ * - Any content outside of shortcodes is completely ignored and skipped
+ *
+ * This function acts as a container that allows other shortcodes to be nested within
+ * the newsletter functionality, providing a controlled way to render only legitimate
+ * WordPress shortcodes while ignoring any other content.
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Rendered shortcode content (only the content from legitimate shortcodes)
+ */
 function colibri_newsletter_shortcode($atts)
 {
     $attrs = shortcode_atts(
@@ -119,5 +137,21 @@ function colibri_newsletter_shortcode($atts)
     $attrs['shortcode'] = colibri_shortcode_decode($attrs['shortcode']);
     $attrs['submit_button_icon'] = colibri_shortcode_decode($attrs['submit_button_icon']);
     colibri_cache_set('colibri_newsletter_attrs', $attrs);
-    return do_shortcode( wp_kses_post($attrs['shortcode']));
+
+    // SECURITY NOTE: This function only processes registered WordPress shortcodes
+    // No arbitrary content outside of shortcodes is processed or executed
+    $parsed_shortcodes = colibri_parse_and_render_shortcodes($attrs['shortcode']);
+
+    if (empty($parsed_shortcodes)) {
+        return '';
+    }
+
+    // Only concatenate the rendered output from legitimate shortcodes
+    // Any content outside shortcodes is completely ignored
+    $content = '';
+    foreach ($parsed_shortcodes as $s) {
+        $content .=  $s['rendered'];
+    }
+
+    return $content;
 }

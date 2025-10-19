@@ -20,7 +20,23 @@ function colibri_get_colibri_contact_form_shortcode( $shortcode ) {
 	return colibri_shortcode_decode( $inner_shortcode );
 
 }
-
+/**
+ * Colibri Contact Form Shortcode Handler
+ *
+ * This shortcode is a safe wrapper that only processes other registered WordPress shortcodes.
+ *
+ * Security measures:
+ * - Only processes content through WordPress's built-in shortcode system
+ * - Uses colibri_parse_and_render_shortcodes() which only finds and renders registered shortcodes
+ * - Any content outside of shortcodes is completely ignored and skipped
+ *
+ * This function acts as a container that allows other shortcodes to be nested within
+ * the newsletter functionality, providing a controlled way to render only legitimate
+ * WordPress shortcodes while ignoring any other content.
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Rendered shortcode content (only the content from legitimate shortcodes)
+ */
 function colibri_contact_form_shortcode( $atts ) {
 
 	$atts = shortcode_atts(
@@ -32,19 +48,28 @@ function colibri_contact_form_shortcode( $atts ) {
 	);
 
 	$atts['shortcode'] = colibri_shortcode_decode( $atts['shortcode'] );
-	$shortcode         = wp_kses_post($atts['shortcode']);
+	$shortcode         = $atts['shortcode'];
 	if ( shortcode_render_can_apply_forminator_filters( $shortcode ) ) {
 		if ( is_customize_preview() && colibri_forminator_is_auth_form( $shortcode ) ) {
 			return colibri_forminator_get_auth_placeholder();
 		}
-		if ( $atts['use_shortcode_style'] == '0' ) {
-			return colibri_forminator_form_shortcode( wp_kses_post($shortcode) );
-		} else {
-			return do_shortcode( wp_kses_post($shortcode) );
-		}
-	} else {
-		return do_shortcode( wp_kses_post($shortcode) );
 	}
+    // SECURITY NOTE: This function only processes registered WordPress shortcodes
+    // No arbitrary content outside of shortcodes is processed or executed
+    $parsed_shortcodes = colibri_parse_and_render_shortcodes($shortcode);
+
+    if (empty($parsed_shortcodes)) {
+        return '';
+    }
+
+    // Only concatenate the rendered output from legitimate shortcodes
+    // Any content outside shortcodes is completely ignored
+    $content = '';
+    foreach ($parsed_shortcodes as $s) {
+        $content .=  $s['rendered'];
+    }
+
+    return $content;
 }
 
 function colibri_forminator_get_auth_placeholder() {
@@ -87,54 +112,5 @@ function colibri_forminator_form_shortcode( $shortcode ) {
 
 	$html             = do_shortcode( $shortcode );
 	return $html;
-//	$form_class_regex = "/<form(.*?)class=\"(.*?)\"/s";
-//	$classes_found    = preg_match( $form_class_regex, $html, $matches );
-//	if ( $classes_found ) {
-//		$classes       = $matches[2];
-//		$classes_array = explode( " ", $classes );
-//		$valid_classes = [];
-//		foreach ( $classes_array as $class ) {
-//			$invalid_classes_prefix = [ 'forminator-custom-form', 'forminator-design' ];
-//			$valid_class            = true;
-//			foreach ( $invalid_classes_prefix as $prefix ) {
-//				if ( strpos( $class, $prefix ) === 0 ) {
-//					$valid_class = false;
-//				}
-//			}
-//			if ( $valid_class ) {
-//				$valid_classes[] = $class;
-//			}
-//		}
-//		$valid_classes_string = implode( " ", $valid_classes );
-//		$html                 = preg_replace( $form_class_regex, "<form $1 class=\"" . $valid_classes_string . "\"",
-//			$html );
-//	}
-//
-//
-//	return $html;
-//	$id_found = preg_match('/id="(\d+)"/', $shortcode, $matches);
-//	if(!$id_found) {
-//		return;
-//	}
-//	$form_id = $matches[1];
-//	$model = \Forminator_Custom_Form_Model::model()->load( $form_id );
-//	if(!$model) {
-//		return;
-//	}
-//	$model->settings['form-style'] = 'none';
-//	$assets = new \Forminator_Assets_Enqueue_Form( $model, true );
-//	$assets->load_assets();
-//
-//	$preview_data = [
-//		'settings' => $model->settings,
-//		'fields' => $model->fields
-//	];
-//	$data = [
-//		'id' => $form_id,
-//		'is_preview' => false,
-//		'preview_data' => $preview_data
-//	];
-//	echo \Forminator_CForm_Front::get_instance()->render_shortcode($data);
-//	\Forminator_CForm_Front::get_instance()->display(237);
-	//echo do_shortcode($shortcode);
+
 }
