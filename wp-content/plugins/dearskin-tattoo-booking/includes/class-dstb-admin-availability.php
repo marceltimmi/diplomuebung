@@ -8,8 +8,9 @@ class DSTB_Admin_Availability {
     }
 
     public function menu(){
+        // Jetzt als Unterpunkt unter "Tattoo Anfragen"
         add_submenu_page(
-            'edit.php?post_type=tattoo_request',
+            'dstb-requests',
             'Artists – Verfügbarkeiten',
             'Verfügbarkeiten',
             'manage_options',
@@ -143,10 +144,9 @@ class DSTB_Admin_Availability {
             foreach ($vacations as $v) {
                 $del_url = add_query_arg([
                     'page' => 'dstb-availability',
-                    'post_type' => 'tattoo_request',
                     'artist' => $current_artist,
                     'delete_vac' => $v['id']
-                ], admin_url('edit.php'));
+                ], admin_url('admin.php')); // ✅ korrekt
                 printf(
                     '<tr><td>%s</td><td>%s</td><td><a href="%s" class="button button-small delete-vac" onclick="return confirm(\'Diesen Urlaub wirklich löschen?\')">🗑️ Löschen</a></td></tr>',
                     esc_html($v['start_date']),
@@ -164,7 +164,7 @@ class DSTB_Admin_Availability {
         /* ========== JAVASCRIPT ========== */
         echo '<script>
         (function(){
-          // Artist-Wechsel: redirect mit GET (behält Auswahl!)
+          // Artist-Wechsel
           const select = document.getElementById("dstb-artist-select");
           if(select){
             select.addEventListener("change", function(){

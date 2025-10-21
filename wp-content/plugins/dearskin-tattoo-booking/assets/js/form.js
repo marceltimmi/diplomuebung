@@ -1,11 +1,138 @@
 (function($){
 
-  function fillWithAllTimeSteps($select){
-    const steps = (window.DSTB?.timeSteps)||[];
-    $select.empty();
-    steps.forEach(t=> $select.append(`<option value="${t}">${t}</option>`));
+  /** ---------- Hilfen ---------- */
+  function getAjaxUrl(){
+    // Robust: bevorzugt lokalisiertes DSTB.ajax_url; fällt zurück auf admin-ajax.php
+    if (window.DSTB && typeof DSTB.ajax_url === 'string' && DSTB.ajax_url.length) return DSTB.ajax_url;
+    if (window.wp && wp.ajax && wp.ajax.settings && wp.ajax.settings.url) return wp.ajax.settings.url;
+    return '/wp-admin/admin-ajax.php';
   }
 
+  function steps30(){
+    // Fallback 30-Minuten-Liste
+    return [
+      "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30",
+      "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30",
+      "16:00","16:30","17:00","17:30","18:00"
+    ];
+  }
+
+  function hmToDate(hm){ const [h,m]=hm.split(':').map(Number); return new Date(2000,0,1,h,(m||0)); }
+  function rangeSteps(from,to,step=30){
+    const out=[]; let s=hmToDate(from), e=hmToDate(to);
+    if(e<=s) e.setDate(e.getDate()+1);
+    for(let t=new Date(s); t<e; t.setMinutes(t.getMinutes()+step)){
+      out.push(t.toTimeString().slice(0,5));
+    }
+    return out;
+  }
+
+  function fillGeneric($sel){
+    const s = steps30();
+    $sel.empty(); s.forEach(t=>$sel.append(`<option value="${t}">${t}</option>`));
+  }
+
+  /** ---------- Server: freie Ranges für Artist/Datum ---------- */
+  async function fetchFreeForDate(artist, dateStr){
+    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}`;
+    try{
+      const r = await fetch(url, {credentials:'same-origin'});
+      if(!r.ok) return [];
+      const j = await r.json();
+      return Array.isArray(j.free) ? j.free : [];
+    }catch(e){ return []; }
+  }
+
+  /** ---------- Dropdowns einer Zeile befüllen ---------- */
+  function populateRowFromRanges($row, freeRanges){
+    const $start = $row.find('select[data-kind="start"]');
+    const $end   = $row.find('select[data-kind="end"]');
+
+    // Vorherige Auswahl (falls noch gültig → wiederherstellen)
+    const prevStart = $start.val();
+    const prevEnd   = $end.val();
+
+    $start.empty(); $end.empty();
+
+    if(!freeRanges || !freeRanges.length){
+      $start.append('<option value="">Keine freien Zeiten</option>');
+      $end.append('<option value="">–</option>');
+      return;
+    }
+
+    // Startoptionen aus allen Ranges
+    const starts=[];
+    freeRanges.forEach(r=>{
+      const arr = rangeSteps(r[0], r[1]);
+      for(let i=0;i<arr.length-1;i++) starts.push({time:arr[i], range:r});
+    });
+    starts.forEach(obj=>{
+      const o = document.createElement('option');
+      o.value = obj.time; o.textContent = obj.time;
+      o.dataset.rangeFrom = obj.range[0];
+      o.dataset.rangeTo   = obj.range[1];
+      $start.append(o);
+    });
+
+    // Endoptionen passend zu (a) alter Auswahl oder (b) erster Start
+    let startVal = prevStart && starts.find(s=>s.time===prevStart) ? prevStart : (starts[0]?.time || '');
+    if (startVal) {
+      $start.val(startVal);
+      const opt = $start[0].selectedOptions[0];
+      const es = rangeSteps(opt.dataset.rangeFrom, opt.dataset.rangeTo).filter(t=>t>startVal);
+      es.forEach(t=>$end.append(`<option value="${t}">${t}</option>`));
+      if (prevEnd && es.includes(prevEnd)) $end.val(prevEnd);
+    }
+
+    // Change-Handler (ent-doppelt mit Namespace)
+    $start.off('change.dstb').on('change.dstb', function(){
+      const opt=this.selectedOptions[0]; if(!opt) return;
+      const es = rangeSteps(opt.dataset.rangeFrom, opt.dataset.rangeTo).filter(t=>t>this.value);
+      $end.empty(); es.forEach(t=>$end.append(`<option value="${t}">${t}</option>`));
+    });
+  }
+
+  /** ---------- Hauptlogik pro Zeile ---------- */
+  async function updateRowTimesForDate($row){
+    const artist = $('#dstb-artist').val();
+    const isFixed = (artist === 'Silvia' || artist === 'Sahrabie');
+    const dateStr = $row.find('input[type="date"]').val();
+    const $start = $row.find('select[data-kind="start"]');
+    const $end   = $row.find('select[data-kind="end"]');
+
+    // Lade-Guard (Race-Schutz): Token pro Zeile
+    const token = Date.now().toString();
+    $row.data('loadingToken', token);
+
+    // Disable während Load
+    $start.prop('disabled', true); 
+    $end.prop('disabled', true);
+
+    if (!dateStr || !isFixed) {
+      fillGeneric($start); 
+      fillGeneric($end);
+      $start.prop('disabled', false); 
+      $end.prop('disabled', false);
+      return;
+    }
+
+    const freeRanges = await fetchFreeForDate(artist, dateStr);
+
+    // Nur anwenden, wenn dies die letzte Anforderung für diese Zeile ist
+    if ($row.data('loadingToken') !== token) return;
+
+    if (freeRanges.length){
+      populateRowFromRanges($row, freeRanges);
+    } else {
+      $start.empty().append('<option value="">Keine freien Zeiten</option>');
+      $end.empty().append('<option value="">–</option>');
+    }
+
+    $start.prop('disabled', false);
+    $end.prop('disabled', false);
+  }
+
+  /** ---------- UI: Zeilen anlegen/entfernen ---------- */
   function createSlotRow(i){
     return $(`
       <div class="dstb-slot" data-i="${i}">
@@ -17,12 +144,22 @@
     `);
   }
 
+  function renumberRows(){
+    $('#dstb-slots .dstb-slot').each(function(idx){
+      $(this).attr('data-i', idx);
+      $(this).find('input,select').each(function(){
+        this.name = this.name.replace(/slots\[[0-9]+\]/, `slots[${idx}]`);
+      });
+    });
+  }
+
   function refreshSlotAddBtn(){
     const count = $('#dstb-slots .dstb-slot').length;
     $('#dstb-add-slot').prop('disabled', count >= 3);
   }
 
-  $(document).on('click','#dstb-add-slot',function(){
+  // + neue Zeile
+  $(document).on('click','#dstb-add-slot',async function(){
     const i = $('#dstb-slots .dstb-slot').length;
     if(i>=3) return;
 
@@ -30,34 +167,35 @@
     $('#dstb-slots').append($row);
     refreshSlotAddBtn();
 
-    const artist = $('#dstb-artist').val();
-    const isFixed = (artist === 'Silvia' || artist === 'Sahrabie');
-    const $start = $row.find('select[data-kind="start"]');
-    const $end   = $row.find('select[data-kind="end"]');
-
-    if(isFixed && window.DSTB?.currentFreeRanges?.length){
-      const dateStr = window.DSTB?.currentDate || new Date().toISOString().split('T')[0];
-      $row.find('input[type="date"]').val(dateStr);
-      window.populateSlotRow($row, window.DSTB.currentFreeRanges);
-    } else {
-      fillWithAllTimeSteps($start);
-      fillWithAllTimeSteps($end);
-    }
+    // Start generisch (bis Datum gesetzt wird)
+    fillGeneric($row.find('select[data-kind="start"]'));
+    fillGeneric($row.find('select[data-kind="end"]'));
   });
 
+  // - Zeile entfernen
   $(document).on('click','.dstb-slot .dstb-remove',function(){
     $(this).closest('.dstb-slot').remove();
-    $('#dstb-slots .dstb-slot').each(function(idx){
-      $(this).attr('data-i', idx);
-      $(this).find('input,select').each(function(){
-        this.name = this.name.replace(/slots\[[0-9]+\]/, `slots[${idx}]`);
-      });
-    });
+    renumberRows();
     refreshSlotAddBtn();
   });
 
+  // Datum in EINER Zeile geändert → nur diese Zeile befüllen
+  $(document).on('change', '#dstb-slots .dstb-slot input[type="date"]', async function(){
+    await updateRowTimesForDate($(this).closest('.dstb-slot'));
+  });
+
+  // Artist gewechselt → jede vorhandene Zeile anhand IHRES Datums neu befüllen
+  $(document).on('change', '#dstb-artist', async function(){
+    const $rows = $('#dstb-slots .dstb-slot');
+    for (const el of $rows) {
+      await updateRowTimesForDate($(el));
+    }
+  });
+
+  // Init: eine Zeile anlegen
   $(function(){ $('#dstb-add-slot').trigger('click'); });
 
+  /** ---------- Sonst: Upload-Preview & Submit ---------- */
   $('#dstb-images').on('change',function(){
     const max=(window.DSTB?.maxUploads)||10;
     const files=Array.from(this.files).slice(0,max);
@@ -78,7 +216,7 @@
     fd.append('nonce',(window.DSTB?.nonce)||'');
 
     const $msg=$('#dstb-msg').text('Sende ...');
-    fetch((window.DSTB?.ajax_url)||'',{method:'POST',body:fd})
+    fetch(getAjaxUrl(),{method:'POST',body:fd, credentials:'same-origin'})
       .then(r=>r.json())
       .then(j=>{
         $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));

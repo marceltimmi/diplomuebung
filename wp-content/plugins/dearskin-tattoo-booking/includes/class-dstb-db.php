@@ -2,13 +2,17 @@
 if ( ! defined('ABSPATH') ) exit;
 
 class DSTB_DB {
-    public static $requests = 'dstb_requests';
+
+    /** Tabellen-Namen */
+    public static $requests     = 'dstb_requests';
     public static $availability = 'dstb_availability';
-    public static $vacations = 'dstb_vacations';
-    public static $bookings = 'dstb_bookings';
+    public static $vacations    = 'dstb_vacations';
+    public static $bookings     = 'dstb_bookings';
+    public static $suggestions  = 'dstb_suggestions'; // 💡 NEU: Terminvorschläge vom Studio
 
     public static function table($name){
-        global $wpdb; return $wpdb->prefix . $name;
+        global $wpdb; 
+        return $wpdb->prefix . $name;
     }
 
     /** Tabellen anlegen / upgraden */
@@ -40,8 +44,7 @@ class DSTB_DB {
             KEY email (email)
         ) $charset;";
 
-        // Verfügbarkeiten (freie Zeitfenster) – wöchentlich je Artist
-        // weekday: 0=Mo ... 6=So ; ranges: JSON [["09:00","12:00"],["13:00","16:00"]]
+        // Verfügbarkeiten (freie Zeitfenster)
         $sql2 = "CREATE TABLE ".self::table(self::$availability)." (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             artist VARCHAR(64) NOT NULL,
@@ -51,7 +54,7 @@ class DSTB_DB {
             PRIMARY KEY(id)
         ) $charset;";
 
-        // Urlaube / Sperrzeiten (geschlossen)
+        // Urlaube / Sperrzeiten
         $sql3 = "CREATE TABLE ".self::table(self::$vacations)." (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             artist VARCHAR(64) NOT NULL,
@@ -62,7 +65,7 @@ class DSTB_DB {
             KEY range_idx (start_date, end_date)
         ) $charset;";
 
-        // Bestätigte Buchungen (belegen Kalender) – nur bei finaler Zusage
+        // Bestätigte Buchungen (finale Termine)
         $sql4 = "CREATE TABLE ".self::table(self::$bookings)." (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             artist VARCHAR(64) NOT NULL,
@@ -76,10 +79,27 @@ class DSTB_DB {
             KEY status (status)
         ) $charset;";
 
+        // 💡 NEU: Terminvorschläge des Studios (z. B. Preisvorschlag)
+        $sql5 = "CREATE TABLE ".self::table(self::$suggestions)." (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            request_id BIGINT UNSIGNED NOT NULL,
+            date DATE NOT NULL,
+            start TIME NOT NULL,
+            end TIME NOT NULL,
+            price INT UNSIGNED NOT NULL DEFAULT 0,
+            note VARCHAR(255) DEFAULT '' NOT NULL,
+            status VARCHAR(32) NOT NULL DEFAULT 'sent',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY request_id (request_id),
+            KEY date_idx (date)
+        ) $charset;";
+
         dbDelta($sql1);
         dbDelta($sql2);
         dbDelta($sql3);
         dbDelta($sql4);
+        dbDelta($sql5); // 💾 neue Tabelle anlegen
     }
 
     /** Admin pflegt freie Standard-Ranges (Wochentag) */
@@ -102,7 +122,7 @@ class DSTB_DB {
         foreach($rows as $r){
             $map[(int)$r['weekday']] = json_decode($r['ranges'], true) ?: [];
         }
-        return $map; // [ weekday => [["09:00","12:00"],...] ]
+        return $map;
     }
 
     /** Urlaube/Sperren */
@@ -156,7 +176,7 @@ class DSTB_DB {
         return $wpdb->insert_id;
     }
 
-    /** Kundenanfragen (statt CPT) */
+    /** Kundenanfragen */
     public static function insert_request($data){
         global $wpdb;
         $table = self::table(self::$requests);
@@ -178,20 +198,14 @@ class DSTB_DB {
         return $wpdb->insert_id;
     }
 
-    /** Aus den Standard-Ranges & Buchungen freie Slots für konkreten Tag ableiten */
+    /** Aus Standard-Ranges & Buchungen freie Slots ableiten */
     public static function free_slots_for_date($artist, $date, $stepMinutes=30){
-        // 1) Urlaub -> keine freien Slots
         if ( self::date_is_vacation($artist, $date) ) return [];
-
-        // 2) Tages-Standard-Ranges via weekday
-        $weekday_php = (int)date('N', strtotime($date)) - 1; // 0=Mo
+        $weekday_php = (int)date('N', strtotime($date)) - 1;
         $ranges_map = self::get_weekday_ranges_map($artist);
         $ranges = $ranges_map[$weekday_php] ?? [];
         if (empty($ranges)) return [];
-
-        // 3) bestätigte Buchungen des Tages holen und daraus „Lücken“ bilden
-        $booked = self::get_bookings_for_day($artist, $date); // [["09:00","10:30"],...]
-        // Timeline in 30-Min Raster
+        $booked = self::get_bookings_for_day($artist, $date);
         $mark = [];
         foreach($ranges as $r){
             $from = self::hm2min($r[0]); $to = self::hm2min($r[1]);
@@ -201,7 +215,6 @@ class DSTB_DB {
             $from = self::hm2min($b[0]); $to = self::hm2min($b[1]);
             for($m=$from; $m<$to; $m+=$stepMinutes){ $mark[$m] = false; }
         }
-        // contiguous „true“-Blöcke zu Ranges zusammensetzen
         $free = [];
         $current = null;
         ksort($mark);

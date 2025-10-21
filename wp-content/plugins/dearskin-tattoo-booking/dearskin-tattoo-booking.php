@@ -33,34 +33,38 @@ add_action('plugins_loaded', 'dstb_load_textdomain');
  * ------------------------------------------------------------- */
 require_once DSTB_PATH . 'includes/helpers.php';
 require_once DSTB_PATH . 'includes/class-dstb-assets.php';
-require_once DSTB_PATH . 'includes/class-dstb-cpt.php';                 // optional, solange du das Menü nutzt
 require_once DSTB_PATH . 'includes/class-dstb-admin.php';
 require_once DSTB_PATH . 'includes/class-dstb-emails.php';
 require_once DSTB_PATH . 'includes/class-dstb-ajax.php';
 require_once DSTB_PATH . 'includes/class-dstb-router.php';
 require_once DSTB_PATH . 'includes/class-dstb-calendar.php';
-require_once DSTB_PATH . 'includes/class-dstb-db.php';                  // 💾 neue DB-Schicht
-require_once DSTB_PATH . 'includes/class-dstb-admin-availability.php';  // 🗓️ Backend-Verfügbarkeiten
+require_once DSTB_PATH . 'includes/class-dstb-db.php';                  
+require_once DSTB_PATH . 'includes/class-dstb-admin-availability.php';  
+require_once DSTB_PATH . 'includes/class-dstb-admin-requests.php';       // 💡 neues Admin-Dashboard
 
 /* -------------------------------------------------------------
  *  BOOTSTRAP – KLASSEN LADEN
  * ------------------------------------------------------------- */
 add_action('plugins_loaded', function () {
 	new DSTB_Assets();
-	new DSTB_CPT(); // optional – kann später entfernt werden, wenn du CPT nicht mehr brauchst
 	new DSTB_Admin();
 	new DSTB_Emails();
 	new DSTB_Ajax();
 	new DSTB_Router();
-	new DSTB_Admin_Availability(); // neues Backend für freie Zeiten / Urlaub
+
+	// ⏳ "Tattoo Anfragen" zuerst registrieren
+	new DSTB_Admin_Requests();
+
+	// 📅 Danach Unterpunkt "Verfügbarkeiten" hinzufügen
+	new DSTB_Admin_Availability();
 });
+
 
 /* -------------------------------------------------------------
  *  AKTIVIERUNG & DEAKTIVIERUNG
  * ------------------------------------------------------------- */
 register_activation_hook(__FILE__, function () {
-	DSTB_DB::install();   // Tabellen anlegen
-	DSTB_CPT::register(); // optional, solange CPT aktiv
+	DSTB_DB::install();   // Tabellen anlegen (inkl. dstb_suggestions)
 	flush_rewrite_rules();
 });
 
@@ -92,9 +96,9 @@ function dstb_render_booking_form() {
 }
 
 /* -------------------------------------------------------------
- *  OPTIONALE HILFSFUNKTIONEN FÜR SPÄTER
+ *  OPTIONALE HILFSFUNKTIONEN
  * ------------------------------------------------------------- */
-// Beispiel: Automatische Pufferung von Terminen (60 Minuten nach jeder Buchung)
+// Beispiel: Automatische Pufferung von Terminen (60 Min nach jeder Buchung)
 function dstb_add_booking_buffer($artist, $date, $end_time) {
 	$end_minutes = explode(':', $end_time);
 	$h = intval($end_minutes[0]);

@@ -1,0 +1,313 @@
+:root{
+  --bg:#333333;
+  --card:#3a3a3a;
+  --muted:#cccccc;
+  --ring:#555555;
+  --acc:#5dd2b3;
+  --acc-2:#7aa3ff;
+}
+
+/* === Grundlayout === */
+.dstb-admin-wrap{
+  background:var(--bg);
+  padding:12px 0 24px;
+  font-family:"Inter",system-ui,Arial,sans-serif;
+  color:#f4f6f9;
+}
+
+h1,h2,h3,h4{ color:#fff; font-weight:600; }
+
+.dstb-admin-search{
+  margin:8px 0 20px;
+  display:flex;
+  gap:8px;
+}
+.dstb-admin-search input[type="text"]{
+  background:#2d2d2d;
+  color:#fff;
+  border:1px solid var(--ring);
+  border-radius:8px;
+  padding:8px 10px;
+  width:280px;
+}
+.dstb-admin-search .button{
+  background:linear-gradient(135deg,var(--acc),var(--acc-2));
+  border:none;
+  color:#000;
+  font-weight:600;
+  border-radius:8px;
+}
+
+.dstb-admin-empty{
+  padding:24px;
+  background:#2d2d2d;
+  color:#eee;
+  border:1px dashed var(--ring);
+  border-radius:12px;
+  text-align:center;
+}
+
+.dstb-admin-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+  gap:16px;
+}
+
+/* === Karten-Layout === */
+.dstb-card-admin{
+  background:var(--card);
+  color:#f4f6f9;
+  border:1px solid var(--ring);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  overflow:hidden;
+  transition:transform .15s,box-shadow .15s;
+}
+.dstb-card-admin:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* === Kopfbereich === */
+.dstb-card-head{
+  padding:14px 16px;
+  border-bottom:1px solid var(--ring);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#2c2c2c;
+}
+.dstb-title{
+  font-size:16px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.dstb-badge{
+  background:#2d2d2d;
+  border:1px solid var(--ring);
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+  color:#ddd;
+}
+.dstb-subline{
+  color:#bbb;
+  font-size:12px;
+}
+
+/* === Inhalt === */
+.dstb-card-body{
+  padding:14px 16px;
+}
+.dstb-two-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.dstb-row{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  margin:4px 0;
+  color:#e9eef5;
+  word-break:break-word;
+}
+.dstb-row span{ opacity:.9; }
+
+.dstb-uploads{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+.dstb-uploads img{
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid var(--ring);
+  transition:transform .15s;
+}
+.dstb-uploads img:hover{ transform:scale(1.05); }
+
+.dstb-divider{
+  height:1px;
+  background:var(--ring);
+  margin:8px 0;
+}
+
+/* === Sektionen === */
+.dstb-card-section{
+  padding:10px 16px 16px;
+}
+.dstb-card-section h4{
+  margin:6px 0 10px;
+  font-size:14px;
+  color:#fff;
+  letter-spacing:.2px;
+}
+.dstb-slots{
+  margin:0;
+  padding-left:18px;
+}
+.dstb-slots li{
+  margin:3px 0;
+  color:#dfe5ec;
+  font-size:13px;
+}
+
+/* === Vorschlagstabelle === */
+.dstb-sug-table{
+  border:1px solid var(--ring);
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:10px;
+  font-size:13px;
+}
+.dstb-sug-row{
+  display:grid;
+  grid-template-columns:1fr .7fr .7fr .6fr 1.4fr .8fr .9fr;
+}
+.dstb-sug-row > div{
+  padding:8px 10px;
+  border-bottom:1px solid var(--ring);
+  border-right:1px solid var(--ring);
+}
+.dstb-sug-row > div:last-child{ border-right:none; }
+.dstb-sug-head{
+  background:#2d2d2d;
+  font-weight:700;
+}
+
+/* === Vorschlagsformular === */
+.dstb-sug-form{
+  background:#2d2d2d;
+  border:1px solid var(--ring);
+  border-radius:12px;
+  padding:12px;
+  margin-top:8px;
+}
+.dstb-sug-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:10px;
+}
+.dstb-sug-grid .dstb-col-2{ grid-column:span 2; }
+
+.dstb-sug-form input[type="date"],
+.dstb-sug-form input[type="time"],
+.dstb-sug-form input[type="number"],
+.dstb-sug-form input[type="text"]{
+  width:100%;
+  background:#262626;
+  color:#fff;
+  border:1px solid var(--ring);
+  border-radius:8px;
+  padding:8px;
+  transition:border .15s;
+}
+.dstb-sug-form input:focus{
+  border-color:var(--acc-2);
+  outline:none;
+}
+
+.dstb-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+.dstb-sug-msg{
+  color:#9feabf;
+  font-size:13px;
+}
+.dstb-sug-form .button-primary{
+  background:linear-gradient(135deg,var(--acc),var(--acc-2));
+  border:none;
+  border-radius:10px;
+  color:#000;
+  font-weight:600;
+  padding:8px 14px;
+  cursor:pointer;
+  transition:transform .1s;
+}
+.dstb-sug-form .button-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+/* === MODAL / POPUP (Dark) === */
+.dstb-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+.dstb-modal__dialog{
+  width:min(640px, 94vw);
+  background:#3a3a3a;
+  border:1px solid var(--ring);
+  border-radius:14px;
+  box-shadow:0 18px 60px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+.dstb-modal__head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 14px;
+  background:#2c2c2c;
+  border-bottom:1px solid var(--ring);
+  color:#fff;
+}
+.dstb-modal__close{
+  background:#262626;
+  color:#fff;
+  border:1px solid var(--ring);
+  border-radius:8px;
+  width:32px;
+  height:32px;
+  line-height:28px;
+  text-align:center;
+  cursor:pointer;
+}
+.dstb-modal__body{
+  padding:14px;
+}
+.dstb-modal-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.dstb-modal-grid .dstb-col-2{ grid-column:span 2; }
+#dstb-modal-form input[type="date"],
+#dstb-modal-form input[type="time"],
+#dstb-modal-form input[type="number"],
+#dstb-modal-form input[type="text"]{
+  width:100%;
+  background:#262626;
+  color:#fff;
+  border:1px solid var(--ring);
+  border-radius:8px;
+  padding:8px;
+}
+.dstb-modal__actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+}
+.dstb-modal-msg{ color:#9feabf; font-size:13px; }
+
+/* === Responsive === */
+@media (max-width:900px){
+  .dstb-two-cols{ grid-template-columns:1fr; }
+  .dstb-sug-grid{ grid-template-columns:1fr 1fr; }
+  .dstb-sug-row{ grid-template-columns:1fr 1fr; }
+  .dstb-modal-grid{ grid-template-columns:1fr; }
+}
