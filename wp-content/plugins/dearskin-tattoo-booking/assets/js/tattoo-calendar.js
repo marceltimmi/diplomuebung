@@ -13,13 +13,13 @@
   }
 
   async function monthData(artist, year, month){
-    const r = await fetch(`${DSTB.ajax_url}?action=dstb_calendar_data&artist=${encodeURIComponent(artist)}&year=${year}&month=${month+1}`);
+    const r = await fetch(`${DSTB_Ajax.url}?action=dstb_calendar_data&artist=${encodeURIComponent(artist)}&year=${year}&month=${month+1}&nonce=${DSTB_Ajax.nonce}`);
     if(!r.ok) return {booked:{},free:{}}; 
     return r.json();
   }
 
   async function freeForDate(artist, dateStr){
-    const r = await fetch(`${DSTB.ajax_url}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${dateStr}`);
+    const r = await fetch(`${DSTB_Ajax.url}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${dateStr}&nonce=${DSTB_Ajax.nonce}`);
     if(!r.ok) return []; 
     const j = await r.json(); 
     return j.free||[];

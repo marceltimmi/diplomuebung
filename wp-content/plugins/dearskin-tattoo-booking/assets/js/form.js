@@ -1,15 +1,17 @@
 (function($){
 
-  /** ---------- Hilfen ---------- */
+  /** ---------- Hilfsfunktionen ---------- */
   function getAjaxUrl(){
-    // Robust: bevorzugt lokalisiertes DSTB.ajax_url; fällt zurück auf admin-ajax.php
-    if (window.DSTB && typeof DSTB.ajax_url === 'string' && DSTB.ajax_url.length) return DSTB.ajax_url;
-    if (window.wp && wp.ajax && wp.ajax.settings && wp.ajax.settings.url) return wp.ajax.settings.url;
+    // Nutzt das in PHP definierte Objekt DSTB_Ajax
+    if (window.DSTB_Ajax && DSTB_Ajax.url) return DSTB_Ajax.url;
     return '/wp-admin/admin-ajax.php';
   }
 
+  function getNonce(){
+    return (window.DSTB_Ajax && DSTB_Ajax.nonce) ? DSTB_Ajax.nonce : '';
+  }
+
   function steps30(){
-    // Fallback 30-Minuten-Liste
     return [
       "08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30",
       "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30",
@@ -34,7 +36,7 @@
 
   /** ---------- Server: freie Ranges für Artist/Datum ---------- */
   async function fetchFreeForDate(artist, dateStr){
-    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}`;
+    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}&nonce=${getNonce()}`;
     try{
       const r = await fetch(url, {credentials:'same-origin'});
       if(!r.ok) return [];
@@ -47,11 +49,8 @@
   function populateRowFromRanges($row, freeRanges){
     const $start = $row.find('select[data-kind="start"]');
     const $end   = $row.find('select[data-kind="end"]');
-
-    // Vorherige Auswahl (falls noch gültig → wiederherstellen)
     const prevStart = $start.val();
     const prevEnd   = $end.val();
-
     $start.empty(); $end.empty();
 
     if(!freeRanges || !freeRanges.length){
@@ -60,7 +59,6 @@
       return;
     }
 
-    // Startoptionen aus allen Ranges
     const starts=[];
     freeRanges.forEach(r=>{
       const arr = rangeSteps(r[0], r[1]);
@@ -74,7 +72,6 @@
       $start.append(o);
     });
 
-    // Endoptionen passend zu (a) alter Auswahl oder (b) erster Start
     let startVal = prevStart && starts.find(s=>s.time===prevStart) ? prevStart : (starts[0]?.time || '');
     if (startVal) {
       $start.val(startVal);
@@ -84,7 +81,6 @@
       if (prevEnd && es.includes(prevEnd)) $end.val(prevEnd);
     }
 
-    // Change-Handler (ent-doppelt mit Namespace)
     $start.off('change.dstb').on('change.dstb', function(){
       const opt=this.selectedOptions[0]; if(!opt) return;
       const es = rangeSteps(opt.dataset.rangeFrom, opt.dataset.rangeTo).filter(t=>t>this.value);
@@ -92,19 +88,16 @@
     });
   }
 
-  /** ---------- Hauptlogik pro Zeile ---------- */
+  /** ---------- Zeiten pro Zeile aktualisieren ---------- */
   async function updateRowTimesForDate($row){
     const artist = $('#dstb-artist').val();
     const isFixed = (artist === 'Silvia' || artist === 'Sahrabie');
     const dateStr = $row.find('input[type="date"]').val();
     const $start = $row.find('select[data-kind="start"]');
     const $end   = $row.find('select[data-kind="end"]');
-
-    // Lade-Guard (Race-Schutz): Token pro Zeile
     const token = Date.now().toString();
     $row.data('loadingToken', token);
 
-    // Disable während Load
     $start.prop('disabled', true); 
     $end.prop('disabled', true);
 
@@ -117,8 +110,6 @@
     }
 
     const freeRanges = await fetchFreeForDate(artist, dateStr);
-
-    // Nur anwenden, wenn dies die letzte Anforderung für diese Zeile ist
     if ($row.data('loadingToken') !== token) return;
 
     if (freeRanges.length){
@@ -162,12 +153,9 @@
   $(document).on('click','#dstb-add-slot',async function(){
     const i = $('#dstb-slots .dstb-slot').length;
     if(i>=3) return;
-
     const $row = createSlotRow(i);
     $('#dstb-slots').append($row);
     refreshSlotAddBtn();
-
-    // Start generisch (bis Datum gesetzt wird)
     fillGeneric($row.find('select[data-kind="start"]'));
     fillGeneric($row.find('select[data-kind="end"]'));
   });
@@ -179,12 +167,12 @@
     refreshSlotAddBtn();
   });
 
-  // Datum in EINER Zeile geändert → nur diese Zeile befüllen
+  // Datum geändert → freie Slots laden
   $(document).on('change', '#dstb-slots .dstb-slot input[type="date"]', async function(){
     await updateRowTimesForDate($(this).closest('.dstb-slot'));
   });
 
-  // Artist gewechselt → jede vorhandene Zeile anhand IHRES Datums neu befüllen
+  // Artist gewechselt → alle Zeilen aktualisieren
   $(document).on('change', '#dstb-artist', async function(){
     const $rows = $('#dstb-slots .dstb-slot');
     for (const el of $rows) {
@@ -192,12 +180,12 @@
     }
   });
 
-  // Init: eine Zeile anlegen
+  // Init: erste Zeile
   $(function(){ $('#dstb-add-slot').trigger('click'); });
 
-  /** ---------- Sonst: Upload-Preview & Submit ---------- */
+  /** ---------- Upload-Vorschau & Absenden ---------- */
   $('#dstb-images').on('change',function(){
-    const max=(window.DSTB?.maxUploads)||10;
+    const max=(window.DSTB_Ajax?.maxUploads)||10;
     const files=Array.from(this.files).slice(0,max);
     const $p=$('#dstb-previews').empty();
     files.forEach(f=>{
@@ -213,10 +201,10 @@
     const lastname=$('input[name="lastname"]').val()||'';
     fd.append('name',`${firstname.trim()} ${lastname.trim()}`.trim());
     fd.append('action','dstb_submit');
-    fd.append('nonce',(window.DSTB?.nonce)||'');
+    fd.append('nonce',getNonce());
 
     const $msg=$('#dstb-msg').text('Sende ...');
-    fetch(getAjaxUrl(),{method:'POST',body:fd, credentials:'same-origin'})
+    fetch(getAjaxUrl(),{method:'POST',body:fd,credentials:'same-origin'})
       .then(r=>r.json())
       .then(j=>{
         $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));
