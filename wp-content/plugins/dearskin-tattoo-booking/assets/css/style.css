@@ -149,3 +149,211 @@
   border-radius: 6px;
 }
 
+/* =========================================================
+   Verbesserte Optik für Zeitfenster-Auswahl (Datum + Startzeit)
+   ========================================================= */
+#dstb-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.dstb-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #1b1f27;
+  border: 1px solid #2a3340;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  transition: all 0.2s ease-in-out;
+}
+
+.dstb-slot:hover {
+  border-color: var(--acc);
+  box-shadow: 0 4px 16px rgba(93,210,179,0.25);
+  transform: translateY(-2px);
+}
+
+.dstb-slot label {
+  display: flex;
+  flex-direction: column;
+  color: var(--muted);
+  font-size: 13px;
+  flex: 1 1 180px;
+}
+
+.dstb-slot input[type="date"],
+.dstb-slot select[data-kind="start"] {
+  background: #0c1117;
+  color: #e9eef5;
+  border: 1px solid #1d2633;
+  border-radius: 10px;
+  padding: 10px 12px;
+  height: 42px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.dstb-slot input[type="date"]:focus,
+.dstb-slot select[data-kind="start"]:focus {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 3px rgba(93,210,179,0.2);
+}
+
+.dstb-slot .dstb-remove {
+  align-self: flex-end;
+  margin-left: auto;
+  background: #222832;
+  color: #dbe7ff;
+  border: 1px solid #2a3340;
+  border-radius: 10px;
+  height: 42px;
+  width: 42px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+}
+
+.dstb-slot .dstb-remove:hover {
+  background: linear-gradient(135deg, var(--acc), var(--acc-2));
+  color: #081016;
+  border: none;
+  transform: scale(1.05);
+}
+
+/* Button unterhalb der Zeilen */
+#dstb-add-slot {
+  margin-top: 12px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(135deg,var(--acc),var(--acc-2));
+  color: #081016;
+  border: none;
+  font-weight: 600;
+  transition: all .2s ease;
+}
+
+#dstb-add-slot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(93,210,179,0.25);
+}
+
+/* Responsive */
+@media (max-width:700px){
+  .dstb-slot{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .dstb-slot label{
+    flex: 1 1 auto;
+  }
+  #dstb-add-slot{ max-width: 100%; }
+}
+/* =========================================================
+   Verbesserter Kalender-Input mit sichtbarem Symbol
+   ========================================================= */
+
+/* Container für Datum */
+.dstb-slot input[type="date"] {
+  position: relative;
+  background: #0c1117 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23a8b3bf" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg>') no-repeat right 12px center;
+  background-size: 18px;
+  padding-right: 38px !important; /* Platz für Icon */
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Entfernt Browser-eigene Symbole (Safari, Chrome) */
+.dstb-slot input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Hover- & Fokuszustand */
+.dstb-slot input[type="date"]:hover {
+  background-color: #10171f;
+  border-color: var(--acc);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%235dd2b3" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg>');
+  background-size: 19px;
+  box-shadow: 0 0 0 3px rgba(93,210,179,0.15);
+}
+
+/* Fokus-Animation */
+.dstb-slot input[type="date"]:focus {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 3px rgba(93,210,179,0.25);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%235dd2b3" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg>');
+}
+
+/* =========================================================
+   Kalender-Popup: bessere Strukturierung der freien Zeiten
+   ========================================================= */
+.dstb-slot-panel {
+  margin-top: 20px;
+  padding: 18px;
+  background: #10161e;
+  border-radius: 14px;
+  border: 1px solid #2a3340;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+}
+
+.dstb-slot-header h4 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--acc);
+}
+
+.dstb-slot-header .dstb-slot-sub {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dstb-slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dstb-slot.free, .dstb-slot.booked {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all .15s ease;
+}
+
+.dstb-slot.free {
+  background: #1b352a;
+  color: #9cf5c9;
+}
+
+.dstb-slot.booked {
+  background: #3b1f1f;
+  color: #ffb0b0;
+}
+
+.dstb-slot.free:hover {
+  background: #2a5240;
+  transform: scale(1.02);
+}
+
+.dstb-slot.booked:hover {
+  background: #4b2525;
+  transform: scale(1.02);
+}

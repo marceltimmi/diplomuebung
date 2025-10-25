@@ -76,10 +76,24 @@
           // Nur Informations-Popup
           slotPanel.innerHTML = "";
           slotPanel.style.display = "block";
-          const dateStr = `${state.year}-${String(state.month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-          slotPanel.append(el("h4","",`📅 ${d}.${state.month+1}.${state.year}`));
 
+          const dateStr = `${state.year}-${String(state.month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+          // 💡 Überschrift (Datum in schöner Form)
+          const weekdayNames = ["Mo","Di","Mi","Do","Fr","Sa","So"];
+          const dateObj = new Date(state.year, state.month, d);
+          const weekday = weekdayNames[(dateObj.getDay()+6)%7];
+          const heading = el("div","dstb-slot-header",`
+            <h4>📅 ${weekday}, ${d}.${String(state.month+1).padStart(2,'0')}.${state.year}</h4>
+            <p class="dstb-slot-sub">Freie Zeitfenster an diesem Tag</p>
+          `);
+          slotPanel.append(heading);
+
+          // 🗓️ Liste mit Slots
           const list = el("div","dstb-slot-list");
+
+
+         
 
           const bookedSlots = (booked[key]||[]);
           bookedSlots.forEach(b => {

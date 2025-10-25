@@ -24,7 +24,7 @@ class DSTB_Ajax {
     /** ========= Formular absenden → Anfrage speichern ========= */
     public static function submit() {
 
-        // 🧠 Nonce-Schutz (Frontend-Nonce)
+        // 🧠 Nonce-Schutz (MUSS zum Frontend-Nonce passen)
         check_ajax_referer('dstb_front', 'nonce');
 
         $firstname = sanitize_text_field($_POST['firstname'] ?? '');
@@ -44,17 +44,18 @@ class DSTB_Ajax {
             wp_send_json_error(['msg' => 'Vorname, Nachname und E-Mail sind Pflichtfelder.']);
         }
 
-        // 🕓 bis zu 3 Zeitfenster einsammeln
+        // 🕓 bis zu 3 Zeitfenster einsammeln (nur Datum + Start; Endzeit optional/ignoriert)
         $slots = [];
-        if (!empty($_POST['slots'])) {
+        if (!empty($_POST['slots']) && is_array($_POST['slots'])) {
             foreach ($_POST['slots'] as $slot) {
                 $d = sanitize_text_field($slot['date'] ?? '');
                 $s = sanitize_text_field($slot['start'] ?? '');
-                $e = sanitize_text_field($slot['end'] ?? '');
-                if ($d && $s && $e) {
-                    $slots[] = ['date'=>$d,'start'=>$s,'end'=>$e];
+                if ($d && $s) {
+                    // Nur das speichern, was der Kunde liefern soll
+                    $slots[] = ['date' => $d, 'start' => $s];
                 }
             }
+            // maximal 3 Slots zulassen
             $slots = array_slice($slots, 0, 3);
         }
 

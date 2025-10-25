@@ -2,13 +2,18 @@
 
   /** ---------- Hilfsfunktionen ---------- */
   function getAjaxUrl(){
-    // Nutzt das in PHP definierte Objekt DSTB_Ajax
-    if (window.DSTB_Ajax && DSTB_Ajax.url) return DSTB_Ajax.url;
+    // Bevorzugt Frontend-Lokalisierung (DSTB), danach Admin (DSTB_Ajax), dann Fallback
+    if (window.DSTB && typeof DSTB.ajax_url === 'string' && DSTB.ajax_url.length) return DSTB.ajax_url;
+    if (window.DSTB_Ajax && typeof DSTB_Ajax.url === 'string' && DSTB_Ajax.url.length) return DSTB_Ajax.url;
+    if (window.wp && wp.ajax && wp.ajax.settings && wp.ajax.settings.url) return wp.ajax.settings.url;
     return '/wp-admin/admin-ajax.php';
   }
 
   function getNonce(){
-    return (window.DSTB_Ajax && DSTB_Ajax.nonce) ? DSTB_Ajax.nonce : '';
+    // Bevorzugt Frontend-Nonce (DSTB.nonce), dann Admin-Nonce (DSTB_Ajax.nonce), sonst leer
+    if (window.DSTB && typeof DSTB.nonce === 'string') return DSTB.nonce;
+    if (window.DSTB_Ajax && typeof DSTB_Ajax.nonce === 'string') return DSTB_Ajax.nonce;
+    return '';
   }
 
   function steps30(){
@@ -31,61 +36,57 @@
 
   function fillGeneric($sel){
     const s = steps30();
-    $sel.empty(); s.forEach(t=>$sel.append(`<option value="${t}">${t}</option>`));
+    $sel.empty();
+    s.forEach(t=>$sel.append(`<option value="${t}">${t}</option>`));
   }
 
   /** ---------- Server: freie Ranges für Artist/Datum ---------- */
   async function fetchFreeForDate(artist, dateStr){
-    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}&nonce=${getNonce()}`;
+    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}&nonce=${encodeURIComponent(getNonce())}`;
     try{
       const r = await fetch(url, {credentials:'same-origin'});
       if(!r.ok) return [];
       const j = await r.json();
       return Array.isArray(j.free) ? j.free : [];
-    }catch(e){ return []; }
+    }catch(e){
+      return [];
+    }
   }
 
-  /** ---------- Dropdowns einer Zeile befüllen ---------- */
+  /** ---------- Dropdown einer Zeile befüllen ---------- */
   function populateRowFromRanges($row, freeRanges){
     const $start = $row.find('select[data-kind="start"]');
-    const $end   = $row.find('select[data-kind="end"]');
     const prevStart = $start.val();
-    const prevEnd   = $end.val();
-    $start.empty(); $end.empty();
+    $start.empty();
 
     if(!freeRanges || !freeRanges.length){
       $start.append('<option value="">Keine freien Zeiten</option>');
-      $end.append('<option value="">–</option>');
       return;
     }
 
     const starts=[];
     freeRanges.forEach(r=>{
       const arr = rangeSteps(r[0], r[1]);
-      for(let i=0;i<arr.length-1;i++) starts.push({time:arr[i], range:r});
+      for(let i=0;i<arr.length-1;i++){
+        starts.push({time:arr[i]});
+      }
     });
+
+    if(!starts.length){
+      $start.append('<option value="">Keine freien Zeiten</option>');
+      return;
+    }
+
     starts.forEach(obj=>{
       const o = document.createElement('option');
-      o.value = obj.time; o.textContent = obj.time;
-      o.dataset.rangeFrom = obj.range[0];
-      o.dataset.rangeTo   = obj.range[1];
+      o.value = obj.time;
+      o.textContent = obj.time;
       $start.append(o);
     });
 
-    let startVal = prevStart && starts.find(s=>s.time===prevStart) ? prevStart : (starts[0]?.time || '');
-    if (startVal) {
-      $start.val(startVal);
-      const opt = $start[0].selectedOptions[0];
-      const es = rangeSteps(opt.dataset.rangeFrom, opt.dataset.rangeTo).filter(t=>t>startVal);
-      es.forEach(t=>$end.append(`<option value="${t}">${t}</option>`));
-      if (prevEnd && es.includes(prevEnd)) $end.val(prevEnd);
+    if (prevStart && starts.find(s=>s.time===prevStart)) {
+      $start.val(prevStart);
     }
-
-    $start.off('change.dstb').on('change.dstb', function(){
-      const opt=this.selectedOptions[0]; if(!opt) return;
-      const es = rangeSteps(opt.dataset.rangeFrom, opt.dataset.rangeTo).filter(t=>t>this.value);
-      $end.empty(); es.forEach(t=>$end.append(`<option value="${t}">${t}</option>`));
-    });
   }
 
   /** ---------- Zeiten pro Zeile aktualisieren ---------- */
@@ -94,18 +95,15 @@
     const isFixed = (artist === 'Silvia' || artist === 'Sahrabie');
     const dateStr = $row.find('input[type="date"]').val();
     const $start = $row.find('select[data-kind="start"]');
-    const $end   = $row.find('select[data-kind="end"]');
+
+    // Lade-Guard (Race-Schutz): Token pro Zeile
     const token = Date.now().toString();
     $row.data('loadingToken', token);
-
-    $start.prop('disabled', true); 
-    $end.prop('disabled', true);
+    $start.prop('disabled', true);
 
     if (!dateStr || !isFixed) {
-      fillGeneric($start); 
-      fillGeneric($end);
-      $start.prop('disabled', false); 
-      $end.prop('disabled', false);
+      fillGeneric($start);
+      $start.prop('disabled', false);
       return;
     }
 
@@ -116,21 +114,22 @@
       populateRowFromRanges($row, freeRanges);
     } else {
       $start.empty().append('<option value="">Keine freien Zeiten</option>');
-      $end.empty().append('<option value="">–</option>');
     }
 
     $start.prop('disabled', false);
-    $end.prop('disabled', false);
   }
 
   /** ---------- UI: Zeilen anlegen/entfernen ---------- */
   function createSlotRow(i){
     return $(`
       <div class="dstb-slot" data-i="${i}">
-        <label>Tag <input type="date" name="slots[${i}][date]" required></label>
-        <label>Start <select name="slots[${i}][start]" data-kind="start"></select></label>
-        <label>Ende <select name="slots[${i}][end]" data-kind="end"></select></label>
-        <button type="button" class="dstb-remove">×</button>
+        <label>Tag
+          <input type="date" name="slots[${i}][date]" required>
+        </label>
+        <label>Startzeit
+          <select name="slots[${i}][start]" data-kind="start" required></select>
+        </label>
+        <button type="button" class="dstb-remove" aria-label="Zeitfenster entfernen">×</button>
       </div>
     `);
   }
@@ -156,8 +155,8 @@
     const $row = createSlotRow(i);
     $('#dstb-slots').append($row);
     refreshSlotAddBtn();
+    // Standardzeiten initial (bis Datum + Artist gesetzt sind)
     fillGeneric($row.find('select[data-kind="start"]'));
-    fillGeneric($row.find('select[data-kind="end"]'));
   });
 
   // - Zeile entfernen
@@ -167,12 +166,12 @@
     refreshSlotAddBtn();
   });
 
-  // Datum geändert → freie Slots laden
+  // Datum geändert → freie Slots laden (nur für diese Zeile)
   $(document).on('change', '#dstb-slots .dstb-slot input[type="date"]', async function(){
     await updateRowTimesForDate($(this).closest('.dstb-slot'));
   });
 
-  // Artist gewechselt → alle Zeilen aktualisieren
+  // Artist gewechselt → alle Zeilen anhand ihres Datums neu befüllen
   $(document).on('change', '#dstb-artist', async function(){
     const $rows = $('#dstb-slots .dstb-slot');
     for (const el of $rows) {
@@ -180,42 +179,64 @@
     }
   });
 
-  // Init: erste Zeile
+  // Init: erste Zeile erzeugen
   $(function(){ $('#dstb-add-slot').trigger('click'); });
 
-  /** ---------- Upload-Vorschau & Absenden ---------- */
+  /** ---------- Upload-Vorschau ---------- */
   $('#dstb-images').on('change',function(){
-    const max=(window.DSTB_Ajax?.maxUploads)||10;
-    const files=Array.from(this.files).slice(0,max);
-    const $p=$('#dstb-previews').empty();
+    const max = (window.DSTB?.maxUploads) || (window.DSTB_Ajax?.maxUploads) || 10;
+    const files = Array.from(this.files).slice(0,max);
+    const $p = $('#dstb-previews').empty();
     files.forEach(f=>{
       const url=URL.createObjectURL(f);
       $p.append(`<img src="${url}" alt=""/>`);
     });
   });
 
+  /** ---------- Absenden ---------- */
   $('#dstb-form').on('submit',function(e){
     e.preventDefault();
-    const fd=new FormData(this);
-    const firstname=$('input[name="firstname"]').val()||'';
-    const lastname=$('input[name="lastname"]').val()||'';
-    fd.append('name',`${firstname.trim()} ${lastname.trim()}`.trim());
-    fd.append('action','dstb_submit');
-    fd.append('nonce',getNonce());
 
-    const $msg=$('#dstb-msg').text('Sende ...');
-    fetch(getAjaxUrl(),{method:'POST',body:fd,credentials:'same-origin'})
-      .then(r=>r.json())
-      .then(j=>{
-        $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));
-        if(j.success){
-          $('#dstb-form')[0].reset();
-          $('#dstb-previews').empty();
-          $('#dstb-slots').empty();
-          $('#dstb-add-slot').prop('disabled',false).trigger('click');
-        }
-      })
-      .catch(()=> $msg.text('Netzwerkfehler'));
+    const fd = new FormData(this);
+    const firstname = $('input[name="firstname"]').val() || '';
+    const lastname  = $('input[name="lastname"]').val()  || '';
+
+    // Name als Fallback (Backend speichert 'name')
+    fd.append('name', `${firstname.trim()} ${lastname.trim()}`.trim());
+    fd.append('action','dstb_submit');
+    fd.append('nonce', getNonce());
+
+    // Optional: Minimale Validierung, dass mind. 1 Slot halbwegs befüllt ist
+    // (nicht zwingend nötig – PHP validiert robust)
+    // const hasSlot = !!$('#dstb-slots .dstb-slot input[type="date"]').filter(function(){return this.value;}).length;
+    // if(!hasSlot){ alert('Bitte zumindest ein Zeitfenster angeben.'); return; }
+
+    const $msg = $('#dstb-msg').text('Sende ...');
+
+    fetch(getAjaxUrl(), {
+      method:'POST',
+      body: fd,
+      credentials:'same-origin'
+    })
+    .then(async r=>{
+      // Falls der Server kein JSON gibt, Fehlertext ausgeben
+      let j = null;
+      try { j = await r.json(); } catch(e) {}
+      return j || { success:false, data:{ msg:'Unerwartete Server-Antwort.' } };
+    })
+    .then(j=>{
+      $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));
+      if(j.success){
+        // Formular zurücksetzen
+        $('#dstb-form')[0].reset();
+        $('#dstb-previews').empty();
+        $('#dstb-slots').empty();
+        $('#dstb-add-slot').prop('disabled', false).trigger('click');
+      }
+    })
+    .catch(()=>{
+      $msg.text('Netzwerkfehler');
+    });
   });
 
 })(jQuery);

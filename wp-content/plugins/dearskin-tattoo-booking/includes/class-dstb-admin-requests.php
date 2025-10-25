@@ -22,15 +22,20 @@ class DSTB_Admin_Requests {
     }
 
     public function screen(){
-        if (!current_user_can('manage_options')) {
-            wp_die('Kein Zugriff.');
-        }
+        if (!current_user_can('manage_options')) wp_die('Kein Zugriff.');
 
         global $wpdb;
         $req_table = $wpdb->prefix . DSTB_DB::$requests;
         $sug_table = $wpdb->prefix . DSTB_DB::$suggestions;
 
-        // Assets
+        // Anfrage löschen
+        if (isset($_GET['delete'])) {
+            $id = intval($_GET['delete']);
+            $wpdb->delete($req_table, ['id'=>$id]);
+            echo '<div class="updated"><p><strong>Anfrage gelöscht.</strong></p></div>';
+        }
+
+        // Assets (JS steuert Modal + AJAX Speichern/Senden)
         wp_enqueue_style('dstb-admin-requests', plugins_url('../assets/css/admin-requests.css', __FILE__), [], DSTB_VERSION);
         wp_enqueue_script('dstb-admin-requests', plugins_url('../assets/js/admin-requests.js', __FILE__), ['jquery'], DSTB_VERSION, true);
         wp_localize_script('dstb-admin-requests', 'DSTB_Ajax', [
@@ -38,93 +43,98 @@ class DSTB_Admin_Requests {
             'nonce' => wp_create_nonce('dstb_admin')
         ]);
 
-        // Daten laden
+        // Daten holen
         $rows = $wpdb->get_results("SELECT * FROM $req_table ORDER BY created_at DESC LIMIT 200", ARRAY_A);
 
-        echo '<div class="wrap dstb-admin-wrap">';
-        echo '<h1 style="margin-bottom:12px;">Tattoo-Anfragen</h1>';
+        echo '<div class="wrap"><h1 style="margin-bottom:14px;">Tattoo-Anfragen</h1>';
+        if (!$rows){ echo '<p><em>Keine Anfragen vorhanden.</em></p></div>'; return; }
 
-        if (!$rows){
-            echo '<div class="dstb-admin-empty">Keine Anfragen vorhanden.</div>';
-            echo '</div>';
-            return;
-        }
+        // kleines Inline-Layout (Farbwelt wie Frontend)
+        echo '<style>
+            .dstb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:20px;}
+            .dstb-card{background:#1b1f27;border:1px solid #2a3340;border-radius:14px;padding:20px;color:#e9eef5;
+                        box-shadow:0 3px 12px rgba(0,0,0,.3);}
+            .dstb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+            .dstb-head h2{margin:0;color:#9fbfff;font-size:18px;}
+            .dstb-section{margin-top:12px;padding-top:10px;border-top:1px solid #2a3340;}
+            .dstb-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;}
+            .dstb-row{margin:4px 0;font-size:14px;}
+            .dstb-row strong{color:#dfe7f3;width:150px;display:inline-block;}
+            .dstb-slots{margin:6px 0 0 14px;padding:0;list-style:none;font-size:14px;}
+            .dstb-slots li{margin:2px 0;}
+            .dstb-delete{background:#a93226;color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;}
+            .dstb-delete:hover{background:#c0392b;}
+            .dstb-sug-table{margin-top:10px;width:100%;border-collapse:collapse;font-size:13px;}
+            .dstb-sug-table th,.dstb-sug-table td{padding:6px 4px;border-top:1px solid #2a3340;}
+            .dstb-sug-table th{color:#a8b3bf;background:#10161e;text-align:left;}
+            .dstb-sug-grid{display:grid;grid-template-columns:repeat(5,1fr) 2fr;gap:6px;}
+            .dstb-actions{margin-top:8px;display:flex;gap:8px;align-items:center;}
+            /* Modal rudimentär (wenn eigenes CSS fehlt) */
+            .dstb-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;}
+            .dstb-modal__dialog{background:#1b1f27;border:1px solid #2a3340;border-radius:12px;max-width:720px;margin:60px auto;padding:0;box-shadow:0 10px 30px rgba(0,0,0,.6);}
+            .dstb-modal__head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #2a3340;color:#e9eef5;}
+            .dstb-modal__close{background:#10161e;color:#e9eef5;border:1px solid #2a3340;border-radius:8px;cursor:pointer;padding:4px 10px;}
+            .dstb-modal__body{padding:16px;color:#e9eef5;}
+            .dstb-modal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+            .dstb-modal-grid label{display:flex;flex-direction:column;gap:6px;font-size:14px;}
+            .dstb-modal-grid input{background:#0c1117;color:#e9eef5;border:1px solid #1d2633;border-radius:8px;padding:8px 10px;}
+            .dstb-modal__actions{display:flex;gap:8px;align-items:center;margin-top:12px;}
+        </style>';
 
-        echo '<div class="dstb-admin-grid">';
-        foreach ($rows as $r){
+        echo '<div class="dstb-grid">';
+        foreach($rows as $r){
             $req_id = intval($r['id']);
+            $slots   = json_decode($r['slots'] ?? '[]', true) ?: [];
+            $uploads = json_decode($r['uploads'] ?? '[]', true) ?: [];
+            $sugs    = $wpdb->get_results($wpdb->prepare(
+                "SELECT * FROM $sug_table WHERE request_id=%d ORDER BY created_at DESC",$req_id),ARRAY_A);
 
-            // Fallback für Namen (falls alte Datensätze ohne zusammengesetzten Namen)
-            $display_name = trim($r['name'] ?? '');
-            if ($display_name === '' && (!empty($r['firstname']) || !empty($r['lastname']))) {
-                $display_name = trim(($r['firstname'] ?? '').' '.($r['lastname'] ?? ''));
-            }
-            if ($display_name === '') $display_name = 'Unbekannt';
+            $name = trim($r['name'] ?? '');
+            if ($name==='') $name='Unbekannt';
 
-            // Slots & Uploads
-            $slots   = [];
-            $uploads = [];
-            if (!empty($r['slots']))   { $slots = json_decode($r['slots'], true) ?: []; }
-            if (!empty($r['uploads'])) { $uploads = json_decode($r['uploads'], true) ?: []; }
-
-            // Studio-Vorschläge laden
-            $sugs = $wpdb->get_results(
-                $wpdb->prepare("SELECT * FROM $sug_table WHERE request_id=%d ORDER BY created_at DESC", $req_id),
-                ARRAY_A
-            );
-
-            // Karte
-            echo '<div class="dstb-card-admin">';
+            echo '<div class="dstb-card">';
 
             // Kopf
-            echo '<div class="dstb-card-head">';
-            echo '<div class="dstb-title">🧍 '.esc_html($display_name).'</div>';
-            $created = $r['created_at'] ?? '';
-            echo '<div class="dstb-subline">'.($created ? esc_html(date_i18n('d.m.Y H:i', strtotime($created))) : '').'</div>';
-            echo '</div>';
+            echo '<div class="dstb-head"><h2>'.esc_html($name).'</h2>';
+            $created = !empty($r['created_at']) ? date_i18n('d.m.Y H:i', strtotime($r['created_at'])) : '';
+            echo '<span style="font-size:12px;color:#a8b3bf">'.esc_html($created).'</span></div>';
 
-            // Body – vollständige Kundendaten
-            echo '<div class="dstb-card-body">';
-            echo '<div class="dstb-two-cols">';
-
+            // Stammdaten & Tattoo-Infos
+            echo '<div class="dstb-info-grid">';
             echo '<div>';
-            echo '<div class="dstb-row"><span>📧</span><a href="mailto:'.esc_attr($r['email']).'">'.esc_html($r['email']).'</a></div>';
-            if (!empty($r['phone']))    echo '<div class="dstb-row"><span>📞</span>'.esc_html($r['phone']).'</div>';
-            if (!empty($r['artist']))   echo '<div class="dstb-row"><span>🧑‍🎨</span>'.esc_html($r['artist']).'</div>';
-            if (!empty($r['style']))    echo '<div class="dstb-row"><span>🎨</span>'.esc_html($r['style']).'</div>';
-            if (!empty($r['bodypart'])) echo '<div class="dstb-row"><span>📍</span>'.esc_html($r['bodypart']).'</div>';
-            if (!empty($r['size']))     echo '<div class="dstb-row"><span>📏</span>'.esc_html($r['size']).'</div>';
-            if (isset($r['budget']))    echo '<div class="dstb-row"><span>💶</span>'.esc_html(intval($r['budget'])).' €</div>';
-            echo '</div>';
+            if(!empty($r['email']))    echo '<div class="dstb-row"><strong>E-Mail:</strong> <a href="mailto:'.esc_attr($r['email']).'" style="color:#9fbfff">'.esc_html($r['email']).'</a></div>';
+            if(!empty($r['phone']))    echo '<div class="dstb-row"><strong>Telefon:</strong> '.esc_html($r['phone']).'</div>';
+            if(!empty($r['artist']))   echo '<div class="dstb-row"><strong>Artist:</strong> '.esc_html($r['artist']).'</div>';
+            echo '</div><div>';
+            if(!empty($r['style']))    echo '<div class="dstb-row"><strong>Stilrichtung:</strong> '.esc_html($r['style']).'</div>';
+            if(!empty($r['bodypart'])) echo '<div class="dstb-row"><strong>Körperstelle:</strong> '.esc_html($r['bodypart']).'</div>';
+            if(!empty($r['size']))     echo '<div class="dstb-row"><strong>Größe:</strong> '.esc_html($r['size']).'</div>';
+            if(isset($r['budget']))    echo '<div class="dstb-row"><strong>Budget:</strong> '.intval($r['budget']).' €</div>';
+            echo '</div></div>';
 
-            echo '<div>';
-            if (!empty($r['desc_text'])) {
-                echo '<div class="dstb-row"><span>📝</span>'.nl2br(esc_html($r['desc_text'])).'</div>';
+            if(!empty($r['desc_text'])){
+                echo '<div class="dstb-section"><strong>Beschreibung:</strong><br>'.nl2br(esc_html($r['desc_text'])).'</div>';
             }
-            if (!empty($uploads)) {
-                echo '<div class="dstb-uploads">';
-                foreach ($uploads as $att_id) {
-                    $img = wp_get_attachment_url($att_id);
-                    if ($img) echo '<a href="'.esc_url($img).'" target="_blank"><img src="'.esc_url($img).'" alt="" /></a>';
+
+            if($uploads){
+                echo '<div class="dstb-section"><strong>Bilder:</strong><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">';
+                foreach($uploads as $id){
+                    $url = wp_get_attachment_url($id);
+                    if($url) echo '<a href="'.esc_url($url).'" target="_blank"><img src="'.esc_url($url).'"
+                         style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #2a3340;"></a>';
                 }
-                echo '</div>';
+                echo '</div></div>';
             }
-            echo '</div>';
 
-            echo '</div>'; // two-cols
-            echo '</div>'; // body
-
-            // Kunden-Slots
-            echo '<div class="dstb-card-section">';
-            echo '<h4>⏰ Verfügbarkeiten (Kunde)</h4>';
-            if ($slots){
+            // Kunden-Zeitfenster (nur Datum + Start)
+            echo '<div class="dstb-section"><strong>Verfügbarkeiten (Kunde):</strong>';
+            if($slots){
                 echo '<ul class="dstb-slots">';
-                foreach ($slots as $s){
+                foreach($slots as $s){
                     $ds = esc_html($s['date'] ?? '');
                     $st = esc_html($s['start'] ?? '');
-                    $en = esc_html($s['end'] ?? '');
-                    if ($ds && $st && $en){
-                        echo '<li>📅 '.$ds.' – '.$st.' bis '.$en.'</li>';
+                    if ($ds || $st) {
+                        echo '<li>'.$ds.($st ? ' – Start: <strong>'.$st.'</strong>' : '').'</li>';
                     }
                 }
                 echo '</ul>';
@@ -133,42 +143,37 @@ class DSTB_Admin_Requests {
             }
             echo '</div>';
 
-            echo '<div class="dstb-divider"></div>';
-
-            // Studio-Vorschläge – Liste
-            echo '<div class="dstb-card-section">';
-            echo '<h4>🎯 Terminvorschläge (Studio)</h4>';
-            if ($sugs){
-                echo '<div class="dstb-sug-table">';
-                echo '<div class="dstb-sug-row dstb-sug-head"><div>Datum</div><div>Start</div><div>Ende</div><div>Preis</div><div>Notiz</div><div>Status</div><div>Aktion</div></div>';
-                foreach ($sugs as $s){
+            // Studio-Vorschläge – Tabelle
+            echo '<div class="dstb-section"><strong>Terminvorschläge (Studio):</strong>';
+            if($sugs){
+                echo '<table class="dstb-sug-table"><tr><th>Datum</th><th>Start</th><th>Ende</th><th>Preis</th><th>Notiz</th><th>Status</th><th>Aktion</th></tr>';
+                foreach($sugs as $s){
                     $sid = intval($s['id']);
-                    echo '<div class="dstb-sug-row" 
-                               data-sid="'.esc_attr($sid).'"
-                               data-date="'.esc_attr($s['date']).'"
-                               data-start="'.esc_attr($s['start']).'"
-                               data-end="'.esc_attr($s['end']).'"
-                               data-price="'.esc_attr($s['price']).'"
-                               data-note="'.esc_attr($s['note']).'"
-                               data-status="'.esc_attr($s['status']).'">';
-                    echo '<div>'.esc_html($s['date']).'</div>';
-                    echo '<div>'.esc_html($s['start']).'</div>';
-                    echo '<div>'.esc_html($s['end']).'</div>';
-                    echo '<div>'.esc_html(intval($s['price'])).' €</div>';
-                    echo '<div>'.esc_html($s['note']).'</div>';
-                    echo '<div>'.esc_html($s['status']).'</div>';
-                    echo '<div><button type="button" class="button button-small dstb-edit-sug" data-sid="'.esc_attr($sid).'">✏️ Bearbeiten</button></div>';
-                    echo '</div>';
+                    echo '<tr data-sid="'.esc_attr($sid).'"
+                              data-date="'.esc_attr($s['date']).'"
+                              data-start="'.esc_attr($s['start']).'"
+                              data-end="'.esc_attr($s['end']).'"
+                              data-price="'.esc_attr($s['price']).'"
+                              data-note="'.esc_attr($s['note']).'"
+                              data-status="'.esc_attr($s['status']).'">';
+                    echo '<td>'.esc_html($s['date']).'</td>';
+                    echo '<td>'.esc_html($s['start']).'</td>';
+                    echo '<td>'.esc_html($s['end']).'</td>';
+                    echo '<td>'.intval($s['price']).' €</td>';
+                    echo '<td>'.esc_html($s['note']).'</td>';
+                    echo '<td>'.esc_html($s['status']).'</td>';
+                    echo '<td><button type="button" class="button button-small dstb-edit-sug" data-sid="'.esc_attr($sid).'">Bearbeiten</button></td>';
+                    echo '</tr>';
                 }
-                echo '</div>';
+                echo '</table>';
             } else {
                 echo '<p><em>Noch keine Vorschläge erstellt.</em></p>';
             }
 
-            // Studio-Vorschläge – Formular (mehrere Zeilen + / senden)
+            // Studio-Vorschläge – Formular (mehrere Zeilen + Speichern/Senden)
             echo '<form class="dstb-sug-form" data-req="'.$req_id.'">';
             wp_nonce_field('dstb_admin', 'dstb_nonce');
-            echo '<div class="dstb-sug-grid">';
+            echo '<div class="dstb-sug-grid" style="margin-top:10px;">';
             echo '<input type="date" name="date[]" required>';
             echo '<input type="time" name="start[]" step="1800" required>';
             echo '<input type="time" name="end[]" step="1800" required>';
@@ -177,22 +182,26 @@ class DSTB_Admin_Requests {
             echo '</div>';
             echo '<p><button class="button add-sug" type="button">+ weiteren Vorschlag</button></p>';
             echo '<div class="dstb-actions">';
-            echo '<button type="button" class="button dstb-save" data-action="draft">💾 Nur speichern</button>';
-            echo '<button type="button" class="button-primary dstb-send" data-action="send">📤 An Kunden senden</button>';
-            echo '<span class="dstb-sug-msg" aria-live="polite"></span>';
+            echo '<button type="button" class="button dstb-save" data-action="draft">Nur speichern</button>';
+            echo '<button type="button" class="button-primary dstb-send" data-action="send">An Kunden senden</button>';
+            echo '<span class="dstb-sug-msg" aria-live="polite" style="margin-left:8px;"></span>';
             echo '</div>';
             echo '</form>';
-
             echo '</div>'; // section
+
+            // Löschen
+            $del = add_query_arg(['page'=>'dstb-requests','delete'=>$req_id],admin_url('admin.php'));
+            echo '<div class="dstb-section" style="text-align:right"><a href="'.esc_url($del).'" class="dstb-delete" onclick="return confirm(\'Anfrage wirklich löschen?\')">Anfrage löschen</a></div>';
+
             echo '</div>'; // card
         }
         echo '</div>'; // grid
 
-        // Ein einziges zentrales Modal für Bearbeitung (wird per JS befüllt)
+        // Modal für Bearbeitung
         echo '<div id="dstb-modal" class="dstb-modal" style="display:none;">
                 <div class="dstb-modal__dialog">
                     <div class="dstb-modal__head">
-                        <strong>✏️ Vorschlag bearbeiten</strong>
+                        <strong>Vorschlag bearbeiten</strong>
                         <button type="button" class="dstb-modal__close" aria-label="Schließen">×</button>
                     </div>
                     <div class="dstb-modal__body">
@@ -217,7 +226,7 @@ class DSTB_Admin_Requests {
                             </div>
                             '.wp_nonce_field('dstb_admin','dstb_nonce',true,false).'
                             <div class="dstb-modal__actions">
-                                <button type="button" class="button dstb-modal-save">💾 Speichern</button>
+                                <button type="button" class="button dstb-modal-save">Speichern</button>
                                 <button type="button" class="button dstb-modal-cancel">Abbrechen</button>
                                 <span class="dstb-modal-msg" aria-live="polite"></span>
                             </div>
@@ -231,8 +240,8 @@ class DSTB_Admin_Requests {
 
     /**
      * AJAX: mehrere Vorschläge speichern / senden
-     * - action = 'draft'  → Zeilen einfügen als draft
-     * - action = 'send'   → Zeilen (falls ausgefüllt) als draft einfügen + ALLE draft zu sent hochstufen
+     * - action = 'draft' → Zeilen als draft einfügen
+     * - action = 'send'  → neue Zeilen als draft + alle draft auf sent hochstufen
      */
     public function ajax_add_suggestion(){
         check_ajax_referer('dstb_admin','nonce');
@@ -253,7 +262,6 @@ class DSTB_Admin_Requests {
         if (!$req_id) wp_send_json_error(['msg'=>'Ungültige Anfrage-ID.']);
 
         $inserted = 0;
-        // 1) neue Zeilen (Form) immer erst als draft speichern, wenn Felder befüllt sind
         $n = max(count($dates), count($starts), count($ends));
         for ($i=0; $i<$n; $i++){
             $date  = sanitize_text_field($dates[$i]  ?? '');
@@ -278,7 +286,6 @@ class DSTB_Admin_Requests {
         }
 
         $updated = 0;
-        // 2) bei "send": ALLE vorhandenen drafts auf sent setzen (inkl. gerade gespeicherter)
         if ($save_action === 'send') {
             $updated = $wpdb->query($wpdb->prepare(
                 "UPDATE $table SET status='sent' WHERE request_id=%d AND status='draft'",

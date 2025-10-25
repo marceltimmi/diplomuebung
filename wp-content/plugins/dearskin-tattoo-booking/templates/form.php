@@ -51,10 +51,18 @@
         </select>
       </label>
 
-      <label class="dstb-field">
-        <span>Ungefähre Größe</span>
-        <input type="text" name="size" placeholder="z.B. 10×15 cm">
-      </label>
+      <div class="dstb-field">
+  <span>Ungefähre Größe</span>
+  <select name="size" required>
+    <option value="">Bitte auswählen …</option>
+    <option value="5-10cm Durchmesser">5–10 cm Durchmesser</option>
+    <option value="10-20cm Durchmesser">10–20 cm Durchmesser</option>
+    <option value="20-40cm Durchmesser">20–40 cm Durchmesser</option>
+    <option value="+40cm Durchmesser">+ 40 cm Durchmesser</option>
+    <option value="noch unklar">noch unklar</option>
+  </select>
+</div>
+
 
       <div class="dstb-field">
         <span>Budget: <strong id="dstb-budget-val">€ 250</strong></span>
@@ -81,7 +89,7 @@
       </div>
 
       <div id="dstb-slot-box">
-        <p>Wähle bis zu 3 Zeitfenster (Datum, Start, Ende) – jeweils in 30-Min-Schritten.</p>
+        <p>Wann hast du Zeit? Geben Sie hier bis zu 3 Terminen an. </p>
         <div id="dstb-slots"></div>
         <button class="dstb-btn" id="dstb-add-slot" type="button">+ weiteres Zeitfenster</button>
       </div>
