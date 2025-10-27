@@ -7,6 +7,7 @@ class DSTB_Admin_Requests {
         add_action('admin_menu', [$this, 'menu']);
         add_action('wp_ajax_dstb_add_suggestion', [$this, 'ajax_add_suggestion']);
         add_action('wp_ajax_dstb_update_suggestion', [$this, 'ajax_update_suggestion']);
+        add_action('wp_ajax_dstb_delete_suggestion', [$this, 'ajax_delete_suggestion']);
     }
 
     public function menu(){
@@ -162,7 +163,15 @@ class DSTB_Admin_Requests {
                     echo '<td>'.intval($s['price']).' €</td>';
                     echo '<td>'.esc_html($s['note']).'</td>';
                     echo '<td>'.esc_html($s['status']).'</td>';
-                    echo '<td><button type="button" class="button button-small dstb-edit-sug" data-sid="'.esc_attr($sid).'">Bearbeiten</button></td>';
+                    echo '<td>';
+                    if ($s['status'] === 'draft') {
+                        echo '<button type="button" class="button button-small dstb-edit-sug" data-sid="'.esc_attr($sid).'">Bearbeiten</button> ';
+                        echo '<button type="button" class="button button-small dstb-del-sug" data-sid="'.esc_attr($sid).'" style="color:#a00;border-color:#a00;">Löschen</button>';
+                    } else {
+                        echo '<span style="color:#888;">Gesendet (keine Bearbeitung möglich)</span>';
+                    }
+                    echo '</td>';
+
                     echo '</tr>';
                 }
                 echo '</table>';
@@ -291,13 +300,17 @@ class DSTB_Admin_Requests {
                 "UPDATE $table SET status='sent' WHERE request_id=%d AND status='draft'",
                 $req_id
             ));
+
+            // 📧 Nur wenn wirklich gesendet wurde
+            DSTB_Emails::send_proposals_to_customer($req_id);
         }
 
         $msg = ($save_action === 'send')
             ? sprintf('%d Vorschlag/Vorschläge gespeichert, %d an den Kunden gesendet.', $inserted, $updated)
             : sprintf('%d Vorschlag/Vorschläge gespeichert (Entwurf).', $inserted);
 
-        wp_send_json_success(['msg'=>$msg]);
+        wp_send_json_success(['msg' => $msg]);
+
     }
 
     /**
@@ -334,4 +347,24 @@ class DSTB_Admin_Requests {
         }
         wp_send_json_success(['msg'=>'Gespeichert.']);
     }
+
+    /**
+ * AJAX: Vorschlag löschen (nur bei Entwürfen erlaubt)
+ */
+public function ajax_delete_suggestion(){
+    check_ajax_referer('dstb_admin','nonce');
+    if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
+
+    global $wpdb;
+    $table = $wpdb->prefix . DSTB_DB::$suggestions;
+    $id = intval($_POST['id'] ?? 0);
+    if(!$id) wp_send_json_error(['msg'=>'Ungültige ID.']);
+
+    // Nur löschen, wenn Entwurf
+    $ok = $wpdb->query($wpdb->prepare("DELETE FROM $table WHERE id=%d AND status='draft'", $id));
+
+    if($ok) wp_send_json_success(['msg'=>'Vorschlag gelöscht.']);
+    wp_send_json_error(['msg'=>'Löschen nicht möglich (evtl. schon gesendet).']);
+}
+
 }

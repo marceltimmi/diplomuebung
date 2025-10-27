@@ -41,6 +41,8 @@ require_once DSTB_PATH . 'includes/class-dstb-calendar.php';
 require_once DSTB_PATH . 'includes/class-dstb-db.php';                  
 require_once DSTB_PATH . 'includes/class-dstb-admin-availability.php';  
 require_once DSTB_PATH . 'includes/class-dstb-admin-requests.php';       // 💡 neues Admin-Dashboard
+require_once __DIR__ . '/includes/class-dstb-confirm-page.php';
+
 
 /* -------------------------------------------------------------
  *  BOOTSTRAP – KLASSEN LADEN
@@ -57,6 +59,9 @@ add_action('plugins_loaded', function () {
 
 	// 📅 Danach Unterpunkt "Verfügbarkeiten" hinzufügen
 	new DSTB_Admin_Availability();
+
+	new DSTB_Confirm_Page();
+
 });
 
 

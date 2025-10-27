@@ -70,6 +70,9 @@ define( 'WP_CACHE_KEY_SALT', 'p>AtwY.468!`40!;=S%O>&8cf@qF8:@mgV}% {lm=|ULaepO$$
  */
 $table_prefix = 'wp_';
 
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
 
 /* Add any custom values between this line and the "stop editing" line. */
 

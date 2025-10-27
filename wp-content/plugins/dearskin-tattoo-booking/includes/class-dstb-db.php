@@ -230,4 +230,66 @@ class DSTB_DB {
 
     private static function hm2min($hm){ [$h,$m] = array_map('intval', explode(':',$hm)); return $h*60+$m; }
     private static function min2hm($min){ $h=floor($min/60); $m=$min%60; return sprintf('%02d:%02d',$h,$m); }
+
+    // === In includes/class-dstb-db.php, innerhalb class DSTB_DB { ... } ===
+
+    // Einzelne Anfrage inkl. JSON-Felder laden
+    public static function get_request( int $id ) : ?array {
+        global $wpdb;
+        $table = $wpdb->prefix . self::$requests;
+
+        $row = $wpdb->get_row(
+            $wpdb->prepare("SELECT * FROM $table WHERE id = %d", $id),
+            ARRAY_A
+        );
+
+        if (!$row) return null;
+
+        // JSON-Felder dekodieren (Slots & Uploads)
+        if (!empty($row['slots'])) {
+            $tmp = json_decode($row['slots'], true);
+            if (json_last_error() === JSON_ERROR_NONE) $row['slots'] = $tmp;
+            else $row['slots'] = [];
+        } else {
+            $row['slots'] = [];
+        }
+
+        if (!empty($row['uploads'])) {
+            $tmp = json_decode($row['uploads'], true);
+            if (json_last_error() === JSON_ERROR_NONE) $row['uploads'] = $tmp;
+            else $row['uploads'] = [];
+        } else {
+            $row['uploads'] = [];
+        }
+
+        return $row;
+    }
+
+    // (Optional, aber praktisch) Vorschläge zu einer Anfrage laden
+    public static function get_suggestions_for_request( int $request_id, ?string $status = null ) : array {
+        global $wpdb;
+        $table = $wpdb->prefix . self::$suggestions;
+
+        if ($status !== null) {
+            return $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM $table WHERE request_id = %d AND status = %s ORDER BY created_at ASC",
+                    $request_id, $status
+                ),
+                ARRAY_A
+            ) ?: [];
+        }
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM $table WHERE request_id = %d ORDER BY created_at ASC",
+                $request_id
+            ),
+            ARRAY_A
+        ) ?: [];
+    }
+
+     
+
+
 }

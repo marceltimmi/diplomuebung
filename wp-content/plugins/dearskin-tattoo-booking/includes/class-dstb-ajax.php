@@ -8,23 +8,23 @@ class DSTB_Ajax {
         add_action('wp_ajax_dstb_submit', [self::class, 'submit']);
         add_action('wp_ajax_nopriv_dstb_submit', [self::class, 'submit']);
 
-        // Kunde bestätigt finalen Termin
+        // (ALT) alter Bestätigungs-Endpoint – bleibt bestehen, wird aber NICHT mehr von der Seite genutzt
         add_action('wp_ajax_dstb_confirm_choice', [self::class, 'confirm_choice']);
         add_action('wp_ajax_nopriv_dstb_confirm_choice', [self::class, 'confirm_choice']);
 
-        // Kalenderdaten Monatsübersicht + freie Slots
+        // (NEU) schlanker Bestätigungs-Endpoint NUR für die Bestätigungs-Seite
+        add_action('wp_ajax_dstb_confirm_choice_v2', [self::class, 'confirm_choice_v2']);
+        add_action('wp_ajax_nopriv_dstb_confirm_choice_v2', [self::class, 'confirm_choice_v2']);
+
+        // Kalender
         add_action('wp_ajax_dstb_calendar_data', [self::class, 'calendar_data']);
         add_action('wp_ajax_nopriv_dstb_calendar_data', [self::class, 'calendar_data']);
-
-        // Tagesgenaue freie Slots
         add_action('wp_ajax_dstb_free_slots', [self::class, 'free_slots']);
         add_action('wp_ajax_nopriv_dstb_free_slots', [self::class, 'free_slots']);
     }
 
     /** ========= Formular absenden → Anfrage speichern ========= */
     public static function submit() {
-
-        // 🧠 Nonce-Schutz (MUSS zum Frontend-Nonce passen)
         check_ajax_referer('dstb_front', 'nonce');
 
         $firstname = sanitize_text_field($_POST['firstname'] ?? '');
@@ -44,29 +44,24 @@ class DSTB_Ajax {
             wp_send_json_error(['msg' => 'Vorname, Nachname und E-Mail sind Pflichtfelder.']);
         }
 
-        // 🕓 bis zu 3 Zeitfenster einsammeln (nur Datum + Start; Endzeit optional/ignoriert)
+        // bis zu 3 Zeitfenster (Datum + Start)
         $slots = [];
         if (!empty($_POST['slots']) && is_array($_POST['slots'])) {
             foreach ($_POST['slots'] as $slot) {
                 $d = sanitize_text_field($slot['date'] ?? '');
                 $s = sanitize_text_field($slot['start'] ?? '');
-                if ($d && $s) {
-                    // Nur das speichern, was der Kunde liefern soll
-                    $slots[] = ['date' => $d, 'start' => $s];
-                }
+                if ($d && $s) $slots[] = ['date' => $d, 'start' => $s];
             }
-            // maximal 3 Slots zulassen
             $slots = array_slice($slots, 0, 3);
         }
 
-        // 📸 Uploads verarbeiten (max. 10 Bilder)
+        // Uploads
         $attachments = [];
         if (!empty($_FILES['images'])) {
             require_once ABSPATH.'wp-admin/includes/file.php';
             require_once ABSPATH.'wp-admin/includes/image.php';
             $files = $_FILES['images'];
             $max = 10;
-
             for ($i = 0; $i < min(count($files['name']), $max); $i++) {
                 if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
                 $file = [
@@ -93,39 +88,112 @@ class DSTB_Ajax {
             }
         }
 
-        // 💾 Anfrage speichern (nicht als Beitrag)
+        // speichern
         $req_id = DSTB_DB::insert_request([
-            'name'      => $name,
-            'email'     => $email,
-            'phone'     => $phone,
-            'artist'    => $artist,
-            'style'     => $style,
-            'bodypart'  => $bodypart,
-            'size'      => $size,
-            'budget'    => $budget,
-            'desc'      => $desc,
-            'slots'     => $slots,
-            'uploads'   => $attachments,
-            'gdpr'      => $gdpr
+            'name'     => $name,
+            'email'    => $email,
+            'phone'    => $phone,
+            'artist'   => $artist,
+            'style'    => $style,
+            'bodypart' => $bodypart,
+            'size'     => $size,
+            'budget'   => $budget,
+            'desc'     => $desc,
+            'slots'    => $slots,
+            'uploads'  => $attachments,
+            'gdpr'     => $gdpr
         ]);
 
         if (!$req_id) {
             wp_send_json_error(['msg' => 'Beim Speichern der Anfrage ist ein Fehler aufgetreten.']);
         }
 
-        // 📧 Optional: E-Mail an Studio & Kunde
-        // DSTB_Emails::send_admin_new_request($req_id);
-        // DSTB_Emails::send_user_receipt($req_id, $email);
+        // Mails raus
+        DSTB_Emails::send_request_emails($req_id);
 
-        wp_send_json_success([
-            'msg' => 'Danke! Deine Anfrage wurde erfolgreich gesendet. Referenz-Nr.: '.$req_id
-        ]);
+        wp_send_json_success(['msg' => 'Danke! Deine Anfrage wurde erfolgreich gesendet. Referenz-Nr.: '.$req_id]);
     }
 
-    /** ========= Finale Bestätigung → Termin fixieren ========= */
-    public static function confirm_choice() {
+    /** ========= (NEU) Finale Bestätigung – V2 für Bestätigungsseite ========= */
+    public static function confirm_choice_v2() {
         check_ajax_referer('dstb_front', 'nonce');
 
+        global $wpdb;
+
+        $req_id  = intval($_POST['req_id'] ?? 0);
+        $sug_id  = intval($_POST['choice'] ?? 0);
+        $decline = !empty($_POST['decline']);
+
+        if (!$req_id) {
+            wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
+        }
+
+        $req_table = $wpdb->prefix . DSTB_DB::$requests;
+        $sug_table = $wpdb->prefix . DSTB_DB::$suggestions;
+
+        // Anfrage laden
+        $req = $wpdb->get_row($wpdb->prepare("SELECT * FROM $req_table WHERE id=%d", $req_id), ARRAY_A);
+        if (!$req) {
+            wp_send_json_error(['msg' => 'Anfrage nicht gefunden.']);
+        }
+
+        // Ablehnen: alle gesendeten Vorschläge auf declined
+        if ($decline) {
+            $wpdb->query($wpdb->prepare(
+                "UPDATE $sug_table SET status='declined' WHERE request_id=%d AND status='sent'",
+                $req_id
+            ));
+            if (method_exists('DSTB_Emails','send_decline_notice_to_studio')) {
+                DSTB_Emails::send_decline_notice_to_studio($req_id);
+            }
+            wp_send_json_success(['msg' => 'Schade – wir melden uns ggf. mit neuen Terminen.']);
+        }
+
+        if (!$sug_id) {
+            wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
+        }
+
+        // Gewählten Vorschlag prüfen
+        $sug = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM $sug_table WHERE id=%d AND request_id=%d AND status='sent'",
+            $sug_id, $req_id
+        ), ARRAY_A);
+        if (!$sug) {
+            wp_send_json_error(['msg' => 'Ungültige Auswahl oder Termin nicht mehr verfügbar.']);
+        }
+
+        // Bestätigen & andere ablehnen
+        $wpdb->update($sug_table, ['status' => 'confirmed'], ['id' => $sug_id]);
+        $wpdb->query($wpdb->prepare(
+            "UPDATE $sug_table SET status='declined' WHERE request_id=%d AND status='sent' AND id<>%d",
+            $req_id, $sug_id
+        ));
+
+        // Buchung eintragen (Kalender rot)
+        if (method_exists('DSTB_DB','insert_confirmed_booking')) {
+            $artist = $req['artist'] ?? '';
+            $date   = $sug['date'];
+            $start  = $sug['start'];
+            $end    = $sug['end'];
+            if (empty($end)) {
+                $ts = strtotime($date.' '.$start);
+                $end = $ts ? date('H:i', $ts + 3600) : date('H:i', strtotime($start.' +60 minutes'));
+            }
+            DSTB_DB::insert_confirmed_booking($artist, $date, $start, $end, $req_id);
+        }
+
+        // Studio informieren
+        if (method_exists('DSTB_Emails','send_confirmation_to_studio')) {
+            DSTB_Emails::send_confirmation_to_studio($req_id, $sug_id);
+        }
+
+        wp_send_json_success(['msg' => 'Danke! Dein Termin wurde bestätigt.']);
+    }
+
+    /** ========= (ALT) alter confirm_choice (unverändert lassen) ========= */
+    public static function confirm_choice() {
+        // <- alter Code bleibt wie er ist (wird von der neuen Seite nicht mehr verwendet)
+        check_ajax_referer('dstb_front', 'nonce');
         $rid    = intval($_POST['rid'] ?? 0);
         $artist = sanitize_text_field($_POST['artist'] ?? '');
         $date   = sanitize_text_field($_POST['date'] ?? '');
@@ -133,10 +201,9 @@ class DSTB_Ajax {
         $end    = sanitize_text_field($_POST['end'] ?? '');
 
         if (!$rid || !$artist || !$date || !$start || !$end) {
-            wp_send_json_error(['msg' => 'Ungültige Eingaben.']);
+            wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID, Datum, Startzeit']);
         }
 
-        // Prüfen, ob Slot frei ist
         $free = DSTB_DB::free_slots_for_date($artist, $date);
         $isContained = false;
         foreach ($free as $fr) {
@@ -146,39 +213,32 @@ class DSTB_Ajax {
             wp_send_json_error(['msg' => 'Dieser Slot ist nicht mehr verfügbar.']);
         }
 
-        // Slot bestätigen + speichern
         DSTB_DB::insert_confirmed_booking($artist, $date, $start, $end, $rid);
         wp_send_json_success(['msg' => 'Termin bestätigt – vielen Dank!']);
     }
 
-    /** ========= Monatsübersicht für Kalender ========= */
+    /** ========= Kalender & Free Slots ========= */
     public static function calendar_data() {
         $artist = sanitize_text_field($_GET['artist'] ?? '');
         $year   = intval($_GET['year'] ?? date('Y'));
         $month  = intval($_GET['month'] ?? date('n'));
-
         $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $booked = [];
         $free = [];
-
         for ($d = 1; $d <= $days; $d++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $d);
             if (DSTB_DB::date_is_vacation($artist, $date)) {
-                $booked[$d] = [['00:00','23:59']]; // Betriebsurlaub = gesperrt
+                $booked[$d] = [['00:00','23:59']];
                 continue;
             }
-
             $freeRanges   = DSTB_DB::free_slots_for_date($artist, $date);
             $bookedRanges = DSTB_DB::get_bookings_for_day($artist, $date);
-
             if (!empty($freeRanges))   $free[$d] = $freeRanges;
             if (!empty($bookedRanges)) $booked[$d] = $bookedRanges;
         }
-
         wp_send_json(['artist'=>$artist, 'booked'=>$booked, 'free'=>$free]);
     }
 
-    /** ========= Tagesgenaue freie Slots (nach Klick im Kalender) ========= */
     public static function free_slots() {
         $artist = sanitize_text_field($_GET['artist'] ?? '');
         $date   = sanitize_text_field($_GET['date'] ?? date('Y-m-d'));

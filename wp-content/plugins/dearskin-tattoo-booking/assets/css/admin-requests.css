@@ -311,3 +311,15 @@ h1,h2,h3,h4{ color:#fff; font-weight:600; }
   .dstb-sug-row{ grid-template-columns:1fr 1fr; }
   .dstb-modal-grid{ grid-template-columns:1fr; }
 }
+
+.dstb-sug-table .dstb-del-sug {
+  background: #3b0d0d;
+  color: #ffb3b3;
+  border: 1px solid #a00;
+  border-radius: 6px;
+}
+.dstb-sug-table .dstb-del-sug:hover {
+  background: #a93226;
+  color: #fff;
+}
+
