@@ -32,7 +32,8 @@ jQuery(function($){
           msg.text('✅ '+ (res.data && res.data.msg ? res.data.msg : 'Gespeichert.'));
           setTimeout(()=>{ location.reload(); }, 800);
         } else {
-          msg.css('color','#ffb3b3').text('❌ '+ (res && res.data && res.data.msg ? res.data.data.msg : 'Fehler.'));
+          const err = res && res.data && res.data.msg ? res.data.msg : 'Fehler.';
+          msg.css('color','#ffb3b3').text('❌ '+ err);
         }
       })
       .fail(function(){
@@ -60,7 +61,9 @@ jQuery(function($){
   }
 
   $(document).on('click', '.dstb-edit-sug', function(){
-    const row = $(this).closest('.dstb-sug-row');
+    const btn = $(this);
+    if (btn.is(':disabled') || btn.hasClass('disabled')) return;
+    const row = btn.closest('.dstb-sug-row');
     const data = {
       id:    row.data('sid'),
       date:  row.data('date'),
@@ -70,6 +73,42 @@ jQuery(function($){
       note:  row.data('note')
     };
     openModal(data);
+  });
+
+  /* ========= Vorschlag löschen ========= */
+  $(document).on('click', '.dstb-delete-sug', function(){
+    const btn = $(this);
+    const sid = btn.data('sid');
+    if (!sid) return;
+    if (!window.confirm('Diesen Vorschlag wirklich löschen?')) return;
+
+    const cell = btn.closest('td');
+    let msg = cell.find('.dstb-delete-msg');
+    if (!msg.length) {
+      msg = $('<span class="dstb-delete-msg" style="margin-left:6px;"></span>').appendTo(cell);
+    }
+    msg.css('color', '').text('Lösche …');
+    btn.prop('disabled', true);
+
+    $.post((window.DSTB_Ajax && DSTB_Ajax.url) || ajaxurl, {
+      action: 'dstb_delete_suggestion',
+      nonce: (window.DSTB_Ajax && DSTB_Ajax.nonce) || '',
+      id: sid
+    }).done(function(res){
+      if (res && res.success) {
+        msg.text('✅ Vorschlag gelöscht.');
+        setTimeout(function(){
+          btn.closest('tr').fadeOut(150, function(){ $(this).remove(); });
+        }, 200);
+      } else {
+        const err = res && res.data && res.data.msg ? res.data.msg : 'Fehler.';
+        msg.css('color', '#ffb3b3').text('❌ '+ err);
+        btn.prop('disabled', false);
+      }
+    }).fail(function(){
+      msg.css('color', '#ffb3b3').text('❌ Netzwerkfehler.');
+      btn.prop('disabled', false);
+    });
   });
 
   $(document).on('click', '.dstb-modal__close, .dstb-modal-cancel', function(){
