@@ -10,12 +10,11 @@ class DSTB_Confirm_Page {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
 
         // AJAX (Frontend, auch für nicht eingeloggte Nutzer)
-        add_action('wp_ajax_dstb_confirm_choice',      [$this, 'ajax_confirm_choice']);
+        add_action('wp_ajax_dstb_confirm_choice', [$this, 'ajax_confirm_choice']);
         add_action('wp_ajax_nopriv_dstb_confirm_choice', [$this, 'ajax_confirm_choice']);
     }
 
     public function enqueue_assets() {
-        // Passe den Seitenslug an, falls deine Seite anders heißt
         if (is_page('termin-bestaetigen')) {
             wp_enqueue_script(
                 'dstb-confirm',
@@ -49,7 +48,7 @@ class DSTB_Confirm_Page {
         $req = $wpdb->get_row($wpdb->prepare("SELECT * FROM $req_table WHERE id=%d", $req_id), ARRAY_A);
         if (!$req) return '<p>Anfrage nicht gefunden.</p>';
 
-        // Alle an den Kunden GESENDETEN Vorschläge
+        // Nur an den Kunden GESENDETE Vorschläge anzeigen
         $sug_table = $wpdb->prefix . DSTB_DB::$suggestions;
         $sugs = $wpdb->get_results(
             $wpdb->prepare(
@@ -114,75 +113,63 @@ class DSTB_Confirm_Page {
     /** Kunde bestätigt ODER lehnt ab (AJAX) */
     public function ajax_confirm_choice() {
         check_ajax_referer('dstb_front','nonce');
-
         global $wpdb;
 
         $req_id  = intval($_POST['req_id'] ?? 0);
         $sug_id  = intval($_POST['choice'] ?? 0);
         $decline = !empty($_POST['decline']);
 
-        if (!$req_id) {
-            wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
-        }
+        if (!$req_id) wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
 
         $req_table = $wpdb->prefix . DSTB_DB::$requests;
         $sug_table = $wpdb->prefix . DSTB_DB::$suggestions;
 
-        // Anfrage laden (für Artist / Plausibilität)
+        // Anfrage prüfen
         $req = $wpdb->get_row($wpdb->prepare("SELECT * FROM $req_table WHERE id=%d", $req_id), ARRAY_A);
-        if (!$req) {
-            wp_send_json_error(['msg' => 'Anfrage nicht gefunden.']);
-        }
+        if (!$req) wp_send_json_error(['msg' => 'Anfrage nicht gefunden.']);
 
+        // ❌ Kunde lehnt alle Termine ab
         if ($decline) {
-            // alle noch offenen Vorschläge auf "declined"
-            $wpdb->query($wpdb->prepare(
-                "UPDATE $sug_table SET status='declined' WHERE request_id=%d AND status='sent'",
-                $req_id
-            ));
-
-            // Studio benachrichtigen (optional, wenn Methode vorhanden ist)
+            $wpdb->query($wpdb->prepare("UPDATE $sug_table SET status='declined' WHERE request_id=%d", $req_id));
             if (method_exists('DSTB_Emails','send_decline_notice_to_studio')) {
                 DSTB_Emails::send_decline_notice_to_studio($req_id);
             }
-
             wp_send_json_success(['msg' => 'Schade – wir melden uns ggf. mit neuen Terminen.']);
         }
 
-        if (!$sug_id) {
-            wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
-        }
+        // ✅ Kunde bestätigt einen Termin
+        if (!$sug_id) wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
 
-        // Gewählten Vorschlag prüfen & laden (muss zu dieser Anfrage gehören und noch "sent" sein)
+        // Vorschlag laden
         $sug = $wpdb->get_row($wpdb->prepare(
-            "SELECT * FROM $sug_table WHERE id=%d AND request_id=%d AND status='sent'",
+            "SELECT * FROM $sug_table WHERE id=%d AND request_id=%d",
             $sug_id, $req_id
         ), ARRAY_A);
+        if (!$sug) wp_send_json_error(['msg' => 'Ungültige Auswahl oder Termin nicht mehr verfügbar.']);
 
-        if (!$sug) {
-            wp_send_json_error(['msg' => 'Ungültige Auswahl oder Termin nicht mehr verfügbar.']);
-        }
-
-        // 1) Gewählten Vorschlag als "confirmed" markieren
+        // 1️⃣ Gewählten Vorschlag auf "confirmed" setzen
         $wpdb->update($sug_table, ['status' => 'confirmed'], ['id' => $sug_id]);
 
-        // 2) Alle anderen, noch offenen Vorschläge dieser Anfrage ablehnen
-        $wpdb->query($wpdb->prepare(
-            "UPDATE $sug_table SET status='declined' WHERE request_id=%d AND status='sent' AND id<>%d",
-            $req_id, $sug_id
-        ));
+        // 2️⃣ Alle anderen Vorschläge vollständig löschen (unabhängig vom Status)
+        $delete_sql = $wpdb->prepare(
+            "DELETE FROM {$sug_table} WHERE request_id = %d AND id != %d",
+            $req_id,
+            $sug_id
+        );
+        $wpdb->query($delete_sql);
 
-        // 3) Fixe Buchung in DB eintragen (erst jetzt wird der Kalender rot)
-        //    (Methode kommt aus deiner DB-Klasse)
+        // 3️⃣ Bestätigten Termin im Kalender speichern
         if (method_exists('DSTB_DB','insert_confirmed_booking')) {
             $artist = $req['artist'] ?? '';
-            $date   = $sug['date'];
-            $start  = $sug['start'];
-            $end    = $sug['end'];
-            DSTB_DB::insert_confirmed_booking($artist, $date, $start, $end, $req_id);
+            $date   = $sug['date'] ?? '';
+            $start  = $sug['start'] ?? '';
+            $end    = $sug['end'] ?? '';
+            if ($artist && $date && $start) {
+                DSTB_DB::insert_confirmed_booking($artist, $date, $start, $end, $req_id);
+            }
         }
 
-        // 4) Studio benachrichtigen (Mail)
+        // 4️⃣ Studio per Mail informieren
         if (method_exists('DSTB_Emails','send_confirmation_to_studio')) {
             DSTB_Emails::send_confirmation_to_studio($req_id, $sug_id);
         }

@@ -68,9 +68,23 @@
         const dayEl = el("div", "dstb-day", d);
         const key = String(d);
 
-        if (booked[key]) dayEl.classList.add("booked");
-        else if (free[key]) dayEl.classList.add("free");
-        else dayEl.classList.add("neutral");
+                // Prüfe Buchungen und freie Zeiten getrennt
+        const hasBooked = booked[key] && booked[key].length > 0;
+        const hasFree   = free[key] && free[key].length > 0;
+
+        if (hasBooked && hasFree) {
+          dayEl.classList.add("mixed"); // halber Tag
+          const split = document.createElement('div');
+          split.className = "dstb-day-split";
+          dayEl.appendChild(split);
+        } else if (hasBooked) {
+          dayEl.classList.add("booked");
+        } else if (hasFree) {
+          dayEl.classList.add("free");
+        } else {
+          dayEl.classList.add("neutral");
+        }
+
 
         dayEl.addEventListener("click", async ()=>{
           // Nur Informations-Popup

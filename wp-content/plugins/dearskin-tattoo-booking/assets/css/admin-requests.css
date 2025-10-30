@@ -323,3 +323,75 @@ h1,h2,h3,h4{ color:#fff; font-weight:600; }
   color: #fff;
 }
 
+/* === BESSERES ADMIN-LAYOUT === */
+
+.dstb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 24px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+/* Karten schöner strukturiert */
+.dstb-card {
+  background: #1b1f27;
+  border: 1px solid #2a3340;
+  border-radius: 12px;
+  padding: 20px;
+  color: #e9eef5;
+  box-shadow: 0 3px 10px rgba(0,0,0,.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Tabellen der Vorschläge */
+.dstb-sug-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.dstb-sug-table th,
+.dstb-sug-table td {
+  border: 1px solid #2a3340;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.dstb-sug-table th {
+  background: #10161e;
+  color: #9fbfff;
+}
+
+/* Aktionen */
+.dstb-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Buttons in Tabellen */
+.dstb-sug-table .button {
+  min-width: 90px;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.dstb-sug-table .button-small {
+  font-size: 12px;
+}
+
+/* Responsive Fallback für Mobile */
+@media (max-width: 600px) {
+  .dstb-sug-table {
+    font-size: 12px;
+  }
+  .dstb-card {
+    padding: 14px;
+  }
+}
+

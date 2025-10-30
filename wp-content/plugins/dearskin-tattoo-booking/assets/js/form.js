@@ -2,17 +2,19 @@
 
   /** ---------- Hilfsfunktionen ---------- */
   function getAjaxUrl(){
-    // Bevorzugt Frontend-Lokalisierung (DSTB), danach Admin (DSTB_Ajax), dann Fallback
-    if (window.DSTB && typeof DSTB.ajax_url === 'string' && DSTB.ajax_url.length) return DSTB.ajax_url;
-    if (window.DSTB_Ajax && typeof DSTB_Ajax.url === 'string' && DSTB_Ajax.url.length) return DSTB_Ajax.url;
-    if (window.wp && wp.ajax && wp.ajax.settings && wp.ajax.settings.url) return wp.ajax.settings.url;
+    // Primär DSTB_Ajax (Frontend-Lokalisierung)
+    if (window.DSTB_Ajax && typeof DSTB_Ajax.url === 'string' && DSTB_Ajax.url.length)
+      return DSTB_Ajax.url;
+    // Fallbacks
+    if (window.wp && wp.ajax && wp.ajax.settings && wp.ajax.settings.url)
+      return wp.ajax.settings.url;
     return '/wp-admin/admin-ajax.php';
   }
 
   function getNonce(){
-    // Bevorzugt Frontend-Nonce (DSTB.nonce), dann Admin-Nonce (DSTB_Ajax.nonce), sonst leer
-    if (window.DSTB && typeof DSTB.nonce === 'string') return DSTB.nonce;
-    if (window.DSTB_Ajax && typeof DSTB_Ajax.nonce === 'string') return DSTB_Ajax.nonce;
+    // Nur noch die aktuelle Lokalisierung verwenden
+    if (window.DSTB_Ajax && typeof DSTB_Ajax.nonce === 'string')
+      return DSTB_Ajax.nonce;
     return '';
   }
 
@@ -49,6 +51,7 @@
       const j = await r.json();
       return Array.isArray(j.free) ? j.free : [];
     }catch(e){
+      console.error('Fehler beim Laden freier Slots:', e);
       return [];
     }
   }
@@ -96,7 +99,6 @@
     const dateStr = $row.find('input[type="date"]').val();
     const $start = $row.find('select[data-kind="start"]');
 
-    // Lade-Guard (Race-Schutz): Token pro Zeile
     const token = Date.now().toString();
     $row.data('loadingToken', token);
     $start.prop('disabled', true);
@@ -148,30 +150,25 @@
     $('#dstb-add-slot').prop('disabled', count >= 3);
   }
 
-  // + neue Zeile
   $(document).on('click','#dstb-add-slot',async function(){
     const i = $('#dstb-slots .dstb-slot').length;
     if(i>=3) return;
     const $row = createSlotRow(i);
     $('#dstb-slots').append($row);
     refreshSlotAddBtn();
-    // Standardzeiten initial (bis Datum + Artist gesetzt sind)
     fillGeneric($row.find('select[data-kind="start"]'));
   });
 
-  // - Zeile entfernen
   $(document).on('click','.dstb-slot .dstb-remove',function(){
     $(this).closest('.dstb-slot').remove();
     renumberRows();
     refreshSlotAddBtn();
   });
 
-  // Datum geändert → freie Slots laden (nur für diese Zeile)
   $(document).on('change', '#dstb-slots .dstb-slot input[type="date"]', async function(){
     await updateRowTimesForDate($(this).closest('.dstb-slot'));
   });
 
-  // Artist gewechselt → alle Zeilen anhand ihres Datums neu befüllen
   $(document).on('change', '#dstb-artist', async function(){
     const $rows = $('#dstb-slots .dstb-slot');
     for (const el of $rows) {
@@ -179,12 +176,11 @@
     }
   });
 
-  // Init: erste Zeile erzeugen
   $(function(){ $('#dstb-add-slot').trigger('click'); });
 
   /** ---------- Upload-Vorschau ---------- */
   $('#dstb-images').on('change',function(){
-    const max = (window.DSTB?.maxUploads) || (window.DSTB_Ajax?.maxUploads) || 10;
+    const max = (window.DSTB_Ajax?.maxUploads) || 10;
     const files = Array.from(this.files).slice(0,max);
     const $p = $('#dstb-previews').empty();
     files.forEach(f=>{
@@ -196,20 +192,13 @@
   /** ---------- Absenden ---------- */
   $('#dstb-form').on('submit',function(e){
     e.preventDefault();
-
     const fd = new FormData(this);
     const firstname = $('input[name="firstname"]').val() || '';
     const lastname  = $('input[name="lastname"]').val()  || '';
 
-    // Name als Fallback (Backend speichert 'name')
     fd.append('name', `${firstname.trim()} ${lastname.trim()}`.trim());
     fd.append('action','dstb_submit');
     fd.append('nonce', getNonce());
-
-    // Optional: Minimale Validierung, dass mind. 1 Slot halbwegs befüllt ist
-    // (nicht zwingend nötig – PHP validiert robust)
-    // const hasSlot = !!$('#dstb-slots .dstb-slot input[type="date"]').filter(function(){return this.value;}).length;
-    // if(!hasSlot){ alert('Bitte zumindest ein Zeitfenster angeben.'); return; }
 
     const $msg = $('#dstb-msg').text('Sende ...');
 
@@ -219,22 +208,23 @@
       credentials:'same-origin'
     })
     .then(async r=>{
-      // Falls der Server kein JSON gibt, Fehlertext ausgeben
       let j = null;
-      try { j = await r.json(); } catch(e) {}
+      try { j = await r.json(); } catch(e) {
+        console.error('Server gab kein JSON zurück', e);
+      }
       return j || { success:false, data:{ msg:'Unerwartete Server-Antwort.' } };
     })
     .then(j=>{
       $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));
       if(j.success){
-        // Formular zurücksetzen
         $('#dstb-form')[0].reset();
         $('#dstb-previews').empty();
         $('#dstb-slots').empty();
         $('#dstb-add-slot').prop('disabled', false).trigger('click');
       }
     })
-    .catch(()=>{
+    .catch(e=>{
+      console.error('Fetch-Fehler', e);
       $msg.text('Netzwerkfehler');
     });
   });

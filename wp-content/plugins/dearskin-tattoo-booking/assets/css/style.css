@@ -357,3 +357,32 @@
   background: #4b2525;
   transform: scale(1.02);
 }
+
+/* Kalenderfarben */
+.dstb-day.booked { background: #ff5050; color:#fff; }
+.dstb-day.free { background: #64e364; color:#051a05; }
+.dstb-day.neutral { background: #2a3340; color:#ddd; }
+
+/* NEU: halb gebuchter Tag */
+.dstb-day.mixed {
+  position: relative;
+  overflow: hidden;
+  color:#fff;
+}
+
+.dstb-day.mixed .dstb-day-split {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #ff5050 50%, #64e364 50%);
+  z-index: 0;
+  opacity: 0.9;
+  border-radius: 4px;
+}
+
+.dstb-day.mixed span, 
+.dstb-day.mixed div, 
+.dstb-day.mixed {
+  position: relative;
+  z-index: 1;
+}
+
