@@ -1,46 +1,53 @@
 <?php
-if ( ! defined('ABSPATH') ) exit;
+if (!defined('ABSPATH')) exit;
 
 class DSTB_Admin_Availability {
 
-    public function __construct(){
-        add_action('admin_menu', [$this,'menu']);
+    public function __construct() {
+        // Menü hinzufügen
+        add_action('admin_menu', [$this, 'menu']);
+
+        // AJAX Endpoints zum Hinzufügen/Löschen von Artists
+        add_action('wp_ajax_dstb_add_artist', [__CLASS__, 'ajax_add_artist']);
+        add_action('wp_ajax_dstb_delete_artist', [__CLASS__, 'ajax_delete_artist']);
     }
 
-    public function menu(){
-        // Jetzt als Unterpunkt unter "Tattoo Anfragen"
+    public function menu() {
         add_submenu_page(
             'dstb-requests',
             'Artists – Verfügbarkeiten',
             'Verfügbarkeiten',
             'manage_options',
             'dstb-availability',
-            [$this,'screen']
+            [$this, 'screen']
         );
     }
 
-    public function screen(){
+    public function screen() {
         global $wpdb;
 
-        $artists   = ['Silvia','Sahrabie']; // erweiterbar
-        $wd_labels = ['Mo','Di','Mi','Do','Fr','Sa','So'];
-        $table_vac = $wpdb->prefix . DSTB_DB::$vacations; // Urlaubstabelle
+        // Artists persistent laden
+        $default_artists = ['Silvia', 'Sahrabie'];
+        $artists = get_option('dstb_artists', $default_artists);
+        if (!is_array($artists)) $artists = $default_artists;
 
-        // 🎯 aktiven Artist ermitteln: GET > POST > Standard
+        $wd_labels = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+        $table_vac = $wpdb->prefix . DSTB_DB::$vacations;
+
         $current_artist = isset($_GET['artist']) ? sanitize_text_field($_GET['artist'])
-                         : (isset($_POST['artist']) ? sanitize_text_field($_POST['artist']) : 'Silvia');
+            : ($artists[0] ?? 'Silvia');
 
         $saved_notice = false;
 
-        /* ========== Urlaub löschen ========== */
+        /* Urlaub löschen */
         if (isset($_GET['delete_vac'])) {
             $vac_id = intval($_GET['delete_vac']);
             $wpdb->delete($table_vac, ['id' => $vac_id]);
             echo '<div class="updated"><p>Urlaub wurde gelöscht.</p></div>';
         }
 
-        /* ========== SPEICHERN ========== */
-        if ( isset($_POST['dstb_save_avail']) && check_admin_referer('dstb_avail') ) {
+        /* SPEICHERN */
+        if (isset($_POST['dstb_save_avail']) && check_admin_referer('dstb_avail')) {
             $artist = sanitize_text_field($_POST['artist']);
             $current_artist = $artist;
 
@@ -50,7 +57,7 @@ class DSTB_Admin_Availability {
                 if (isset($_POST['ranges'][$wd]) && is_array($_POST['ranges'][$wd])) {
                     foreach ($_POST['ranges'][$wd] as $r) {
                         $from = sanitize_text_field($r['from'] ?? '');
-                        $to   = sanitize_text_field($r['to'] ?? '');
+                        $to = sanitize_text_field($r['to'] ?? '');
                         if ($from && $to) $ranges[] = [$from, $to];
                     }
                 }
@@ -59,7 +66,7 @@ class DSTB_Admin_Availability {
 
             // Urlaub speichern
             $vac_from = sanitize_text_field($_POST['vac_from'] ?? '');
-            $vac_to   = sanitize_text_field($_POST['vac_to'] ?? '');
+            $vac_to = sanitize_text_field($_POST['vac_to'] ?? '');
             if ($vac_from && $vac_to) {
                 DSTB_DB::add_vacation($artist, $vac_from, $vac_to);
             }
@@ -67,10 +74,8 @@ class DSTB_Admin_Availability {
             $saved_notice = true;
         }
 
-        // 🧠 DB-Daten laden
+        // DB-Daten laden
         $map = DSTB_DB::get_weekday_ranges_map($current_artist);
-
-        // Urlaube laden
         $vacations = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT id, start_date, end_date FROM $table_vac WHERE artist = %s ORDER BY start_date ASC",
@@ -83,15 +88,16 @@ class DSTB_Admin_Availability {
 
         if ($saved_notice) {
             echo '<div class="updated notice is-dismissible"><p><strong>Gespeichert!</strong> Verfügbarkeiten von <b>'
-                .esc_html($current_artist).'</b> aktualisiert.</p></div>';
+                . esc_html($current_artist) . '</b> aktualisiert.</p></div>';
         }
 
-        /* ========== FORMULAR ========== */
         echo '<form method="post">';
         wp_nonce_field('dstb_avail');
 
-        echo '<p><label>Artist: 
-            <select name="artist" id="dstb-artist-select">';
+        // Artist Auswahl + Buttons
+        echo '<div class="dstb-artist-header" style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">';
+        echo '<label for="dstb-artist-select">Artist:</label>';
+        echo '<select name="artist" id="dstb-artist-select" style="min-width:220px;">';
         foreach ($artists as $a) {
             printf(
                 '<option value="%s" %s>%s</option>',
@@ -100,20 +106,21 @@ class DSTB_Admin_Availability {
                 esc_html($a)
             );
         }
-        echo '</select></label></p>';
+        echo '</select>';
+        echo '<button type="button" class="button button-secondary" id="dstb-add-artist-btn">+ Artist hinzufügen</button>';
+        echo '<button type="button" class="button" id="dstb-del-artist-btn">Artist löschen</button>';
+        echo '</div>';
 
         echo '<table class="widefat striped" style="max-width:800px;">
                 <thead><tr><th>Wochentag</th><th>Zeiträume (von–bis)</th></tr></thead><tbody>';
 
-        $defaults = [['09:00','12:00'],['13:00','16:00']];
+        $defaults = [['09:00', '12:00'], ['13:00', '16:00']];
         for ($wd = 0; $wd < 7; $wd++) {
-            $ranges = $map[$wd] ?? [];
+            $ranges = $map[$wd] ?? $defaults;
             echo '<tr>';
-            echo '<td style="width:120px;"><strong>'.esc_html($wd_labels[$wd]).'</strong></td>';
+            echo '<td style="width:120px;"><strong>' . esc_html($wd_labels[$wd]) . '</strong></td>';
             echo '<td>';
-            echo '<div class="dstb-ranges" data-wd="'.esc_attr($wd).'">';
-
-            if (empty($ranges)) $ranges = $defaults;
+            echo '<div class="dstb-ranges" data-wd="' . esc_attr($wd) . '">';
             foreach ($ranges as $i => $r) {
                 printf(
                     '<div class="dstb-range-row">
@@ -125,30 +132,28 @@ class DSTB_Admin_Availability {
                     $wd, $i, esc_attr($r[0]), esc_attr($r[1])
                 );
             }
-
             echo '</div>';
-            echo '<p><button class="button add-range" type="button" data-wd="'.esc_attr($wd).'">+ Zeitraum</button></p>';
+            echo '<p><button class="button add-range" type="button" data-wd="' . esc_attr($wd) . '">+ Zeitraum</button></p>';
             echo '</td></tr>';
         }
         echo '</tbody></table>';
 
-        /* ========== Urlaub / Betriebsurlaub ========== */
         echo '<h3 style="margin-top:24px;">Urlaub / Betriebsurlaub</h3>';
         echo '<p><label>Neuer Urlaub: Von <input type="date" name="vac_from"> bis <input type="date" name="vac_to"> ';
         echo '<button class="button-primary" name="dstb_save_avail" value="1">Speichern</button></label></p>';
 
-        // Bestehende Urlaube anzeigen
+        // Urlaube anzeigen
         if (!empty($vacations)) {
-            echo '<h4>Gespeicherte Urlaube für '.esc_html($current_artist).':</h4>';
+            echo '<h4>Gespeicherte Urlaube für ' . esc_html($current_artist) . ':</h4>';
             echo '<table class="widefat striped" style="max-width:500px;"><thead><tr><th>Von</th><th>Bis</th><th>Aktion</th></tr></thead><tbody>';
             foreach ($vacations as $v) {
                 $del_url = add_query_arg([
                     'page' => 'dstb-availability',
                     'artist' => $current_artist,
                     'delete_vac' => $v['id']
-                ], admin_url('admin.php')); // ✅ korrekt
+                ], admin_url('admin.php'));
                 printf(
-                    '<tr><td>%s</td><td>%s</td><td><a href="%s" class="button button-small delete-vac" onclick="return confirm(\'Diesen Urlaub wirklich löschen?\')">🗑️ Löschen</a></td></tr>',
+                    '<tr><td>%s</td><td>%s</td><td><a href="%s" class="button button-small" onclick="return confirm(\'Diesen Urlaub wirklich löschen?\')">🗑️ Löschen</a></td></tr>',
                     esc_html($v['start_date']),
                     esc_html($v['end_date']),
                     esc_url($del_url)
@@ -161,49 +166,174 @@ class DSTB_Admin_Availability {
 
         echo '</form>';
 
-        /* ========== JAVASCRIPT ========== */
-        echo '<script>
+        /* ======== JAVASCRIPT ======== */
+        $ajax_url = admin_url('admin-ajax.php');
+        $nonce = wp_create_nonce('dstb_avail_nonce');
+
+        echo "<script>
         (function(){
-          // Artist-Wechsel
-          const select = document.getElementById("dstb-artist-select");
-          if(select){
-            select.addEventListener("change", function(){
+          const select = document.getElementById('dstb-artist-select');
+          const addBtn = document.getElementById('dstb-add-artist-btn');
+          const delBtn = document.getElementById('dstb-del-artist-btn');
+          const ajaxUrl = '$ajax_url';
+          const nonce = '$nonce';
+
+          // Artist-Wechsel -> reload
+          if (select) {
+            select.addEventListener('change', function(){
               const artist = this.value;
               const url = new URL(window.location.href);
-              url.searchParams.set("artist", artist);
+              url.searchParams.set('artist', artist);
               window.location.href = url.toString();
             });
           }
 
-          // Zeiträume hinzufügen
-          document.querySelectorAll(".add-range").forEach(btn=>{
-            btn.addEventListener("click", e=>{
+          // Range hinzufügen
+          document.querySelectorAll('.add-range').forEach(btn=>{
+            btn.addEventListener('click', function(e){
               e.preventDefault();
-              const wd = btn.dataset.wd;
-              const wrap = document.querySelector(\'.dstb-ranges[data-wd="\'+wd+\'"]\');
+              const wd = this.dataset.wd;
+              const wrap = document.querySelector('.dstb-ranges[data-wd=\"'+wd+'\"]');
               if(!wrap) return;
-              const i = wrap.querySelectorAll(".dstb-range-row").length;
-              const div = document.createElement("div");
-              div.className = "dstb-range-row";
-              div.innerHTML = `
-                <input type="time" name="ranges[${wd}][${i}][from]" step="1800"> –
-                <input type="time" name="ranges[${wd}][${i}][to]" step="1800">
-                <button class="button remove-range" type="button">×</button>`;
+              const i = wrap.querySelectorAll('.dstb-range-row').length;
+              const div = document.createElement('div');
+              div.className = 'dstb-range-row';
+              div.innerHTML = '<input type=\"time\" name=\"ranges['+wd+']['+i+'][from]\" step=\"1800\"> – '+
+                              '<input type=\"time\" name=\"ranges['+wd+']['+i+'][to]\" step=\"1800\"> '+
+                              '<button class=\"button remove-range\" type=\"button\">×</button>';
               wrap.appendChild(div);
             });
           });
 
-          // Zeitraum entfernen
-          document.addEventListener("click", e=>{
-            if(e.target.classList.contains("remove-range")){
+          document.addEventListener('click', e=>{
+            if(e.target.classList.contains('remove-range')){
               e.preventDefault();
-              const row=e.target.closest(".dstb-range-row");
+              const row = e.target.closest('.dstb-range-row');
               if(row) row.remove();
             }
           });
-        })();
-        </script>';
 
-        echo '</div>'; // .wrap
+          // Artist hinzufügen
+          if(addBtn){
+            addBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              const name = prompt('Name des neuen Artists:');
+              if(!name) return;
+              fetch(ajaxUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: new URLSearchParams({
+                  action: 'dstb_add_artist',
+                  nonce: nonce,
+                  artist: name
+                })
+              })
+              .then(r=>r.json())
+              .then(data=>{
+                if(data.success){
+                  updateSelect(data.data.artists, name);
+                } else {
+                  alert(data.data.msg || 'Fehler beim Hinzufügen.');
+                }
+              });
+            });
+          }
+
+          // Artist löschen
+          if(delBtn){
+            delBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              const names = Array.from(select.options).map(o=>o.value);
+              if(names.length === 0) return alert('Keine Artists vorhanden.');
+              const choice = prompt('Name des Artists zum Löschen:\\n' + names.join(', '));
+              if(!choice) return;
+              fetch(ajaxUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                body: new URLSearchParams({
+                  action: 'dstb_delete_artist',
+                  nonce: nonce,
+                  artist: choice
+                })
+              })
+              .then(r=>r.json())
+              .then(data=>{
+                if(data.success){
+                  updateSelect(data.data.artists);
+                } else {
+                  alert(data.data.msg || 'Fehler beim Löschen.');
+                }
+              });
+            });
+          }
+
+          function updateSelect(list, focus){
+            if(!select) return;
+            select.innerHTML = '';
+            list.forEach(name=>{
+              const opt = document.createElement('option');
+              opt.value = name;
+              opt.textContent = name;
+              select.appendChild(opt);
+            });
+            if(focus) select.value = focus;
+          }
+
+        })();
+        </script>";
+
+        echo '</div>';
+    }
+
+    /* ===== AJAX: Artist hinzufügen ===== */
+    public static function ajax_add_artist() {
+        if (!current_user_can('manage_options')) wp_send_json_error(['msg' => 'Keine Berechtigung.']);
+        check_ajax_referer('dstb_avail_nonce', 'nonce');
+
+        $artist = sanitize_text_field($_POST['artist'] ?? '');
+        if (!$artist) wp_send_json_error(['msg' => 'Kein Name angegeben.']);
+
+        $artists = get_option('dstb_artists', []);
+        if (!is_array($artists)) $artists = [];
+
+        foreach ($artists as $a) {
+            if (strcasecmp($a, $artist) === 0) {
+                wp_send_json_error(['msg' => 'Artist existiert bereits.']);
+            }
+        }
+
+        $artists[] = $artist;
+        sort($artists, SORT_STRING | SORT_FLAG_CASE);
+        update_option('dstb_artists', $artists);
+
+        wp_send_json_success(['msg' => 'Artist hinzugefügt.', 'artists' => $artists]);
+    }
+
+    /* ===== AJAX: Artist löschen ===== */
+    public static function ajax_delete_artist() {
+        if (!current_user_can('manage_options')) wp_send_json_error(['msg' => 'Keine Berechtigung.']);
+        check_ajax_referer('dstb_avail_nonce', 'nonce');
+
+        $artist = sanitize_text_field($_POST['artist'] ?? '');
+        if (!$artist) wp_send_json_error(['msg' => 'Kein Artist angegeben.']);
+
+        $artists = get_option('dstb_artists', []);
+        if (!is_array($artists)) $artists = [];
+
+        $new = [];
+        foreach ($artists as $a) {
+            if (strcasecmp($a, $artist) !== 0) {
+                $new[] = $a;
+            } else {
+                if (method_exists('DSTB_DB', 'delete_artist_data')) {
+                    DSTB_DB::delete_artist_data($a);
+                }
+            }
+        }
+
+        update_option('dstb_artists', $new);
+        wp_send_json_success(['msg' => 'Artist gelöscht.', 'artists' => $new]);
     }
 }

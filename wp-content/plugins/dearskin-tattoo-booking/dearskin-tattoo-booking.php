@@ -42,6 +42,7 @@ require_once DSTB_PATH . 'includes/class-dstb-db.php';
 require_once DSTB_PATH . 'includes/class-dstb-admin-availability.php';  
 require_once DSTB_PATH . 'includes/class-dstb-admin-requests.php';       // 💡 neues Admin-Dashboard
 require_once __DIR__ . '/includes/class-dstb-confirm-page.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-dstb-admin-artists.php';
 
 
 /* -------------------------------------------------------------
@@ -112,3 +113,20 @@ function dstb_add_booking_buffer($artist, $date, $end_time) {
 	if ($m >= 60) { $h += floor($m / 60); $m = $m % 60; }
 	return sprintf('%02d:%02d', $h, $m);
 }
+
+// am Ende der Haupt plugin datei:
+register_activation_hook(__FILE__, 'dstb_plugin_activate');
+
+function dstb_plugin_activate(){
+    // Tabelle Artists erzeugen
+    if (class_exists('DSTB_Admin_Artists')) {
+        DSTB_Admin_Artists::maybe_create_table();
+    } else {
+        // Falls die Klasse später geladen wird, include erst und dann aufrufen
+        require_once plugin_dir_path(__FILE__).'includes/class-dstb-admin-artists.php';
+        DSTB_Admin_Artists::maybe_create_table();
+    }
+
+    // ggf. andere Tabellen-Erzeugungen aufrufen...
+}
+
