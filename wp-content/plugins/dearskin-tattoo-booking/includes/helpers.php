@@ -51,6 +51,13 @@ function dstb_artists($force_refresh = false){
     }
 
     $label   = __('Kein bevorzugter Artist', 'dstb');
+function dstb_artists(){
+    static $cached = null;
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    $label = __('Kein bevorzugter Artist', 'dstb');
     $options = ['' => $label];
 
     $names = [];
@@ -63,11 +70,15 @@ function dstb_artists($force_refresh = false){
      */
     $names = apply_filters('dstb_artists_names', $names, $force_refresh);
 
+        $names = DSTB_Admin_Artists::get_artist_names(true);
+    }
+
     if (empty($names)) {
         $names = dstb_default_artist_names();
     }
 
     foreach ($names as $name) {
+    foreach ((array) $names as $name) {
         $name = trim((string) $name);
         if ($name === '') {
             continue;
@@ -92,6 +103,45 @@ function dstb_artists($force_refresh = false){
      */
     $cached = apply_filters('dstb_artists_options', $options, $names);
 
+    $default = [
+        '' => 'Kein bevorzugter Artist',
+        'Silvia' => 'Silvia',
+        'Sahrabie' => 'Sahrabie',
+        'Artist of Residence' => 'Artist of Residence',
+    ];
+
+    global $wpdb;
+    if (!isset($wpdb)) {
+        $cached = $default;
+        return $cached;
+    }
+
+    $table = $wpdb->prefix . 'dstb_artists';
+    $like  = $wpdb->esc_like($table);
+    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $like));
+
+    if ($exists === $table) {
+        $rows = $wpdb->get_col("SELECT name FROM $table ORDER BY name ASC");
+
+        if (!empty($rows)) {
+            $dynamic = ['' => $default['']];
+
+            foreach ($rows as $name) {
+                $name = trim((string) $name);
+                if ($name === '') {
+                    continue;
+                }
+                $dynamic[$name] = $name;
+            }
+
+            if (count($dynamic) > 1) {
+                $cached = $dynamic;
+                return $cached;
+            }
+        }
+    }
+
+    $cached = $default;
     return $cached;
 }
 
