@@ -289,7 +289,27 @@ class DSTB_DB {
         ) ?: [];
     }
 
-     
+    public static function delete_artist_data( string $artist ) : void {
+        global $wpdb;
+
+        $artist = sanitize_text_field($artist);
+        if ($artist === '') {
+            return;
+        }
+
+        $availability = $wpdb->prefix . self::$availability;
+        $vacations    = $wpdb->prefix . self::$vacations;
+        $bookings     = $wpdb->prefix . self::$bookings;
+        $requests     = $wpdb->prefix . self::$requests;
+
+        $wpdb->delete($availability, ['artist' => $artist], ['%s']);
+        $wpdb->delete($vacations, ['artist' => $artist], ['%s']);
+
+        $wpdb->update($bookings, ['artist' => ''], ['artist' => $artist], ['%s'], ['%s']);
+        $wpdb->update($requests, ['artist' => ''], ['artist' => $artist], ['%s'], ['%s']);
+    }
+
+
 
 
 }
