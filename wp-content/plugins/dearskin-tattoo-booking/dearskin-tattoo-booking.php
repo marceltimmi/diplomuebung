@@ -69,14 +69,20 @@ add_action('plugins_loaded', function () {
 /* -------------------------------------------------------------
  *  AKTIVIERUNG & DEAKTIVIERUNG
  * ------------------------------------------------------------- */
-register_activation_hook(__FILE__, function () {
-	DSTB_DB::install();   // Tabellen anlegen (inkl. dstb_suggestions)
-	flush_rewrite_rules();
+register_activation_hook(__FILE__, 'dstb_plugin_activate');
+register_deactivation_hook(__FILE__, function () {
+        flush_rewrite_rules();
 });
 
-register_deactivation_hook(__FILE__, function () {
-	flush_rewrite_rules();
-});
+function dstb_plugin_activate(){
+        DSTB_DB::install();   // Tabellen anlegen (inkl. dstb_suggestions)
+
+        if (class_exists('DSTB_Admin_Artists')) {
+                DSTB_Admin_Artists::maybe_create_table();
+        }
+
+        flush_rewrite_rules();
+}
 
 /* -------------------------------------------------------------
  *  SHORTCODE
@@ -113,20 +119,3 @@ function dstb_add_booking_buffer($artist, $date, $end_time) {
 	if ($m >= 60) { $h += floor($m / 60); $m = $m % 60; }
 	return sprintf('%02d:%02d', $h, $m);
 }
-
-// am Ende der Haupt plugin datei:
-register_activation_hook(__FILE__, 'dstb_plugin_activate');
-
-function dstb_plugin_activate(){
-    // Tabelle Artists erzeugen
-    if (class_exists('DSTB_Admin_Artists')) {
-        DSTB_Admin_Artists::maybe_create_table();
-    } else {
-        // Falls die Klasse später geladen wird, include erst und dann aufrufen
-        require_once plugin_dir_path(__FILE__).'includes/class-dstb-admin-artists.php';
-        DSTB_Admin_Artists::maybe_create_table();
-    }
-
-    // ggf. andere Tabellen-Erzeugungen aufrufen...
-}
-
