@@ -23,7 +23,7 @@ class DSTB_Admin_Artists {
         // Nutze selben nonce wie dein Admin-JS (bei dir: 'dstb_admin')
         wp_localize_script('dstb-admin-artists', 'DSTB_Artists', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('dstb_admin'),
+            'nonce'    => wp_create_nonce('dstb_admin_requests'),
             'i18n'     => [
                 'added' => __('Artist hinzugefügt.','dstb'),
                 'deleted' => __('Artist gelöscht.','dstb'),
@@ -34,7 +34,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         global $wpdb;
@@ -55,7 +55,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist löschen (Name oder ID) */
     public static function delete_artist() {
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         global $wpdb;
