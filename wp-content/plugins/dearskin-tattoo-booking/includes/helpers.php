@@ -30,53 +30,61 @@ return [ 'Oberarm','Unterarm','Hand','Schulter','Brust','Rücken','Bauch','Obers
 
 
 function dstb_default_artist_names(){
-    return ['Silvia', 'Sahrabie', 'Artist of Residence'];
+    $defaults = ['Silvia', 'Sahrabie', 'Artist of Residence'];
+
+    /**
+     * Erlaubt es Themes/Plugins, die Standard-Künstlerliste anzupassen.
+     */
+    return apply_filters('dstb_default_artist_names', $defaults);
 }
 
 
-function dstb_artists(){
+function dstb_artists($force_refresh = false){
     static $cached = null;
+
+    if ($force_refresh) {
+        $cached = null;
+    }
+
     if ($cached !== null) {
         return $cached;
     }
 
-    $default = ['' => 'Kein bevorzugter Artist'];
-    foreach (dstb_default_artist_names() as $name) {
-        $default[$name] = $name;
+    $label = __('Kein bevorzugter Artist', 'dstb');
+    $options = ['' => $label];
+
+    $names = [];
+    if (class_exists('DSTB_Admin_Artists') && method_exists('DSTB_Admin_Artists', 'get_artist_names')) {
+        $names = DSTB_Admin_Artists::get_artist_names(true);
     }
 
-    global $wpdb;
-    if (!isset($wpdb)) {
-        $cached = $default;
-        return $cached;
+    if (empty($names)) {
+        $names = dstb_default_artist_names();
     }
 
-    $table = $wpdb->prefix . 'dstb_artists';
-    $like  = $wpdb->esc_like($table);
-    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $like));
+    foreach ((array) $names as $name) {
+        $name = trim((string) $name);
+        if ($name === '') {
+            continue;
+        }
+        $options[$name] = $name;
+    }
 
-    if ($exists === $table) {
-        $rows = $wpdb->get_col("SELECT name FROM $table ORDER BY name ASC");
-
-        if (!empty($rows)) {
-            $dynamic = ['' => $default['']];
-
-            foreach ($rows as $name) {
-                $name = trim((string) $name);
-                if ($name === '') {
-                    continue;
-                }
-                $dynamic[$name] = $name;
+    if (count($options) === 1) {
+        foreach (dstb_default_artist_names() as $fallback) {
+            $fallback = trim((string) $fallback);
+            if ($fallback === '') {
+                continue;
             }
-
-            if (count($dynamic) > 1) {
-                $cached = $dynamic;
-                return $cached;
-            }
+            $options[$fallback] = $fallback;
         }
     }
 
-    $cached = $default;
+    /**
+     * Finalen Options-Array (value => label) filtern.
+     */
+    $cached = apply_filters('dstb_artists_options', $options, $names);
+
     return $cached;
 }
 
