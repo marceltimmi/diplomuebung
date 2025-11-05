@@ -64,6 +64,12 @@ class DSTB_Admin_Artists {
     }
 
     public static function get_artist_names($with_fallback = true) {
+        $ready = self::maybe_create_table();
+
+        if (!$ready) {
+            return $with_fallback ? self::default_names() : [];
+        }
+
         global $wpdb;
 
         $table = self::table();
@@ -94,6 +100,10 @@ class DSTB_Admin_Artists {
         check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
+        if (!self::maybe_create_table()) {
+            wp_send_json_error(['msg' => __('Artist-Tabelle konnte nicht erstellt werden.', 'dstb')]);
+        }
+
         global $wpdb;
         $table = self::table();
         $name = sanitize_text_field($_POST['name'] ?? '');
@@ -108,6 +118,10 @@ class DSTB_Admin_Artists {
         $ok = $wpdb->insert($table, ['name'=>$name,'created_at'=>current_time('mysql')], ['%s','%s']);
         if (!$ok) wp_send_json_error(['msg'=>'Speichern fehlgeschlagen.']);
 
+        if (function_exists('dstb_artists')) {
+            dstb_artists(true);
+        }
+
         $artists = self::get_artist_names();
 
         wp_send_json_success([
@@ -121,6 +135,10 @@ class DSTB_Admin_Artists {
     public static function delete_artist() {
         check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
+
+        if (!self::maybe_create_table()) {
+            wp_send_json_error(['msg' => __('Artist-Tabelle konnte nicht erstellt werden.', 'dstb')]);
+        }
 
         global $wpdb;
         $table = self::table();
@@ -143,9 +161,14 @@ class DSTB_Admin_Artists {
         }
 
         if ($ok === false) wp_send_json_error(['msg'=>'Löschen fehlgeschlagen.']);
+        if ($ok === 0) wp_send_json_error(['msg'=>__('Artist wurde nicht gefunden.', 'dstb')]);
 
         if ($ok > 0 && $target !== '' && class_exists('DSTB_DB') && method_exists('DSTB_DB', 'delete_artist_data')) {
             DSTB_DB::delete_artist_data($target);
+        }
+
+        if (function_exists('dstb_artists')) {
+            dstb_artists(true);
         }
 
         $artists = self::get_artist_names();
@@ -163,6 +186,10 @@ class DSTB_Admin_Artists {
         if (!current_user_can('manage_options')) {
             // Für Frontend-Prozesse könntest du dies lockern, hier ist admin-only.
             wp_send_json_error(['msg'=>'Keine Berechtigung.']);
+        }
+
+        if (!self::maybe_create_table()) {
+            wp_send_json_error(['msg' => __('Artist-Tabelle konnte nicht erstellt werden.', 'dstb')]);
         }
         global $wpdb;
         $table = self::table();
@@ -191,6 +218,10 @@ class DSTB_Admin_Artists {
         }
 
         self::seed_default_artists();
+
+        $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $wpdb->esc_like($table)));
+
+        return $exists === $table;
     }
 
     protected static function seed_default_artists() {
@@ -200,6 +231,28 @@ class DSTB_Admin_Artists {
         $exists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table)));
         if ($exists !== $table) {
             return;
+        }
+
+        $count = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
+        if ($count === 0) {
+            foreach (self::default_names() as $name) {
+                $wpdb->insert(
+                    $table,
+                    [
+                        'name'       => $name,
+                        'created_at' => current_time('mysql'),
+                    ],
+                    ['%s', '%s']
+                );
+            }
+
+            update_option('dstb_artists_seeded', '1');
+            return;
+        }
+
+        if (get_option('dstb_artists_seeded', '') !== '1') {
+            update_option('dstb_artists_seeded', '1');
+        }
         }
 
         if (get_option('dstb_artists_seeded', '') === '1') {
