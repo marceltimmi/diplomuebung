@@ -46,6 +46,11 @@ function dstb_artists($force_refresh = false){
         $cached = null;
     }
 
+    if (is_array($cached)) {
+        return $cached;
+    }
+
+    $label   = __('Kein bevorzugter Artist', 'dstb');
 function dstb_artists(){
     static $cached = null;
     if ($cached !== null) {
@@ -57,6 +62,14 @@ function dstb_artists(){
 
     $names = [];
     if (class_exists('DSTB_Admin_Artists') && method_exists('DSTB_Admin_Artists', 'get_artist_names')) {
+        $names = (array) call_user_func(['DSTB_Admin_Artists', 'get_artist_names'], true);
+    }
+
+    /**
+     * Erlaube es, die dynamische Liste programmgesteuert zu verändern.
+     */
+    $names = apply_filters('dstb_artists_names', $names, $force_refresh);
+
         $names = DSTB_Admin_Artists::get_artist_names(true);
     }
 
@@ -64,11 +77,13 @@ function dstb_artists(){
         $names = dstb_default_artist_names();
     }
 
+    foreach ($names as $name) {
     foreach ((array) $names as $name) {
         $name = trim((string) $name);
         if ($name === '') {
             continue;
         }
+
         $options[$name] = $name;
     }
 
@@ -78,6 +93,7 @@ function dstb_artists(){
             if ($fallback === '') {
                 continue;
             }
+
             $options[$fallback] = $fallback;
         }
     }
@@ -133,3 +149,4 @@ function dstb_artists(){
 function dstb_upload_constraints(){
 return [ 'max_files'=>10, 'max_size_mb'=>8, 'allowed_mimes'=>['image/jpeg','image/png','image/webp'] ];
 }
+
