@@ -4,6 +4,8 @@ if (!defined('ABSPATH')) exit;
 class DSTB_Admin_Artists {
 
     public static function init() {
+        add_action('plugins_loaded', [__CLASS__, 'maybe_create_table']);
+
         // AJAX
         add_action('wp_ajax_dstb_add_artist', [__CLASS__, 'add_artist']);
         add_action('wp_ajax_dstb_delete_artist', [__CLASS__, 'delete_artist']);
