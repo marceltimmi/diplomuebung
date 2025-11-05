@@ -29,7 +29,53 @@ return [ 'Oberarm','Unterarm','Hand','Schulter','Brust','Rücken','Bauch','Obers
 }
 
 
-function dstb_artists(){ return [''=>'Kein bevorzugter Artist','Silvia'=>'Silvia','Sahrabie'=>'Sahrabie','Artist of Residence'=>'Artist of Residence']; }
+function dstb_artists(){
+    static $cached = null;
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    $default = [
+        '' => 'Kein bevorzugter Artist',
+        'Silvia' => 'Silvia',
+        'Sahrabie' => 'Sahrabie',
+        'Artist of Residence' => 'Artist of Residence',
+    ];
+
+    global $wpdb;
+    if (!isset($wpdb)) {
+        $cached = $default;
+        return $cached;
+    }
+
+    $table = $wpdb->prefix . 'dstb_artists';
+    $like  = $wpdb->esc_like($table);
+    $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $like));
+
+    if ($exists === $table) {
+        $rows = $wpdb->get_col("SELECT name FROM $table ORDER BY name ASC");
+
+        if (!empty($rows)) {
+            $dynamic = ['' => $default['']];
+
+            foreach ($rows as $name) {
+                $name = trim((string) $name);
+                if ($name === '') {
+                    continue;
+                }
+                $dynamic[$name] = $name;
+            }
+
+            if (count($dynamic) > 1) {
+                $cached = $dynamic;
+                return $cached;
+            }
+        }
+    }
+
+    $cached = $default;
+    return $cached;
+}
 
 
 function dstb_upload_constraints(){
