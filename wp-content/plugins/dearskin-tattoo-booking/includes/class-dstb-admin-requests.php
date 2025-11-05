@@ -199,7 +199,7 @@ class DSTB_Admin_Requests {
         wp_enqueue_script('dstb-admin-requests', plugins_url('../assets/js/admin-requests.js', __FILE__), ['jquery'], defined('DSTB_VERSION')?DSTB_VERSION:'1.0.0', true);
         wp_localize_script('dstb-admin-requests', 'DSTB_Ajax', [
             'url'   => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('dstb_admin')
+            'nonce' => wp_create_nonce('dstb_admin_requests')
         ]);
 
         // Datensätze je Filter holen
@@ -500,7 +500,7 @@ class DSTB_Admin_Requests {
 
             if ($allowForm) {
                 echo '<form class="dstb-sug-form" data-req="'.$req_id.'">';
-                wp_nonce_field('dstb_admin', 'dstb_nonce');
+                wp_nonce_field('dstb_admin_requests', 'dstb_nonce');
                 echo '<div class="dstb-sug-grid" style="margin-top:10px;">';
                 echo '<input type="date" name="date[]" required>';
                 echo '<input type="time" name="start[]" step="1800" required>';
@@ -559,7 +559,7 @@ class DSTB_Admin_Requests {
                                     <input type="text" name="note" placeholder="z. B. Realism Unterarm – Sitzung 1" style="background:#0c1117;color:#e9eef5;border:1px solid #1d2633;border-radius:8px;padding:8px 10px;">
                                 </label>
                             </div>'.
-                            wp_nonce_field('dstb_admin','dstb_nonce',true,false).'
+                            wp_nonce_field('dstb_admin_requests', 'dstb_nonce',true,false).'
                             <div class="dstb-modal__actions" style="display:flex;gap:8px;align-items:center;margin-top:12px;">
                                 <button type="button" class="button dstb-modal-save">Speichern</button>
                                 <button type="button" class="button dstb-modal-cancel">Abbrechen</button>
@@ -626,7 +626,7 @@ class DSTB_Admin_Requests {
        AJAX: Vorschläge speichern/senden
        ========================= */
     public function ajax_add_suggestion(){
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         global $wpdb;
@@ -690,7 +690,7 @@ class DSTB_Admin_Requests {
        AJAX: Vorschlag aktualisieren (Modal)
        ========================= */
     public function ajax_update_suggestion(){
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         global $wpdb;
@@ -731,7 +731,7 @@ class DSTB_Admin_Requests {
        AJAX: Vorschlag löschen (nur Draft)
        ========================= */
     public function ajax_delete_suggestion(){
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
         global $wpdb;
         $table = $wpdb->prefix . DSTB_DB::$suggestions;

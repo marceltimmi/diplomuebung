@@ -37,7 +37,7 @@ class DSTB_Admin_Artists {
 
         wp_localize_script('dstb-admin-artists', 'DSTB_Artists', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('dstb_admin'),
+            'nonce'    => wp_create_nonce('dstb_admin_requests'),
             'i18n'     => [
                 'added'   => __('Artist hinzugefügt.', 'dstb'),
                 'deleted' => __('Artist gelöscht.', 'dstb'),
@@ -97,7 +97,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -133,7 +133,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist löschen (Name oder ID) */
     public static function delete_artist() {
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -253,6 +253,27 @@ class DSTB_Admin_Artists {
         if (get_option('dstb_artists_seeded', '') !== '1') {
             update_option('dstb_artists_seeded', '1');
         }
+        }
+
+        if (get_option('dstb_artists_seeded', '') === '1') {
+            return;
+        }
+
+        $count = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
+        if ($count === 0) {
+            foreach (self::default_names() as $name) {
+                $wpdb->insert(
+                    $table,
+                    [
+                        'name'       => $name,
+                        'created_at' => current_time('mysql'),
+                    ],
+                    ['%s', '%s']
+                );
+            }
+        }
+
+        update_option('dstb_artists_seeded', '1');
     }
 }
 
