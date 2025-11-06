@@ -37,6 +37,7 @@ class DSTB_Admin_Artists {
 
         wp_localize_script('dstb-admin-artists', 'DSTB_Artists', [
             'ajax_url' => admin_url('admin-ajax.php'),
+            // ❗ gleiches Nonce-Prinzip wie Requests
             'nonce'    => wp_create_nonce('dstb_admin_requests'),
             'i18n'     => [
                 'added'   => __('Artist hinzugefügt.', 'dstb'),
@@ -88,7 +89,7 @@ class DSTB_Admin_Artists {
             }
         }
 
-        if (!empty($names) || ! $with_fallback) {
+        if (!empty($names) || !$with_fallback) {
             return array_values(array_unique($names));
         }
 
@@ -143,7 +144,6 @@ class DSTB_Admin_Artists {
         global $wpdb;
         $table = self::table();
 
-        // Unterstütze entweder name oder id
         $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
         $name = sanitize_text_field($_POST['name'] ?? '');
         $name = trim($name);
@@ -182,9 +182,8 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Liste aller Artists */
     public static function get_artists() {
-        check_ajax_referer('dstb_admin','nonce');
+        check_ajax_referer('dstb_admin_requests','dstb_nonce');
         if (!current_user_can('manage_options')) {
-            // Für Frontend-Prozesse könntest du dies lockern, hier ist admin-only.
             wp_send_json_error(['msg'=>'Keine Berechtigung.']);
         }
 
@@ -197,10 +196,10 @@ class DSTB_Admin_Artists {
         wp_send_json_success($rows);
     }
 
-    /** DB: Tabelle erstellen (zur Integration in activation hook) */
+    /** DB: Tabelle erstellen */
     public static function maybe_create_table() {
         global $wpdb;
-        $table = $wpdb->prefix . 'dstb_artists';
+        $table = self::table();
         $charset = $wpdb->get_charset_collate();
 
         $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $wpdb->esc_like($table)));
@@ -224,6 +223,7 @@ class DSTB_Admin_Artists {
         return $exists === $table;
     }
 
+    /** Standardkünstler befüllen */
     protected static function seed_default_artists() {
         global $wpdb;
         $table = self::table();
@@ -233,28 +233,7 @@ class DSTB_Admin_Artists {
             return;
         }
 
-        $count = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
-        if ($count === 0) {
-            foreach (self::default_names() as $name) {
-                $wpdb->insert(
-                    $table,
-                    [
-                        'name'       => $name,
-                        'created_at' => current_time('mysql'),
-                    ],
-                    ['%s', '%s']
-                );
-            }
-
-            update_option('dstb_artists_seeded', '1');
-            return;
-        }
-
-        if (get_option('dstb_artists_seeded', '') !== '1') {
-            update_option('dstb_artists_seeded', '1');
-        }
-        }
-
+        // Nur einmalig ausführen
         if (get_option('dstb_artists_seeded', '') === '1') {
             return;
         }
