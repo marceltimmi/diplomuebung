@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the music...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Image Cover URL', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the music cover art or image.', 'insert-headers-and-footers' ),
-							'id'           => 'image_url',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/album-cover.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Image Cover URL', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the music cover art or image.', 'insert-headers-and-footers' ),
+							'id'              => 'image_url',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/album-cover.jpg',
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'date',
@@ -123,6 +125,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The duration of the music in seconds.', 'insert-headers-and-footers' ),
 							'id'          => 'duration',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '180',
 						),
 						array(
@@ -130,6 +133,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Artist', 'insert-headers-and-footers' ),
 							'description' => __( 'The name of the music artist.', 'insert-headers-and-footers' ),
 							'id'          => 'artist',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Enter artist name...', 'insert-headers-and-footers' ),
 						),
@@ -141,6 +145,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The genre of the music (e.g., Rock, Pop, Jazz).', 'insert-headers-and-footers' ),
 							'id'          => 'genre',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'Rock, Pop',
 						),
 						array(
@@ -149,6 +154,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The name of the album (if applicable).', 'insert-headers-and-footers' ),
 							'id'          => 'album',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter album name...', 'insert-headers-and-footers' ),
 						),
 						array(
@@ -157,6 +163,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The name of the record label.', 'insert-headers-and-footers' ),
 							'id'          => 'record_label',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter record label name...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -170,7 +177,7 @@ class WPCode_Generator_Schema_Music extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'MusicRecording',

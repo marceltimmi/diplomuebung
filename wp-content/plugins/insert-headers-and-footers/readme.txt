@@ -1,10 +1,10 @@
 === WPCode - Insert Headers and Footers + Custom Code Snippets - WordPress Code Manager ===
 Contributors: WPbeginner, smub, gripgrip, wpcodeteam
 Tags: code, css, php, header, code snippets
-Requires at least: 4.6
+Requires at least: 5.0
 Tested up to: 6.8
-Requires PHP: 5.5
-Stable tag: 2.3.0
+Requires PHP: 7.0
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,14 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.3.1 =
+* Fix: We changed the way labels are loaded in conditional logic classes to avoid notices when used with "Run Everywhere" snippets.
+* Fix: We fixed an issue with notices being thrown in certain setups when saving advanced settings.
+* Tweak: Force refresh editor in the snippet generator to display gutters correctly.
+* Tweak: Added extra checks for the WPCode settings option to ensure it's always the correct format and avoid notices in edge cases when the option is cleared externally.
+* Tweak: Minimum PHP version updated to 7.0.
+* Tweak: Minimum WP version updated to 5.0.
 
 = 2.3.0 =
 * New: We added a way to 1-click update snippets installed from the WPCode library when new versions are available.

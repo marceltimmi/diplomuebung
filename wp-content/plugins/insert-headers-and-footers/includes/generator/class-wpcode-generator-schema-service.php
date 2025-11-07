@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the service...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 					),
 					array(
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'predefined_tags' => array( 'permalink' ),
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Service Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the service image.', 'insert-headers-and-footers' ),
-							'id'           => 'service_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/service-image.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Service Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the service image.', 'insert-headers-and-footers' ),
+							'id'              => 'service_image',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/service-image.jpg',
+							'is_image_url'    => true,
 						),
 					),
 					array(
@@ -116,6 +118,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Service Type', 'insert-headers-and-footers' ),
 							'description' => __( 'The type of service (e.g., ProfessionalService, FinancialService).', 'insert-headers-and-footers' ),
 							'id'          => 'service_type',
+							'smart_tags'  => true,
 							'default'     => 'ProfessionalService',
 							'placeholder' => 'ProfessionalService',
 						),
@@ -124,6 +127,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Area Served', 'insert-headers-and-footers' ),
 							'description' => __( 'The geographic area where the service is available.', 'insert-headers-and-footers' ),
 							'id'          => 'area_served',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Enter area served...', 'insert-headers-and-footers' ),
 						),
@@ -158,13 +162,15 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Provider Logo', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the provider logo.', 'insert-headers-and-footers' ),
-							'id'           => 'provider_logo',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/logo.png',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Provider Logo', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the provider logo.', 'insert-headers-and-footers' ),
+							'id'              => 'provider_logo',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/logo.png',
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'text',
@@ -172,6 +178,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The type of provider (e.g., Organization, Person).', 'insert-headers-and-footers' ),
 							'id'          => 'provider_type',
 							'default'     => 'Organization',
+							'smart_tags'  => true,
 							'placeholder' => 'Organization',
 						),
 					),
@@ -183,12 +190,14 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 					// Column 1 - Contact details.
 					array(
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Email', 'insert-headers-and-footers' ),
-							'description' => __( 'The contact email address.', 'insert-headers-and-footers' ),
-							'id'          => 'contact_email',
-							'default'     => '',
-							'placeholder' => 'contact@example.com',
+							'type'            => 'text',
+							'label'           => __( 'Email', 'insert-headers-and-footers' ),
+							'description'     => __( 'The contact email address.', 'insert-headers-and-footers' ),
+							'id'              => 'contact_email',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'email' ),
+							'default'         => '',
+							'placeholder'     => 'contact@example.com',
 						),
 						array(
 							'type'        => 'text',
@@ -196,6 +205,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The contact phone number.', 'insert-headers-and-footers' ),
 							'id'          => 'contact_telephone',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '+1-555-555-5555',
 						),
 						array(
@@ -204,6 +214,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The physical address.', 'insert-headers-and-footers' ),
 							'id'          => 'contact_address',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter address...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -217,7 +228,7 @@ class WPCode_Generator_Schema_Service extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 
 		$service_type = $this->get_value( 'service_type' );
 		$schema       = array(

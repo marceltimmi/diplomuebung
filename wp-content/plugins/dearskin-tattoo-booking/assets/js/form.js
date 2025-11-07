@@ -43,18 +43,50 @@
   }
 
   /** ---------- Server: freie Ranges für Artist/Datum ---------- */
-  async function fetchFreeForDate(artist, dateStr){
-    const url = `${getAjaxUrl()}?action=dstb_free_slots&artist=${encodeURIComponent(artist)}&date=${encodeURIComponent(dateStr)}&nonce=${encodeURIComponent(getNonce())}`;
-    try{
-      const r = await fetch(url, {credentials:'same-origin'});
-      if(!r.ok) return [];
+  async function fetchFreeForDate(artist, dateStr) {
+    const d = new Date(dateStr);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    const url = `${getAjaxUrl()}?action=dstb_calendar_data&artist=${encodeURIComponent(artist)}&year=${year}&month=${month}&nonce=${encodeURIComponent(getNonce())}`;
+
+    try {
+      const r = await fetch(url, { credentials: 'same-origin' });
+      if (!r.ok) return [];
       const j = await r.json();
-      return Array.isArray(j.free) ? j.free : [];
-    }catch(e){
+      if (!j || !j.free || !j.booked) return [];
+
+      // Arrays der aktuellen Tagesnummer
+      const dkey = String(day);
+      const free = j.free[dkey] || [];
+      const booked = j.booked[dkey] || [];
+
+      // 🔍 Entferne gebuchte Teilbereiche aus den freien Ranges
+      const clean = [];
+      free.forEach(fr => {
+        let [fStart, fEnd] = fr.map(hmToDate);
+        booked.forEach(br => {
+          const [bStart, bEnd] = br.map(hmToDate);
+          // Freie Bereiche anpassen, falls sie sich überschneiden
+          if (bEnd <= fStart || bStart >= fEnd) return; // kein Überlapp
+          if (bStart > fStart) clean.push([formatHM(fStart), formatHM(bStart)]);
+          fStart = bEnd < fEnd ? bEnd : fEnd;
+        });
+        if (fStart < fEnd) clean.push([formatHM(fStart), formatHM(fEnd)]);
+      });
+
+      return clean;
+    } catch (e) {
       console.error('Fehler beim Laden freier Slots:', e);
       return [];
     }
+
+    function formatHM(date) {
+      return date.toTimeString().slice(0, 5);
+    }
   }
+
+
 
   /** ---------- Dropdown einer Zeile befüllen ---------- */
   function populateRowFromRanges($row, freeRanges){
@@ -95,7 +127,11 @@
   /** ---------- Zeiten pro Zeile aktualisieren ---------- */
   async function updateRowTimesForDate($row){
     const artist = $('#dstb-artist').val();
-    const isFixed = (artist === 'Silvia' || artist === 'Sahrabie');
+    const hasIndividualCalendar =
+    artist &&
+    artist.trim() !== '' &&
+    artist !== 'Kein bestimmter Artist' &&
+    artist !== 'Artist of Residence';
     const dateStr = $row.find('input[type="date"]').val();
     const $start = $row.find('select[data-kind="start"]');
 
@@ -103,7 +139,7 @@
     $row.data('loadingToken', token);
     $start.prop('disabled', true);
 
-    if (!dateStr || !isFixed) {
+    if (!dateStr || !hasIndividualCalendar) {
       fillGeneric($start);
       $start.prop('disabled', false);
       return;

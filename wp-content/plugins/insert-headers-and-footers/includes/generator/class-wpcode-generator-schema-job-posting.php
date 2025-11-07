@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the job...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 					),
 					array(
@@ -95,9 +95,9 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Industry', 'insert-headers-and-footers' ),
 							'description' => __( 'The industry of the job (e.g., IT, Healthcare, Education).', 'insert-headers-and-footers' ),
 							'id'          => 'job_industry',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Information Technology', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
 						),
 						array(
 							'type'        => 'select',
@@ -131,15 +131,15 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 					),
 					// Column 2 - Dates and requirements.
 					array(
-                        array(
-                            'type'        => 'text',
-                            'label'       => __( 'Work Hours', 'insert-headers-and-footers' ),
-                            'description' => __( 'The number of hours per week.', 'insert-headers-and-footers' ),
-                            'id'          => 'job_work_hours',
-                            'default'     => '',
-                            'placeholder' => '40',
-                            'smart_tags'  => false,
-                        ),
+						array(
+							'type'        => 'text',
+							'label'       => __( 'Work Hours', 'insert-headers-and-footers' ),
+							'description' => __( 'The number of hours per week.', 'insert-headers-and-footers' ),
+							'id'          => 'job_work_hours',
+							'default'     => '',
+							'placeholder' => '40',
+							'smart_tags'  => true,
+						),
 						array(
 							'type'        => 'date',
 							'label'       => __( 'Date Posted', 'insert-headers-and-footers' ),
@@ -180,18 +180,19 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The website URL of the organization.', 'insert-headers-and-footers' ),
 							'id'          => 'org_website',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'https://example.com',
-							'smart_tags'  => false,
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Organization Logo', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of the organization logo.', 'insert-headers-and-footers' ),
-							'id'           => 'org_logo',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/logo.png',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Organization Logo', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of the organization logo.', 'insert-headers-and-footers' ),
+							'id'              => 'org_logo',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/logo.png',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -208,7 +209,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_street',
 							'default'     => '',
 							'placeholder' => __( '123 Main St', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -217,7 +218,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_city',
 							'default'     => '',
 							'placeholder' => __( 'New York', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -226,7 +227,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_postal',
 							'default'     => '',
 							'placeholder' => __( '10001', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -235,7 +236,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_country',
 							'default'     => '',
 							'placeholder' => __( 'US', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 					),
 				),
@@ -252,7 +253,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'salary_base',
 							'default'     => '',
 							'placeholder' => '50000',
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -261,7 +262,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 							'id'          => 'salary_currency',
 							'default'     => 'USD',
 							'placeholder' => __( 'USD', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'select',
@@ -288,7 +289,7 @@ class WPCode_Generator_Schema_Job_Posting extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => 'JobPosting',

@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the software...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Software Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the software screenshot or logo.', 'insert-headers-and-footers' ),
-							'id'           => 'software_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/software-image.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Software Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the software screenshot or logo.', 'insert-headers-and-footers' ),
+							'id'              => 'software_image',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/software-image.jpg',
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'text',
@@ -115,6 +117,7 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The category of the software (e.g., BusinessApplication, GameApplication).', 'insert-headers-and-footers' ),
 							'id'          => 'application_category',
 							'default'     => 'BusinessApplication',
+							'smart_tags'  => true,
 							'placeholder' => 'BusinessApplication',
 						),
 						array(
@@ -123,6 +126,7 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The operating system(s) supported (e.g., Windows, macOS, Linux).', 'insert-headers-and-footers' ),
 							'id'          => 'operating_system',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter operating system...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -133,10 +137,11 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The version number of the software.', 'insert-headers-and-footers' ),
 							'id'          => 'software_version',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '1.0.0',
 						),
 						array(
-							'type'        => 'text',
+							'type'        => 'date',
 							'label'       => __( 'Release Date', 'insert-headers-and-footers' ),
 							'description' => __( 'The date when the software was released.', 'insert-headers-and-footers' ),
 							'id'          => 'release_date',
@@ -172,13 +177,15 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'predefined_tags' => array( 'author_url' ),
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Publisher Logo', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the publisher logo.', 'insert-headers-and-footers' ),
-							'id'           => 'publisher_logo',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/logo.png',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Publisher Logo', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the publisher logo.', 'insert-headers-and-footers' ),
+							'id'              => 'publisher_logo',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/logo.png',
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -194,6 +201,7 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The price of the software.', 'insert-headers-and-footers' ),
 							'id'          => 'software_price',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '99.99',
 						),
 						array(
@@ -201,16 +209,22 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Currency', 'insert-headers-and-footers' ),
 							'description' => __( 'The currency of the price (e.g., USD, EUR).', 'insert-headers-and-footers' ),
 							'id'          => 'software_currency',
+							'smart_tags'  => true,
 							'default'     => 'USD',
 							'placeholder' => 'USD',
 						),
 						array(
-							'type'        => 'text',
+							'type'        => 'select',
 							'label'       => __( 'Availability', 'insert-headers-and-footers' ),
 							'description' => __( 'The availability status of the software.', 'insert-headers-and-footers' ),
 							'id'          => 'software_availability',
-							'default'     => 'InStock',
-							'placeholder' => 'InStock',
+							'default'     => 'In Stock',
+							'placeholder' => 'In Stock',
+							'options'     => array(
+								'InStock'    => __( 'In Stock', 'insert-headers-and-footers' ),
+								'OutOfStock' => __( 'Out of Stock', 'insert-headers-and-footers' ),
+								'SoldOut'    => __( 'Sold Out', 'insert-headers-and-footers' ),
+							),
 						),
 					),
 				),
@@ -223,7 +237,7 @@ class WPCode_Generator_Schema_Software extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'SoftwareApplication',

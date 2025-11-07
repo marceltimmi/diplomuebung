@@ -35,8 +35,8 @@ class WPCode_Admin_Page_Duplicator extends WPCode_Admin_Page {
 	 * Call this just to set the page title translatable.
 	 */
 	public function __construct() {
-		$this->page_title = 'Backups';
-		$this->menu_title = 'Backups';
+		$this->page_title = 'Secure Backups';
+		$this->menu_title = 'Secure Backups';
 		parent::__construct();
 	}
 
@@ -83,23 +83,24 @@ class WPCode_Admin_Page_Duplicator extends WPCode_Admin_Page {
 				<?php wpcode_icon( 'duplicator', 90, 90, '198 55 90 396' ); ?>
 			</div>
 			<div class="wpcode-plugin-page-title">
-				<h1>Duplicator – Migration & Backup Plugin by Duplicator</h1>
+				<h1>Protect Your Website with Secure WordPress Backups</h1>
 				<p>
-					<?php esc_html_e( 'Easy, Fast and Secure WordPress Backups and Website Migration. Join 1,500,000+ professionals who trust Duplicator. No Code Required.', 'insert-headers-and-footers' ); ?>
+					<?php esc_html_e( 'Duplicator offers cloud WordPress backups with military-grade encryption. Automatically backup your entire WordPress site to secure cloud storage.', 'insert-headers-and-footers' ); ?>
 				</p>
 			</div>
 			<section class="wpcode-plugin-screenshot">
 				<div class="wpcode-plugin-screenshot-image">
-					<img src="<?php echo esc_url( WPCODE_PLUGIN_URL ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>admin/images/duplicator.jpg" alt="<?php esc_attr_e( 'Duplicator Screenshot', 'insert-headers-and-footers' ); ?>"/>
+					<img src="<?php echo esc_url( WPCODE_PLUGIN_URL ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>admin/images/duplicator.png" alt="<?php esc_attr_e( 'Duplicator Screenshot', 'insert-headers-and-footers' ); ?>"/>
 					<a href="<?php echo esc_url( WPCODE_PLUGIN_URL ); ?>admin/images/duplicator.jpg" data-lity>
 						<?php wpcode_icon( 'search', 16, 16 ); ?>
 					</a>
 				</div>
 				<ul>
-					<li><?php esc_html_e( 'Secure Backups.', 'insert-headers-and-footers' ); ?></li>
-					<li><?php esc_html_e( 'Website Cloning.', 'insert-headers-and-footers' ); ?></li>
-					<li><?php esc_html_e( 'Cloud Storage.', 'insert-headers-and-footers' ); ?></li>
-					<li><?php esc_html_e( '1-Click Restore.', 'insert-headers-and-footers' ); ?></li>
+					<li><?php esc_html_e( 'Automatic Website Backups Made Easy.', 'insert-headers-and-footers' ); ?></li>
+					<li><?php esc_html_e( 'Secure Cloud Storage Integration (Google Drive, AWS, Dropbox, and more).', 'insert-headers-and-footers' ); ?></li>
+					<li><?php esc_html_e( '1-Click Restore from Recovery Points.', 'insert-headers-and-footers' ); ?></li>
+					<li><?php esc_html_e( 'Website Cloning and Migration.', 'insert-headers-and-footers' ); ?></li>
+					<li><?php esc_html_e( 'Used by 1.5 Million websites.', 'insert-headers-and-footers' ); ?></li>
 				</ul>
 			</section>
 			<section class="wpcode-plugin-step wpcode-plugin-step-install">

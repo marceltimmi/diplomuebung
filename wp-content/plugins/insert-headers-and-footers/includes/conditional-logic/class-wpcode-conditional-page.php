@@ -38,6 +38,47 @@ class WPCode_Conditional_Page extends WPCode_Conditional_Type {
 	}
 
 	/**
+	 * Load evaluation-only options (without translations) for frontend use.
+	 * This method is called when translations are not yet loaded to avoid WP 6.7 notices.
+	 *
+	 * @return void
+	 */
+	public function load_evaluation_options() {
+		$this->options = array(
+			'type_of_page'  => array(
+				'callback' => array( $this, 'get_type_of_page' ),
+			),
+			'post_type'     => array(
+				'callback' => array( $this, 'get_current_post_type' ),
+			),
+			'referrer'      => array(
+				'callback' => array( $this, 'get_referer' ),
+			),
+			'taxonomy_page' => array(
+				'callback' => array( $this, 'get_taxonomy' ),
+			),
+			'taxonomy_term' => array(
+				'callback' => array( $this, 'get_term' ),
+			),
+			'page_url'      => array(
+				'callback' => array( $this, 'get_page_url' ),
+			),
+			'post_meta'     => array(
+				'callback' => null, // Pro feature, no callback in free version.
+			),
+			'post_id'       => array(
+				'callback' => null, // Pro feature, no callback in free version.
+			),
+			'page_template' => array(
+				'callback' => null, // Pro feature, no callback in free version.
+			),
+			'post_author'   => array(
+				'callback' => null, // Pro feature, no callback in free version.
+			),
+		);
+	}
+
+	/**
 	 * Set the type options for the admin mainly.
 	 *
 	 * @return void

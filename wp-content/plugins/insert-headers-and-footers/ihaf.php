@@ -2,9 +2,9 @@
 /**
  * Plugin Name: WPCode Lite
  * Plugin URI: https://www.wpcode.com/
- * Version: 2.3.0
- * Requires at least: 4.6
- * Requires PHP: 5.5
+ * Version: 2.3.1
+ * Requires at least: 5.0
+ * Requires PHP: 7.0
  * Tested up to: 6.8
  * Author: WPCode
  * Author URI: https://www.wpcode.com/

@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the vehicle...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -106,6 +106,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The brand or manufacturer of the vehicle.', 'insert-headers-and-footers' ),
 							'id'          => 'vehicle_brand',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'Toyota',
 						),
 						array(
@@ -114,6 +115,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The VIN of the vehicle.', 'insert-headers-and-footers' ),
 							'id'          => 'vehicle_vin',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '1HGCM82633A123456',
 						),
 						array(
@@ -122,6 +124,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The model year of the vehicle.', 'insert-headers-and-footers' ),
 							'id'          => 'vehicle_model_year',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '2023',
 						),
 					),
@@ -133,17 +136,19 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The type of fuel used by the vehicle.', 'insert-headers-and-footers' ),
 							'id'          => 'vehicle_fuel_type',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'Gasoline',
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Vehicle Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of the vehicle\'s image.', 'insert-headers-and-footers' ),
-							'id'           => 'vehicle_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/vehicle-image.jpg',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Vehicle Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of the vehicle\'s image.', 'insert-headers-and-footers' ),
+							'id'              => 'vehicle_image',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/vehicle-image.jpg',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -187,6 +192,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The price of the vehicle.', 'insert-headers-and-footers' ),
 							'id'          => 'offer_price',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '25000',
 						),
 						array(
@@ -195,6 +201,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The currency of the price (e.g., USD, EUR).', 'insert-headers-and-footers' ),
 							'id'          => 'offer_price_currency',
 							'default'     => 'USD',
+							'smart_tags'  => true,
 							'placeholder' => 'USD',
 						),
 						array(
@@ -221,7 +228,7 @@ class WPCode_Generator_Schema_Car extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => 'Vehicle',

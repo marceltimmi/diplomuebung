@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Video extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the video...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -105,17 +105,20 @@ class WPCode_Generator_Schema_Video extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Video Embed URL', 'insert-headers-and-footers' ),
 							'description' => __( 'The URL of the embedded video (e.g., YouTube embed URL).', 'insert-headers-and-footers' ),
 							'id'          => 'video_embed_url',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => 'https://www.youtube.com/embed/VIDEO_ID',
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Video Thumbnail', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the video thumbnail image.', 'insert-headers-and-footers' ),
-							'id'           => 'video_thumbnail',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/video-thumbnail.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Video Thumbnail', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the video thumbnail image.', 'insert-headers-and-footers' ),
+							'id'              => 'video_thumbnail',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'default'         => '',
+							'placeholder'     => 'https://example.com/video-thumbnail.jpg',
+							'is_image_url'    => true,
 						),
 					),
 					array(
@@ -124,11 +127,12 @@ class WPCode_Generator_Schema_Video extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Video Duration', 'insert-headers-and-footers' ),
 							'description' => __( 'The duration of the video in ISO 8601 format (e.g., PT1H30M for 1 hour 30 minutes).', 'insert-headers-and-footers' ),
 							'id'          => 'video_duration',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => 'PT1H30M',
 						),
 						array(
-							'type'        => 'text',
+							'type'        => 'date',
 							'label'       => __( 'Upload Date', 'insert-headers-and-footers' ),
 							'description' => __( 'The date when the video was uploaded.', 'insert-headers-and-footers' ),
 							'id'          => 'upload_date',
@@ -144,20 +148,24 @@ class WPCode_Generator_Schema_Video extends WPCode_Generator_Schema_Base {
 					// Column 1 - Creator details.
 					array(
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Creator Name', 'insert-headers-and-footers' ),
-							'description' => __( 'The name of the video creator.', 'insert-headers-and-footers' ),
-							'id'          => 'creator_name',
-							'default'     => '',
-							'placeholder' => __( 'Enter creator name...', 'insert-headers-and-footers' ),
+							'type'            => 'text',
+							'label'           => __( 'Creator Name', 'insert-headers-and-footers' ),
+							'description'     => __( 'The name of the video creator.', 'insert-headers-and-footers' ),
+							'id'              => 'creator_name',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'author_name' ),
+							'placeholder'     => __( 'Enter creator name...', 'insert-headers-and-footers' ),
 						),
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Creator URL', 'insert-headers-and-footers' ),
-							'description' => __( 'The URL of the creator website or profile.', 'insert-headers-and-footers' ),
-							'id'          => 'creator_url',
-							'default'     => '',
-							'placeholder' => 'https://example.com/creator',
+							'type'            => 'text',
+							'label'           => __( 'Creator URL', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the creator website or profile.', 'insert-headers-and-footers' ),
+							'id'              => 'creator_url',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'author_url' ),
+							'default'         => '',
+							'placeholder'     => 'https://example.com/creator',
 						),
 					),
 				),
@@ -170,7 +178,7 @@ class WPCode_Generator_Schema_Video extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'VideoObject',

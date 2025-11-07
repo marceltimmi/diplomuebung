@@ -113,16 +113,19 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 							'label'       => __( 'Review Rating', 'insert-headers-and-footers' ),
 							'description' => __( 'The rating given in the review (1-5).', 'insert-headers-and-footers' ),
 							'id'          => 'review_rating',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => '4.5',
 						),
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Reviewer Name', 'insert-headers-and-footers' ),
-							'description' => __( 'The name of the reviewer.', 'insert-headers-and-footers' ),
-							'id'          => 'reviewer_name',
-							'default'     => '',
-							'placeholder' => __( 'Enter reviewer name...', 'insert-headers-and-footers' ),
+							'type'            => 'text',
+							'label'           => __( 'Reviewer Name', 'insert-headers-and-footers' ),
+							'description'     => __( 'The name of the reviewer.', 'insert-headers-and-footers' ),
+							'id'              => 'reviewer_name',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'author_name' ),
+							'default'         => '',
+							'placeholder'     => __( 'Enter reviewer name...', 'insert-headers-and-footers' ),
 						),
 					),
 				),
@@ -133,12 +136,14 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 					// Column 1 - Product information.
 					array(
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Product Name', 'insert-headers-and-footers' ),
-							'description' => __( 'The name of the product being reviewed.', 'insert-headers-and-footers' ),
-							'id'          => 'product_name',
-							'default'     => '',
-							'placeholder' => __( 'Enter product name...', 'insert-headers-and-footers' ),
+							'type'            => 'text',
+							'label'           => __( 'Product Name', 'insert-headers-and-footers' ),
+							'description'     => __( 'The name of the product being reviewed.', 'insert-headers-and-footers' ),
+							'id'              => 'product_name',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'title' ),
+							'placeholder'     => __( 'Enter product name...', 'insert-headers-and-footers' ),
 						),
 						array(
 							'type'            => 'text',
@@ -151,13 +156,15 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 							'predefined_tags' => array( 'permalink' ),
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Product Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the product image.', 'insert-headers-and-footers' ),
-							'id'           => 'product_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/product-image.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Product Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the product image.', 'insert-headers-and-footers' ),
+							'id'              => 'product_image',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/product-image.jpg',
+							'is_image_url'    => true,
 						),
 					),
 					array(
@@ -166,6 +173,7 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 							'label'       => __( 'Product Brand', 'insert-headers-and-footers' ),
 							'description' => __( 'The brand or manufacturer of the product.', 'insert-headers-and-footers' ),
 							'id'          => 'product_brand',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Enter brand name...', 'insert-headers-and-footers' ),
 						),
@@ -174,6 +182,7 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 							'label'       => __( 'Product SKU', 'insert-headers-and-footers' ),
 							'description' => __( 'The SKU or model number of the product.', 'insert-headers-and-footers' ),
 							'id'          => 'product_sku',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Enter SKU...', 'insert-headers-and-footers' ),
 						),
@@ -188,7 +197,7 @@ class WPCode_Generator_Schema_Product_Review extends WPCode_Generator_Schema_Bas
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Review',

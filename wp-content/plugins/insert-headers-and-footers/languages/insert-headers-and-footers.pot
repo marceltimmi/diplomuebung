@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPCode Lite 2.3.0\n"
+"Project-Id-Version: WPCode Lite 2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/insert-headers-and-footers\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-07T11:57:34+00:00\n"
+"POT-Creation-Date: 2025-11-06T13:54:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: insert-headers-and-footers\n"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: includes/admin/admin-scripts.php:49
 #: includes/admin/admin-scripts.php:85
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:430
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:428
 msgid "OK"
 msgstr ""
 
@@ -712,7 +712,7 @@ msgid "Descending"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:88
-msgid "Easy, Fast and Secure WordPress Backups and Website Migration. Join 1,500,000+ professionals who trust Duplicator. No Code Required."
+msgid "Duplicator offers cloud WordPress backups with military-grade encryption. Automatically backup your entire WordPress site to secure cloud storage."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:93
@@ -720,40 +720,44 @@ msgid "Duplicator Screenshot"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:99
-msgid "Secure Backups."
+msgid "Automatic Website Backups Made Easy."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:100
-msgid "Website Cloning."
+msgid "Secure Cloud Storage Integration (Google Drive, AWS, Dropbox, and more)."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:101
-msgid "Cloud Storage."
+msgid "1-Click Restore from Recovery Points."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-duplicator.php:102
-msgid "1-Click Restore."
+msgid "Website Cloning and Migration."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:103
+msgid "Used by 1.5 Million websites."
 msgstr ""
 
 #. translators: %s is the plugin name.
-#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:115
+#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:116
 #: includes/admin/pages/class-wpcode-admin-page-search-replace.php:114
 msgid "Install and Activate %s"
 msgstr ""
 
 #. translators: %s is the plugin name.
-#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:124
+#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:125
 #: includes/admin/pages/class-wpcode-admin-page-search-replace.php:123
 msgid "Install %s from the WordPress.org plugin repository."
 msgstr ""
 
 #. translators: %s is the plugin name.
-#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:137
+#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:138
 #: includes/admin/pages/class-wpcode-admin-page-search-replace.php:136
 msgid "Install %s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:146
+#: includes/admin/pages/class-wpcode-admin-page-duplicator.php:147
 msgid "Please ask your website administrator to install Duplicator."
 msgstr ""
 
@@ -782,15 +786,15 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-file-editor.php:134
 #: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:236
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:179
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:256
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:320
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:370
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:430
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:813
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:183
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:263
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:327
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:377
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:437
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:820
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:168
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:463
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:652
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:461
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:650
 msgid "Save Changes"
 msgstr ""
 
@@ -817,8 +821,8 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-file-editor.php:254
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:77
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:496
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:674
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:494
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:672
 msgid "Upgrade to WPCode PRO"
 msgstr ""
 
@@ -1106,344 +1110,352 @@ msgid "You can find your Facebook Pixel ID in the Facebook Ads Manager. %1$sRead
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:150
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:400
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:407
 msgid "Conversions API Token"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:154
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:404
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:411
 msgid "The Conversions API token allows you to send API events that are more reliable and can improve audience targeting."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:160
+msgid "Add Another Pixel"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:163
 msgid "Facebook Pixel Events"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:164
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:240
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:167
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:247
 msgid "PageView Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:166
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:169
 msgid "Enable the PageView event to track and record page visits on all the pages of your website using the Facebook Pixel."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:173
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:250
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:314
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:364
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:424
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:177
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:257
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:321
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:371
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:431
 msgid "eCommerce Events Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:191
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:195
 msgid "Google Analytics & Ads Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:194
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:198
 msgid "Google Analytics ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:200
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:204
 msgid "You can find your Google Analytics ID in the Google Analytics Admin panel. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:208
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:212
 msgid "Google Ads Tag ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:214
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:218
 msgid "You can find your Google Ads Tag ID in the Google Ads Settings under Google Tag. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:222
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:226
 msgid "Ads Conversion Label"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:228
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:232
 msgid "Add your Google Ads Conversion Label for tracking conversion events. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:236
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:240
+msgid "Add Google ID"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:243
 msgid "Google Events"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:242
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:249
 msgid "Enable PageView event on all pages."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:268
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:275
 msgid "Pinterest Tag"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:271
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:278
 msgid "Tag ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:277
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:284
 msgid "You can find your Tag id in your Pinterest Business account. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:285
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:292
 msgid "Ad Account ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:291
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:298
 msgid "You can find your Ad Account ID in your Pinterest Business account. %1$sRead more%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:299
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:306
 msgid "Conversion Access Token"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:305
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:312
 msgid "You can find your Conversion Access Token under Ads > Conversions > Conversion access token. %1$sRead more%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:332
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:339
 msgid "TikTok Pixel"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:335
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:342
 msgid "Pixel ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:341
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:348
 msgid "You can find your Pixel id in your TikTok Business Account. %1$sRead our step by step directions%2$s."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:349
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:356
 msgid "Events API Access Token"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:355
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:362
 msgid "You can generate an access token in the Pixel Settings under Access Token Generation. %1$sRead more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:382
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:389
 msgid "Snapchat Pixel"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:385
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:392
 msgid "Snap Pixel ID"
 msgstr ""
 
 #. translators: %1$s and %2$s are the opening and closing anchor tags.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:391
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:398
 msgid "You can find your Snapchat Pixel ID in the Snapchat Ads Manager. %1$sRead our step by step directions%2$s. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:410
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:417
 msgid "Snapchat Pixel Events"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:414
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:421
 msgid "Pave View Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:416
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:423
 msgid "Enable the PAGE_VIEW event to track and record page visits on all the pages of your website using the Snapchat Pixel."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:443
-msgid "ViewContent Event"
-msgstr ""
-
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:445
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:566
-msgid "Turn on the \"ViewContent\" event to track views of product pages on your website."
-msgstr ""
-
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:450
-msgid "AddtoCart Event"
+msgid "ViewContent Event"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:452
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:573
-msgid "Turn on the \"AddToCart\" event to track when items are added to a shopping cart on your website."
+msgid "Turn on the \"ViewContent\" event to track views of product pages on your website."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:457
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:578
-msgid "InitiateCheckout Event"
+msgid "AddtoCart Event"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:459
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:580
-msgid "Turn on the \"InitiateCheckout\" event to track when a user reaches the checkout page on your website."
+msgid "Turn on the \"AddToCart\" event to track when items are added to a shopping cart on your website."
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:464
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:502
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:711
-msgid "Purchase Event"
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:585
+msgid "InitiateCheckout Event"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-pixel.php:466
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:587
+msgid "Turn on the \"InitiateCheckout\" event to track when a user reaches the checkout page on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:471
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:509
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:718
+msgid "Purchase Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:473
 msgid "Turn on the \"Purchase\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:481
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:488
 msgid "View Item Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:483
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:490
 msgid "Send the View Item event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:488
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:533
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:571
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:697
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:495
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:540
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:578
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:704
 msgid "Add to Cart Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:490
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:497
 msgid "Send the Add to Cart event when a product is added to the cart."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:495
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:502
 msgid "Begin Checkout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:497
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:504
 msgid "Send the Begin Checkout event when the user sees the checkout page."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:504
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:511
 msgid "Send the Purchase event when the user completes a purchase."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:509
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:516
 msgid "Conversion Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:511
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:518
 msgid "Send the conversion event with the Google Ads label set above on a successful purchase."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:526
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:533
 msgid "PageVisit Product Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:528
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:535
 msgid "Turn on the \"PageVisit\" event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:535
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:542
 msgid "Turn on the Add to Cart event to track when items are added to a shopping cart on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:540
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:547
 msgid "Checkout PageVisit Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:542
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:549
 msgid "Enable the Checkout PageVisit event to track when a user reaches the checkout page on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:547
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:554
 msgid "Checkout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:549
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:556
 msgid "Turn on the \"Checkout\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:564
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:571
 msgid "ViewContent Product Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:585
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:592
 msgid "PlaceAnOrder Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:587
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:594
 msgid "Turn on the \"PlaceAnOrder\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:663
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:670
 msgid "Disabled, no eCommerce Platform Detected"
 msgstr ""
 
 #. translators: %s is the name of the eCommerce provider.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:667
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:674
 msgid "%s Tracking Enabled"
 msgstr ""
 
 #. translators: %s a html break.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:673
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:680
 msgid "Advanced eCommerce tracking is available for WooCommerce, Easy Digital Downloads and MemberPress. %s These plugins are detected automatically and when available you can toggle individual events using the options below."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:690
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:697
 msgid "View Content Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:692
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:699
 msgid "Turn on the \"VIEW_CONTENT\" event to track views of product pages on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:699
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:706
 msgid "Turn on the \"ADD_CART\" event to track when items are added to a shopping cart on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:704
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:711
 msgid "Start Checkout Event"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:706
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:713
 msgid "Turn on the \"START_CHECKOUT\" event to track when a user reaches the checkout page on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:713
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:720
 msgid "Turn on the \"PURCHASE\" event to track successful purchases on your website."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:727
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:734
 msgid "Custom Click Tracking"
 msgstr ""
 
 #. Translators: %1$s is the opening link tag, %2$s is the closing link tag
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:732
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:739
 msgid "Use this section to add custom click events to your site. You can add as many as you like. Each event can have multiple pixels and each pixel can have a custom event name and value. Read more about how to configure these settings in %1$sthis article%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:742
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:749
 msgid "CSS Selector"
 msgstr ""
 
 #. Translators: %1$s is an opening anchor tag, %2$s is a closing anchor tag.
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:748
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:755
 msgid "Define the HTML element that triggers the event upon clicking (button, link, etc). Input the appropriate CSS selector here. %1$sLearn more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:756
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:763
 #: includes/generator/class-wpcode-generator-schema-event.php:80
 msgid "Event Name"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:760
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:767
 msgid "Assign a unique identifier to your event for easy recognition and categorization. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:764
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:771
 msgid "Event Value"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:768
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:775
 msgid "Input a numerical value for your event. This helps in quantifying user interactions for your tracking needs. "
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-pixel.php:807
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:814
 msgid "Add New Click Event"
 msgstr ""
 
@@ -1488,7 +1500,7 @@ msgid "Error Handling"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-settings.php:66
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:624
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:622
 msgid "Access Control"
 msgstr ""
 
@@ -1578,148 +1590,148 @@ msgid "You're using WPCode Lite - no license needed. Enjoy!"
 msgstr ""
 
 #. Translators: %1$s - Opening anchor tag, do not translate. %2$s - Closing anchor tag, do not translate.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:401
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:399
 msgid "To unlock more features consider %1$supgrading to PRO%2$s."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:408
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:406
 msgid "Already purchased? Simply enter your license key below to enable WPCode PRO!"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:410
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:408
 msgid "Paste license key here"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:412
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:410
 msgid "Verify Key"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:429
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:427
 msgid "Oops!"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:431
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:429
 msgid "Almost Done"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:432
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:430
 #: includes/admin/pages/class-wpcode-code-snippets-table.php:503
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:433
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:431
 msgid "Unfortunately there was a server connection error."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:478
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:476
 msgid "Email Notifications"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:481
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:479
 msgid "Receive email notifications when snippets throw errors or are automatically deactivated."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:493
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:491
 msgid "Email Notifications is a Pro Feature"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:494
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:492
 msgid "Do you want to get email notifications the moment your snippets throw an error or are automatically deactivated? Upgrade today and improve your workflow with WPCode Error Email Notifications."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:512
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:510
 msgid "Error Notifications"
 msgstr ""
 
 #. Translators: %1$s: opening anchor tag, %2$s: closing anchor tag. Link to docs about error notifications.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:518
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:516
 msgid "Send email notifications when snippets throw errors? %1$sLearn more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:528
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:569
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:526
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:567
 msgid "Send To"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:532
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:530
 msgid "Enter a comma separated list of email addresses to receive error notifications. Defaults to the admin email address."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:548
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:589
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:546
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:587
 msgid "Preview Email"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:553
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:551
 msgid "Deactivation Notifications"
 msgstr ""
 
 #. Translators: %1$s: opening anchor tag, %2$s: closing anchor tag. Link to docs about error notifications.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:559
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:557
 msgid "Send an email when a snippet gets automatically deactivated? %1$sLearn more%2$s"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:573
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:571
 msgid "Enter a comma separated list of email addresses to receive deactivation notifications. Defaults to the admin email address."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:601
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:599
 msgid "Error Logging"
 msgstr ""
 
 #. Translators: %1$s: opening anchor tag, %2$s: closing anchor tag.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:607
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:605
 msgid "Log errors thrown by snippets? %1$sView Logs%2$s"
 msgstr ""
 
 #. Translators: %1$s - Opening anchor tag. %2$s - Closing anchor tag.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:629
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:627
 msgid "Select the user roles that are allowed to manage different types of snippets or parts of WPCode. By default, all permissions are provided only to administrator users. Please see our %1$sAccess Control documentation%2$s for more details."
 msgstr ""
 
 #. translators: %1$s and %2$s are <u> tags.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:665
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:663
 msgid "Improve the way you and your team manage your snippets with the WPCode Access Control settings. Enable other users on your site to manage different types of snippets or configure Conversion Pixels settings and update configuration files. This feature is available on the %1$sWPCode Pro%2$s plan or higher."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:671
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:669
 msgid "Access Control is a PRO Feature"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:679
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:677
 msgid "Save time and improve website management with your team"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:680
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:678
 msgid "Delegate snippet management to other users with full control"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:681
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:679
 msgid "Enable other users to set up ads & 3rd party services"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:682
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:680
 msgid "Choose if PHP snippets should be enabled on the site"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:694
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:692
 msgid "PHP Snippets"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:697
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:695
 msgid "Disable PHP snippets"
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:701
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:699
 msgid "This option will completely disable PHP snippets execution and the option to edit or add new PHP snippets."
 msgstr ""
 
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:768
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:766
 msgid "Make Sure Important Emails Reach Your Inbox"
 msgstr ""
 
 #. Translators: %1$s: opening anchor tag, %2$s: closing anchor tag.
-#: includes/admin/pages/class-wpcode-admin-page-settings.php:773
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:771
 msgid "Solve common email deliverability issues for good. %1$sGet WP Mail SMTP%2$s!"
 msgstr ""
 
@@ -1867,8 +1879,8 @@ msgstr ""
 
 #: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:614
 #: includes/admin/pages/class-wpcode-code-snippets-table.php:748
-#: includes/generator/class-wpcode-generator-schema-event.php:156
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:200
+#: includes/generator/class-wpcode-generator-schema-event.php:157
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:201
 #: includes/lite/conditional-logic/class-wpcode-conditional-location.php:70
 msgid "Location"
 msgstr ""
@@ -2722,12 +2734,12 @@ msgid "ID"
 msgstr ""
 
 #: includes/admin/pages/class-wpcode-code-snippets-table.php:747
-#: includes/conditional-logic/class-wpcode-conditional-page.php:152
+#: includes/conditional-logic/class-wpcode-conditional-page.php:193
 #: includes/generator/class-wpcode-generator-post-type.php:378
 #: includes/generator/class-wpcode-generator-query.php:225
 #: includes/generator/class-wpcode-generator-query.php:299
-#: includes/generator/class-wpcode-generator-schema-article.php:152
-#: includes/generator/class-wpcode-generator-schema-book.php:159
+#: includes/generator/class-wpcode-generator-schema-article.php:153
+#: includes/generator/class-wpcode-generator-schema-book.php:165
 msgid "Author"
 msgstr ""
 
@@ -3209,16 +3221,16 @@ msgid "Author ID"
 msgstr ""
 
 #: includes/class-wpcode-smart-tags.php:104
-#: includes/generator/class-wpcode-generator-schema-article.php:158
-#: includes/generator/class-wpcode-generator-schema-book.php:165
+#: includes/generator/class-wpcode-generator-schema-article.php:159
+#: includes/generator/class-wpcode-generator-schema-book.php:171
 #: includes/generator/class-wpcode-generator-schema-fact-check.php:120
-#: includes/generator/class-wpcode-generator-schema-recipe.php:102
+#: includes/generator/class-wpcode-generator-schema-recipe.php:104
 msgid "Author Name"
 msgstr ""
 
 #: includes/class-wpcode-smart-tags.php:108
-#: includes/generator/class-wpcode-generator-schema-article.php:168
-#: includes/generator/class-wpcode-generator-schema-book.php:175
+#: includes/generator/class-wpcode-generator-schema-article.php:169
+#: includes/generator/class-wpcode-generator-schema-book.php:181
 #: includes/generator/class-wpcode-generator-schema-fact-check.php:130
 msgid "Author URL"
 msgstr ""
@@ -3236,7 +3248,7 @@ msgid "The website's home URL"
 msgstr ""
 
 #: includes/class-wpcode-smart-tags.php:124
-#: includes/conditional-logic/class-wpcode-conditional-page.php:84
+#: includes/conditional-logic/class-wpcode-conditional-page.php:125
 #: includes/generator/class-wpcode-generator-query.php:204
 msgid "Post type"
 msgstr ""
@@ -3565,132 +3577,132 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:48
+#: includes/conditional-logic/class-wpcode-conditional-page.php:89
 msgid "Type of page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:49
+#: includes/conditional-logic/class-wpcode-conditional-page.php:90
 msgid "Choose a WordPress-specific type of page for your rule."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:53
+#: includes/conditional-logic/class-wpcode-conditional-page.php:94
 msgid "Homepage"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:57
+#: includes/conditional-logic/class-wpcode-conditional-page.php:98
 msgid "Archive"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:61
+#: includes/conditional-logic/class-wpcode-conditional-page.php:102
 msgid "Single post/page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:65
+#: includes/conditional-logic/class-wpcode-conditional-page.php:106
 msgid "Search page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:69
+#: includes/conditional-logic/class-wpcode-conditional-page.php:110
 msgid "404 page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:73
+#: includes/conditional-logic/class-wpcode-conditional-page.php:114
 msgid "Author page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:77
+#: includes/conditional-logic/class-wpcode-conditional-page.php:118
 msgid "Blog home"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:85
+#: includes/conditional-logic/class-wpcode-conditional-page.php:126
 msgid "Target by post type: posts, pages or custom post types."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:91
+#: includes/conditional-logic/class-wpcode-conditional-page.php:132
 msgid "Referrer"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:92
+#: includes/conditional-logic/class-wpcode-conditional-page.php:133
 msgid "Use the page referrer/last visited page url as a condition."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:97
+#: includes/conditional-logic/class-wpcode-conditional-page.php:138
 msgid "Taxonomy page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:98
+#: includes/conditional-logic/class-wpcode-conditional-page.php:139
 msgid "Load only on pages for a specific category/taxonomy."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:104
+#: includes/conditional-logic/class-wpcode-conditional-page.php:145
 msgid "Taxonomy term"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:105
+#: includes/conditional-logic/class-wpcode-conditional-page.php:146
 msgid "Choose category/taxonomy terms to target for single or archive pages."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:113
+#: includes/conditional-logic/class-wpcode-conditional-page.php:154
 msgid "Page URL"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:114
+#: includes/conditional-logic/class-wpcode-conditional-page.php:155
 msgid "Use the page URL to limit where this snippet is loaded."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:119
+#: includes/conditional-logic/class-wpcode-conditional-page.php:160
 msgid "Post meta"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:120
+#: includes/conditional-logic/class-wpcode-conditional-page.php:161
 msgid "Target specific posts based on custom post meta values."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:124
+#: includes/conditional-logic/class-wpcode-conditional-page.php:165
 msgid "Post Meta rules are a Pro feature"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:125
-#: includes/conditional-logic/class-wpcode-conditional-page.php:136
+#: includes/conditional-logic/class-wpcode-conditional-page.php:166
+#: includes/conditional-logic/class-wpcode-conditional-page.php:177
 msgid "Upgrade today to create conditional logic rules for specific pages or posts."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:130
+#: includes/conditional-logic/class-wpcode-conditional-page.php:171
 msgid "Post/Page"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:131
+#: includes/conditional-logic/class-wpcode-conditional-page.php:172
 msgid "Pick specific posts or pages to load the snippet on."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:135
+#: includes/conditional-logic/class-wpcode-conditional-page.php:176
 msgid "Post specific rules are a Pro feature"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:141
+#: includes/conditional-logic/class-wpcode-conditional-page.php:182
 msgid "Page Template"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:142
+#: includes/conditional-logic/class-wpcode-conditional-page.php:183
 msgid "Load the snippet only on pages with a specific template."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:146
+#: includes/conditional-logic/class-wpcode-conditional-page.php:187
 msgid "Page Template rules are a Pro feature"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:147
+#: includes/conditional-logic/class-wpcode-conditional-page.php:188
 msgid "Upgrade today to create conditional logic rules for specific page templates."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:153
+#: includes/conditional-logic/class-wpcode-conditional-page.php:194
 msgid "Load the snippet only on pages with a specific author."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:157
+#: includes/conditional-logic/class-wpcode-conditional-page.php:198
 msgid "Post Author rules are a Pro feature"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-page.php:158
+#: includes/conditional-logic/class-wpcode-conditional-page.php:199
 msgid "Upgrade today to create conditional logic rules based on the page/post author."
 msgstr ""
 
@@ -3698,45 +3710,45 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:48
+#: includes/conditional-logic/class-wpcode-conditional-user.php:68
 msgid "Logged-in"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:49
+#: includes/conditional-logic/class-wpcode-conditional-user.php:69
 msgid "Check if your site visitor is logged in."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:53
+#: includes/conditional-logic/class-wpcode-conditional-user.php:73
 #: includes/generator/class-wpcode-generator-schema-fact-check.php:110
 msgid "True"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:57
+#: includes/conditional-logic/class-wpcode-conditional-user.php:77
 #: includes/generator/class-wpcode-generator-schema-fact-check.php:111
 msgid "False"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:64
+#: includes/conditional-logic/class-wpcode-conditional-user.php:84
 msgid "User Role"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:65
+#: includes/conditional-logic/class-wpcode-conditional-user.php:85
 msgid "Target a specific user role."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:71
+#: includes/conditional-logic/class-wpcode-conditional-user.php:91
 msgid "User Meta"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:72
+#: includes/conditional-logic/class-wpcode-conditional-user.php:92
 msgid "Target users based on user meta values."
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:76
+#: includes/conditional-logic/class-wpcode-conditional-user.php:96
 msgid "User Meta is a Pro Feature"
 msgstr ""
 
-#: includes/conditional-logic/class-wpcode-conditional-user.php:77
+#: includes/conditional-logic/class-wpcode-conditional-user.php:97
 msgid "Get access to User Meta conditional logic rules by upgrading to PRO today."
 msgstr ""
 
@@ -5537,48 +5549,48 @@ msgstr ""
 msgid "URL of the article's featured image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:159
+#: includes/generator/class-wpcode-generator-schema-article.php:160
 msgid "The name of the article author."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:162
-#: includes/generator/class-wpcode-generator-schema-book.php:169
-#: includes/generator/class-wpcode-generator-schema-course.php:158
+#: includes/generator/class-wpcode-generator-schema-article.php:163
+#: includes/generator/class-wpcode-generator-schema-book.php:175
+#: includes/generator/class-wpcode-generator-schema-course.php:160
 msgid "John Doe"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:169
-#: includes/generator/class-wpcode-generator-schema-book.php:176
+#: includes/generator/class-wpcode-generator-schema-article.php:170
+#: includes/generator/class-wpcode-generator-schema-book.php:182
 msgid "The URL of the author's profile or website."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:180
-#: includes/generator/class-wpcode-generator-schema-book.php:187
+#: includes/generator/class-wpcode-generator-schema-article.php:181
+#: includes/generator/class-wpcode-generator-schema-book.php:193
 msgid "Publisher"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:186
-#: includes/generator/class-wpcode-generator-schema-article.php:190
-#: includes/generator/class-wpcode-generator-schema-book.php:193
-#: includes/generator/class-wpcode-generator-schema-book.php:197
+#: includes/generator/class-wpcode-generator-schema-article.php:187
+#: includes/generator/class-wpcode-generator-schema-article.php:191
+#: includes/generator/class-wpcode-generator-schema-book.php:199
+#: includes/generator/class-wpcode-generator-schema-book.php:203
 #: includes/generator/class-wpcode-generator-schema-dataset.php:105
-#: includes/generator/class-wpcode-generator-schema-software.php:156
+#: includes/generator/class-wpcode-generator-schema-software.php:161
 msgid "Publisher Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:187
-#: includes/generator/class-wpcode-generator-schema-book.php:194
+#: includes/generator/class-wpcode-generator-schema-article.php:188
+#: includes/generator/class-wpcode-generator-schema-book.php:200
 msgid "The name of the publisher."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:196
-#: includes/generator/class-wpcode-generator-schema-book.php:203
-#: includes/generator/class-wpcode-generator-schema-software.php:176
+#: includes/generator/class-wpcode-generator-schema-article.php:197
+#: includes/generator/class-wpcode-generator-schema-book.php:209
+#: includes/generator/class-wpcode-generator-schema-software.php:181
 msgid "Publisher Logo"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-article.php:197
-#: includes/generator/class-wpcode-generator-schema-book.php:204
+#: includes/generator/class-wpcode-generator-schema-article.php:198
+#: includes/generator/class-wpcode-generator-schema-book.php:210
 msgid "URL of the publisher's logo."
 msgstr ""
 
@@ -5639,47 +5651,47 @@ msgstr ""
 msgid "The ISBN of the book."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:111
+#: includes/generator/class-wpcode-generator-schema-book.php:112
 msgid "Book URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:112
+#: includes/generator/class-wpcode-generator-schema-book.php:113
 msgid "The URL where the book can be purchased or viewed."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:121
+#: includes/generator/class-wpcode-generator-schema-book.php:122
 msgid "Book Edition"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:122
+#: includes/generator/class-wpcode-generator-schema-book.php:123
 msgid "The edition of the book."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:132
+#: includes/generator/class-wpcode-generator-schema-book.php:134
 msgid "Number of Pages"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:133
+#: includes/generator/class-wpcode-generator-schema-book.php:135
 msgid "The number of pages in the book."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:140
+#: includes/generator/class-wpcode-generator-schema-book.php:143
 msgid "Book Format"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:141
+#: includes/generator/class-wpcode-generator-schema-book.php:144
 msgid "The format of the book (e.g., Hardcover, Paperback, EBook)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:148
+#: includes/generator/class-wpcode-generator-schema-book.php:152
 msgid "Book Cover Image"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:149
+#: includes/generator/class-wpcode-generator-schema-book.php:153
 msgid "URL of the book's cover image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-book.php:166
+#: includes/generator/class-wpcode-generator-schema-book.php:172
 msgid "The name of the book author."
 msgstr ""
 
@@ -5739,123 +5751,125 @@ msgstr ""
 msgid "The brand or manufacturer of the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:113
+#: includes/generator/class-wpcode-generator-schema-car.php:114
 msgid "Vehicle Identification Number (VIN)"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:114
+#: includes/generator/class-wpcode-generator-schema-car.php:115
 msgid "The VIN of the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:121
+#: includes/generator/class-wpcode-generator-schema-car.php:123
 msgid "Model Year"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:122
+#: includes/generator/class-wpcode-generator-schema-car.php:124
 msgid "The model year of the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:132
+#: includes/generator/class-wpcode-generator-schema-car.php:135
 msgid "Fuel Type"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:133
+#: includes/generator/class-wpcode-generator-schema-car.php:136
 msgid "The type of fuel used by the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:140
+#: includes/generator/class-wpcode-generator-schema-car.php:144
 msgid "Vehicle Image"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:141
+#: includes/generator/class-wpcode-generator-schema-car.php:145
 msgid "URL of the vehicle's image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:152
+#: includes/generator/class-wpcode-generator-schema-car.php:157
 msgid "Seller"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:158
+#: includes/generator/class-wpcode-generator-schema-car.php:163
 msgid "Seller Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:159
+#: includes/generator/class-wpcode-generator-schema-car.php:164
 msgid "The name of the seller or dealership."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:162
+#: includes/generator/class-wpcode-generator-schema-car.php:167
 msgid "ABC Motors"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:168
+#: includes/generator/class-wpcode-generator-schema-car.php:173
 msgid "Seller URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:169
+#: includes/generator/class-wpcode-generator-schema-car.php:174
 msgid "The URL of the seller's website."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:180
+#: includes/generator/class-wpcode-generator-schema-car.php:185
 msgid "Offer"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:186
-#: includes/generator/class-wpcode-generator-schema-course.php:193
-#: includes/generator/class-wpcode-generator-schema-event.php:263
-#: includes/generator/class-wpcode-generator-schema-product.php:158
-#: includes/generator/class-wpcode-generator-schema-software.php:193
+#: includes/generator/class-wpcode-generator-schema-car.php:191
+#: includes/generator/class-wpcode-generator-schema-course.php:195
+#: includes/generator/class-wpcode-generator-schema-event.php:264
+#: includes/generator/class-wpcode-generator-schema-product.php:164
+#: includes/generator/class-wpcode-generator-schema-software.php:200
 msgid "Price"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:187
+#: includes/generator/class-wpcode-generator-schema-car.php:192
 msgid "The price of the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:194
+#: includes/generator/class-wpcode-generator-schema-car.php:200
 msgid "Price Currency"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:195
-#: includes/generator/class-wpcode-generator-schema-product.php:169
-#: includes/generator/class-wpcode-generator-schema-software.php:202
+#: includes/generator/class-wpcode-generator-schema-car.php:201
+#: includes/generator/class-wpcode-generator-schema-product.php:176
+#: includes/generator/class-wpcode-generator-schema-software.php:210
 msgid "The currency of the price (e.g., USD, EUR)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:202
-#: includes/generator/class-wpcode-generator-schema-course.php:228
-#: includes/generator/class-wpcode-generator-schema-event.php:310
-#: includes/generator/class-wpcode-generator-schema-product.php:178
-#: includes/generator/class-wpcode-generator-schema-software.php:209
+#: includes/generator/class-wpcode-generator-schema-car.php:209
+#: includes/generator/class-wpcode-generator-schema-course.php:232
+#: includes/generator/class-wpcode-generator-schema-event.php:311
+#: includes/generator/class-wpcode-generator-schema-product.php:186
+#: includes/generator/class-wpcode-generator-schema-software.php:218
 msgid "Availability"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:203
+#: includes/generator/class-wpcode-generator-schema-car.php:210
 msgid "The availability status of the vehicle."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:207
-#: includes/generator/class-wpcode-generator-schema-course.php:233
-#: includes/generator/class-wpcode-generator-schema-event.php:317
-#: includes/generator/class-wpcode-generator-schema-product.php:185
+#: includes/generator/class-wpcode-generator-schema-car.php:214
+#: includes/generator/class-wpcode-generator-schema-course.php:237
+#: includes/generator/class-wpcode-generator-schema-event.php:318
+#: includes/generator/class-wpcode-generator-schema-product.php:193
+#: includes/generator/class-wpcode-generator-schema-software.php:224
 msgid "In Stock"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:208
-#: includes/generator/class-wpcode-generator-schema-course.php:234
-#: includes/generator/class-wpcode-generator-schema-event.php:320
-#: includes/generator/class-wpcode-generator-schema-product.php:186
+#: includes/generator/class-wpcode-generator-schema-car.php:215
+#: includes/generator/class-wpcode-generator-schema-course.php:238
+#: includes/generator/class-wpcode-generator-schema-event.php:321
+#: includes/generator/class-wpcode-generator-schema-product.php:194
+#: includes/generator/class-wpcode-generator-schema-software.php:225
 msgid "Out of Stock"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:209
-#: includes/generator/class-wpcode-generator-schema-event.php:319
+#: includes/generator/class-wpcode-generator-schema-car.php:216
+#: includes/generator/class-wpcode-generator-schema-event.php:320
 msgid "Pre-Order"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-car.php:210
-#: includes/generator/class-wpcode-generator-schema-course.php:236
-#: includes/generator/class-wpcode-generator-schema-event.php:321
-#: includes/generator/class-wpcode-generator-schema-product.php:188
+#: includes/generator/class-wpcode-generator-schema-car.php:217
+#: includes/generator/class-wpcode-generator-schema-course.php:240
+#: includes/generator/class-wpcode-generator-schema-event.php:322
+#: includes/generator/class-wpcode-generator-schema-product.php:196
 msgid "Discontinued"
 msgstr ""
 
@@ -5900,7 +5914,7 @@ msgid "The URL where the course can be accessed."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-course.php:105
-#: includes/generator/class-wpcode-generator-schema-service.php:140
+#: includes/generator/class-wpcode-generator-schema-service.php:144
 msgid "Provider Name"
 msgstr ""
 
@@ -5909,7 +5923,7 @@ msgid "The name of the course provider or institution."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-course.php:115
-#: includes/generator/class-wpcode-generator-schema-service.php:150
+#: includes/generator/class-wpcode-generator-schema-service.php:154
 msgid "Provider URL"
 msgstr ""
 
@@ -5925,93 +5939,93 @@ msgstr ""
 msgid "The course code or identifier."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:136
+#: includes/generator/class-wpcode-generator-schema-course.php:137
 msgid "Course Image"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:137
+#: includes/generator/class-wpcode-generator-schema-course.php:138
 msgid "URL of the course image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:148
+#: includes/generator/class-wpcode-generator-schema-course.php:150
 msgid "Instructor"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:154
+#: includes/generator/class-wpcode-generator-schema-course.php:156
 msgid "Instructor Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:155
+#: includes/generator/class-wpcode-generator-schema-course.php:157
 msgid "The name of the course instructor."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:164
+#: includes/generator/class-wpcode-generator-schema-course.php:166
 msgid "Instructor URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:165
+#: includes/generator/class-wpcode-generator-schema-course.php:167
 msgid "The URL of the instructor's profile or website."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:176
+#: includes/generator/class-wpcode-generator-schema-course.php:178
 msgid "Pricing & Availability"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:182
+#: includes/generator/class-wpcode-generator-schema-course.php:184
 msgid "Course Type"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:183
+#: includes/generator/class-wpcode-generator-schema-course.php:185
 msgid "Whether this is a free or paid course."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:187
+#: includes/generator/class-wpcode-generator-schema-course.php:189
 msgid "Paid Course"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:188
+#: includes/generator/class-wpcode-generator-schema-course.php:190
 msgid "Free Course"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:194
+#: includes/generator/class-wpcode-generator-schema-course.php:196
 msgid "The price of the course (leave empty for free courses)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:201
-#: includes/generator/class-wpcode-generator-schema-event.php:274
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:259
-#: includes/generator/class-wpcode-generator-schema-product.php:168
-#: includes/generator/class-wpcode-generator-schema-software.php:201
+#: includes/generator/class-wpcode-generator-schema-course.php:204
+#: includes/generator/class-wpcode-generator-schema-event.php:275
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:260
+#: includes/generator/class-wpcode-generator-schema-product.php:175
+#: includes/generator/class-wpcode-generator-schema-software.php:209
 msgid "Currency"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:202
+#: includes/generator/class-wpcode-generator-schema-course.php:205
 msgid "The currency code (e.g., USD, EUR)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:212
-#: includes/generator/class-wpcode-generator-schema-event.php:288
+#: includes/generator/class-wpcode-generator-schema-course.php:216
+#: includes/generator/class-wpcode-generator-schema-event.php:289
 msgid "Valid From"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:213
+#: includes/generator/class-wpcode-generator-schema-course.php:217
 msgid "The date when the course becomes available (YYYY-MM-DD)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:220
+#: includes/generator/class-wpcode-generator-schema-course.php:224
 msgid "Valid Until"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:221
+#: includes/generator/class-wpcode-generator-schema-course.php:225
 msgid "The date when the course offer expires (YYYY-MM-DD)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:229
+#: includes/generator/class-wpcode-generator-schema-course.php:233
 msgid "The availability status of the course."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-course.php:235
-#: includes/generator/class-wpcode-generator-schema-product.php:187
+#: includes/generator/class-wpcode-generator-schema-course.php:239
+#: includes/generator/class-wpcode-generator-schema-product.php:195
 msgid "Pre-order"
 msgstr ""
 
@@ -6068,7 +6082,7 @@ msgid "The name of the dataset publisher."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-dataset.php:115
-#: includes/generator/class-wpcode-generator-schema-software.php:166
+#: includes/generator/class-wpcode-generator-schema-software.php:171
 msgid "Publisher URL"
 msgstr ""
 
@@ -6077,7 +6091,7 @@ msgid "The URL of the publisher's website."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-dataset.php:128
-#: includes/generator/class-wpcode-generator-schema-software.php:132
+#: includes/generator/class-wpcode-generator-schema-software.php:136
 msgid "Version"
 msgstr ""
 
@@ -6085,39 +6099,39 @@ msgstr ""
 msgid "The version of the dataset."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:136
+#: includes/generator/class-wpcode-generator-schema-dataset.php:137
 msgid "License"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:137
+#: includes/generator/class-wpcode-generator-schema-dataset.php:138
 msgid "The license under which the dataset is distributed."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:146
+#: includes/generator/class-wpcode-generator-schema-dataset.php:148
 msgid "Distribution"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:152
+#: includes/generator/class-wpcode-generator-schema-dataset.php:154
 msgid "Distribution URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:153
+#: includes/generator/class-wpcode-generator-schema-dataset.php:155
 msgid "The URL where the dataset can be downloaded."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:162
+#: includes/generator/class-wpcode-generator-schema-dataset.php:164
 msgid "File Format"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:163
+#: includes/generator/class-wpcode-generator-schema-dataset.php:165
 msgid "The format of the dataset file (e.g., CSV, JSON, XML)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:170
+#: includes/generator/class-wpcode-generator-schema-dataset.php:173
 msgid "File Size"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-dataset.php:171
+#: includes/generator/class-wpcode-generator-schema-dataset.php:174
 msgid "The size of the dataset file."
 msgstr ""
 
@@ -6165,245 +6179,246 @@ msgstr ""
 msgid "URL of an image representing the event."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:113
+#: includes/generator/class-wpcode-generator-schema-event.php:114
 msgid "Start Date & Time"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:114
+#: includes/generator/class-wpcode-generator-schema-event.php:115
 msgid "The start date and time (ISO 8601 format)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:121
+#: includes/generator/class-wpcode-generator-schema-event.php:122
 msgid "End Date & Time"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:122
+#: includes/generator/class-wpcode-generator-schema-event.php:123
 msgid "The end date and time (ISO 8601 format)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:129
+#: includes/generator/class-wpcode-generator-schema-event.php:130
 msgid "Event Status"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:130
+#: includes/generator/class-wpcode-generator-schema-event.php:131
 msgid "The current status of the event."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:134
+#: includes/generator/class-wpcode-generator-schema-event.php:135
 msgid "Scheduled"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:135
+#: includes/generator/class-wpcode-generator-schema-event.php:136
 msgid "Cancelled"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:136
+#: includes/generator/class-wpcode-generator-schema-event.php:137
 msgid "Postponed"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:137
+#: includes/generator/class-wpcode-generator-schema-event.php:138
 msgid "Rescheduled"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:142
+#: includes/generator/class-wpcode-generator-schema-event.php:143
 msgid "Attendance Mode"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:143
+#: includes/generator/class-wpcode-generator-schema-event.php:144
 msgid "Whether the event is online, offline, or mixed."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:147
+#: includes/generator/class-wpcode-generator-schema-event.php:148
 msgid "Offline"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:148
+#: includes/generator/class-wpcode-generator-schema-event.php:149
 msgid "Online"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:149
+#: includes/generator/class-wpcode-generator-schema-event.php:150
 msgid "Mixed (Online & Offline)"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:162
+#: includes/generator/class-wpcode-generator-schema-event.php:163
 msgid "Venue Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:163
+#: includes/generator/class-wpcode-generator-schema-event.php:164
 msgid "The name of the venue where the event takes place."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:166
+#: includes/generator/class-wpcode-generator-schema-event.php:167
 msgid "Event Center"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:175
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:206
+#: includes/generator/class-wpcode-generator-schema-event.php:176
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:207
 msgid "Street Address"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:176
+#: includes/generator/class-wpcode-generator-schema-event.php:177
 msgid "The street address of the venue."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:179
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:210
+#: includes/generator/class-wpcode-generator-schema-event.php:180
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:211
 msgid "123 Main St"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:184
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:215
+#: includes/generator/class-wpcode-generator-schema-event.php:185
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:216
 msgid "City"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:185
+#: includes/generator/class-wpcode-generator-schema-event.php:186
 msgid "The city of the venue."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:188
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:219
+#: includes/generator/class-wpcode-generator-schema-event.php:189
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:220
 msgid "New York"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:193
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:224
+#: includes/generator/class-wpcode-generator-schema-event.php:194
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:225
 msgid "Postal Code"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:194
+#: includes/generator/class-wpcode-generator-schema-event.php:195
 msgid "The postal code of the venue."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:197
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:228
+#: includes/generator/class-wpcode-generator-schema-event.php:198
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:229
 msgid "10001"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:202
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:233
+#: includes/generator/class-wpcode-generator-schema-event.php:203
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:234
 msgid "Country Code"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:203
+#: includes/generator/class-wpcode-generator-schema-event.php:204
 msgid "The country code of the venue (e.g., US, UK, CA)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:206
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:237
+#: includes/generator/class-wpcode-generator-schema-event.php:207
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:238
 msgid "US"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:213
+#: includes/generator/class-wpcode-generator-schema-event.php:214
 msgid "Performer"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:219
+#: includes/generator/class-wpcode-generator-schema-event.php:220
 msgid "Performer Type"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:220
+#: includes/generator/class-wpcode-generator-schema-event.php:221
 msgid "The type of performer at the event."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:224
+#: includes/generator/class-wpcode-generator-schema-event.php:225
 msgid "No Performer"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:225
+#: includes/generator/class-wpcode-generator-schema-event.php:226
 msgid "Person"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:226
+#: includes/generator/class-wpcode-generator-schema-event.php:227
 msgid "Performing Group"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:227
+#: includes/generator/class-wpcode-generator-schema-event.php:228
 msgid "Music Group"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:228
+#: includes/generator/class-wpcode-generator-schema-event.php:229
 msgid "Dance Group"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:229
+#: includes/generator/class-wpcode-generator-schema-event.php:230
 msgid "Theater Group"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:234
+#: includes/generator/class-wpcode-generator-schema-event.php:235
 msgid "Performer Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:235
+#: includes/generator/class-wpcode-generator-schema-event.php:236
 msgid "The name of the performer or group."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:238
+#: includes/generator/class-wpcode-generator-schema-event.php:239
 msgid "The Performers"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:246
-#: includes/generator/class-wpcode-generator-schema-software.php:187
+#: includes/generator/class-wpcode-generator-schema-event.php:247
+#: includes/generator/class-wpcode-generator-schema-software.php:194
 msgid "Offers"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:252
-#: includes/generator/class-wpcode-generator-schema-product.php:148
+#: includes/generator/class-wpcode-generator-schema-event.php:253
+#: includes/generator/class-wpcode-generator-schema-product.php:153
 msgid "Offer Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:253
+#: includes/generator/class-wpcode-generator-schema-event.php:254
 msgid "The name of the offer (e.g., General Admission)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:258
+#: includes/generator/class-wpcode-generator-schema-event.php:259
 msgid "General Admission"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:264
+#: includes/generator/class-wpcode-generator-schema-event.php:265
 msgid "The price of the ticket."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:269
+#: includes/generator/class-wpcode-generator-schema-event.php:270
 msgid "25.00"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:275
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:260
+#: includes/generator/class-wpcode-generator-schema-event.php:276
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:261
 msgid "The currency code (e.g., USD, EUR, GBP)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:280
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:263
+#: includes/generator/class-wpcode-generator-schema-event.php:281
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:264
 msgid "USD"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:289
+#: includes/generator/class-wpcode-generator-schema-event.php:290
 msgid "The date when the ticket goes on sale (YYYY-MM-DD)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:294
+#: includes/generator/class-wpcode-generator-schema-event.php:295
 msgid "2025-01-01"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:299
+#: includes/generator/class-wpcode-generator-schema-event.php:300
 msgid "Ticket URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:300
+#: includes/generator/class-wpcode-generator-schema-event.php:301
 msgid "URL where tickets can be purchased."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:311
+#: includes/generator/class-wpcode-generator-schema-event.php:312
 msgid "The availability status of tickets."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:318
-#: includes/generator/class-wpcode-generator-schema-product.php:192
+#: includes/generator/class-wpcode-generator-schema-event.php:319
+#: includes/generator/class-wpcode-generator-schema-product.php:200
+#: includes/generator/class-wpcode-generator-schema-software.php:226
 msgid "Sold Out"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-event.php:330
-#: includes/generator/class-wpcode-generator-schema-product.php:211
+#: includes/generator/class-wpcode-generator-schema-event.php:331
+#: includes/generator/class-wpcode-generator-schema-product.php:219
 msgid "Add Another Offer"
 msgstr ""
 
@@ -6527,23 +6542,23 @@ msgstr ""
 msgid "The question text."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-faq.php:79
+#: includes/generator/class-wpcode-generator-schema-faq.php:80
 msgid "What is your question?"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-faq.php:83
+#: includes/generator/class-wpcode-generator-schema-faq.php:84
 msgid "Answer"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-faq.php:84
+#: includes/generator/class-wpcode-generator-schema-faq.php:85
 msgid "The answer to the question."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-faq.php:89
+#: includes/generator/class-wpcode-generator-schema-faq.php:91
 msgid "Enter your answer here..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-faq.php:97
+#: includes/generator/class-wpcode-generator-schema-faq.php:99
 msgid "Add Another FAQ Item"
 msgstr ""
 
@@ -6568,7 +6583,7 @@ msgid "A detailed description of the how-to guide."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-how-to.php:91
-#: includes/generator/class-wpcode-generator-schema-recipe.php:164
+#: includes/generator/class-wpcode-generator-schema-recipe.php:172
 msgid "Total Time"
 msgstr ""
 
@@ -6576,27 +6591,27 @@ msgstr ""
 msgid "The total time required to complete the task (e.g., \"PT30M\" for 30 minutes)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:100
+#: includes/generator/class-wpcode-generator-schema-how-to.php:101
 msgid "Steps"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:106
-#: includes/generator/class-wpcode-generator-schema-recipe.php:188
+#: includes/generator/class-wpcode-generator-schema-how-to.php:107
+#: includes/generator/class-wpcode-generator-schema-recipe.php:198
 msgid "Step Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:107
-#: includes/generator/class-wpcode-generator-schema-recipe.php:189
+#: includes/generator/class-wpcode-generator-schema-how-to.php:108
+#: includes/generator/class-wpcode-generator-schema-recipe.php:199
 msgid "The name/title of this step."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:117
-#: includes/generator/class-wpcode-generator-schema-recipe.php:198
+#: includes/generator/class-wpcode-generator-schema-how-to.php:118
+#: includes/generator/class-wpcode-generator-schema-recipe.php:209
 msgid "Step Text"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:118
-#: includes/generator/class-wpcode-generator-schema-recipe.php:199
+#: includes/generator/class-wpcode-generator-schema-how-to.php:119
+#: includes/generator/class-wpcode-generator-schema-recipe.php:210
 msgid "The detailed instructions for this step."
 msgstr ""
 
@@ -6609,17 +6624,17 @@ msgid "Optional URL for this step (e.g., to a detailed tutorial)."
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-how-to.php:139
-#: includes/generator/class-wpcode-generator-schema-recipe.php:209
+#: includes/generator/class-wpcode-generator-schema-recipe.php:221
 msgid "Step Image"
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-how-to.php:140
-#: includes/generator/class-wpcode-generator-schema-recipe.php:210
+#: includes/generator/class-wpcode-generator-schema-recipe.php:222
 msgid "URL of an image for this step."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-how-to.php:153
-#: includes/generator/class-wpcode-generator-schema-recipe.php:224
+#: includes/generator/class-wpcode-generator-schema-how-to.php:155
+#: includes/generator/class-wpcode-generator-schema-recipe.php:238
 msgid "Add Another Step"
 msgstr ""
 
@@ -6640,7 +6655,7 @@ msgid "Job Details"
 msgstr ""
 
 #: includes/generator/class-wpcode-generator-schema-job-posting.php:73
-#: includes/generator/class-wpcode-generator-schema-person.php:114
+#: includes/generator/class-wpcode-generator-schema-person.php:116
 msgid "Job Title"
 msgstr ""
 
@@ -6672,7 +6687,7 @@ msgstr ""
 msgid "The industry of the job (e.g., IT, Healthcare, Education)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:99
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:100
 msgid "Information Technology"
 msgstr ""
 
@@ -6792,59 +6807,59 @@ msgstr ""
 msgid "URL of the organization logo."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:207
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:208
 msgid "The street address of the job location."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:216
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:217
 msgid "The city of the job location."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:225
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:226
 msgid "The postal code of the job location."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:234
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:235
 msgid "The country code of the job location (e.g., US, UK, CA)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:244
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:245
 msgid "Salary"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:250
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:251
 msgid "Base Salary"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:251
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:252
 msgid "The base salary amount."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:268
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:269
 msgid "Salary Unit"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:269
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:270
 msgid "The unit of time for the salary."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:273
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:274
 msgid "Per Hour"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:274
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:275
 msgid "Per Day"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:275
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:276
 msgid "Per Week"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:276
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:277
 msgid "Per Month"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-job-posting.php:277
+#: includes/generator/class-wpcode-generator-schema-job-posting.php:278
 msgid "Per Year"
 msgstr ""
 
@@ -6900,63 +6915,63 @@ msgstr ""
 msgid "The URL of the movie poster or image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:114
-#: includes/generator/class-wpcode-generator-schema-music.php:114
-#: includes/generator/class-wpcode-generator-schema-software.php:140
+#: includes/generator/class-wpcode-generator-schema-movie.php:116
+#: includes/generator/class-wpcode-generator-schema-music.php:116
+#: includes/generator/class-wpcode-generator-schema-software.php:145
 msgid "Release Date"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:115
+#: includes/generator/class-wpcode-generator-schema-movie.php:117
 msgid "The date when the movie was released."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:122
-#: includes/generator/class-wpcode-generator-schema-music.php:122
+#: includes/generator/class-wpcode-generator-schema-movie.php:124
+#: includes/generator/class-wpcode-generator-schema-music.php:124
 msgid "Duration"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:123
+#: includes/generator/class-wpcode-generator-schema-movie.php:125
 msgid "The duration of the movie in minutes."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:132
+#: includes/generator/class-wpcode-generator-schema-movie.php:135
 msgid "Director"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:133
+#: includes/generator/class-wpcode-generator-schema-movie.php:136
 msgid "The name of the movie director."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:136
+#: includes/generator/class-wpcode-generator-schema-movie.php:140
 msgid "Enter director name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:140
-#: includes/generator/class-wpcode-generator-schema-music.php:140
+#: includes/generator/class-wpcode-generator-schema-movie.php:144
+#: includes/generator/class-wpcode-generator-schema-music.php:144
 msgid "Genre"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:141
+#: includes/generator/class-wpcode-generator-schema-movie.php:145
 msgid "The genre of the movie (e.g., Action, Comedy, Drama)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:148
+#: includes/generator/class-wpcode-generator-schema-movie.php:153
 msgid "Rating"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:149
+#: includes/generator/class-wpcode-generator-schema-movie.php:154
 msgid "The rating of the movie (e.g., PG-13, R)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:156
+#: includes/generator/class-wpcode-generator-schema-movie.php:162
 msgid "Production Company"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:157
+#: includes/generator/class-wpcode-generator-schema-movie.php:163
 msgid "The name of the production company."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-movie.php:160
+#: includes/generator/class-wpcode-generator-schema-movie.php:167
 msgid "Enter production company name..."
 msgstr ""
 
@@ -7012,51 +7027,51 @@ msgstr ""
 msgid "The URL of the music cover art or image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:115
+#: includes/generator/class-wpcode-generator-schema-music.php:117
 msgid "The date when the music was released."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:123
+#: includes/generator/class-wpcode-generator-schema-music.php:125
 msgid "The duration of the music in seconds."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:130
+#: includes/generator/class-wpcode-generator-schema-music.php:133
 msgid "Artist"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:131
+#: includes/generator/class-wpcode-generator-schema-music.php:134
 msgid "The name of the music artist."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:134
+#: includes/generator/class-wpcode-generator-schema-music.php:138
 msgid "Enter artist name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:141
+#: includes/generator/class-wpcode-generator-schema-music.php:145
 msgid "The genre of the music (e.g., Rock, Pop, Jazz)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:148
+#: includes/generator/class-wpcode-generator-schema-music.php:153
 msgid "Album"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:149
+#: includes/generator/class-wpcode-generator-schema-music.php:154
 msgid "The name of the album (if applicable)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:152
+#: includes/generator/class-wpcode-generator-schema-music.php:158
 msgid "Enter album name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:156
+#: includes/generator/class-wpcode-generator-schema-music.php:162
 msgid "Record Label"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:157
+#: includes/generator/class-wpcode-generator-schema-music.php:163
 msgid "The name of the record label."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-music.php:160
+#: includes/generator/class-wpcode-generator-schema-music.php:167
 msgid "Enter record label name..."
 msgstr ""
 
@@ -7109,50 +7124,50 @@ msgstr ""
 msgid "The URL of the person's photo."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:115
+#: includes/generator/class-wpcode-generator-schema-person.php:117
 msgid "The person's job title or role."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:118
+#: includes/generator/class-wpcode-generator-schema-person.php:121
 msgid "Enter job title..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:122
+#: includes/generator/class-wpcode-generator-schema-person.php:125
 msgid "Works For"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:123
+#: includes/generator/class-wpcode-generator-schema-person.php:126
 msgid "The organization the person works for."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:126
+#: includes/generator/class-wpcode-generator-schema-person.php:130
 msgid "Enter organization name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:132
-#: includes/generator/class-wpcode-generator-schema-service.php:187
+#: includes/generator/class-wpcode-generator-schema-person.php:136
+#: includes/generator/class-wpcode-generator-schema-service.php:194
 #: includes/generator/class-wpcode-generator-widget.php:189
 msgid "Email"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:133
+#: includes/generator/class-wpcode-generator-schema-person.php:137
 msgid "The person's email address."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:140
-#: includes/generator/class-wpcode-generator-schema-service.php:195
+#: includes/generator/class-wpcode-generator-schema-person.php:146
+#: includes/generator/class-wpcode-generator-schema-service.php:204
 msgid "Telephone"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:141
+#: includes/generator/class-wpcode-generator-schema-person.php:147
 msgid "The person's telephone number."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:148
+#: includes/generator/class-wpcode-generator-schema-person.php:155
 msgid "Same As"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-person.php:149
+#: includes/generator/class-wpcode-generator-schema-person.php:156
 msgid "URLs of the person's social media profiles (comma-separated)."
 msgstr ""
 
@@ -7220,84 +7235,84 @@ msgstr ""
 msgid "The rating given in the review (1-5)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:121
+#: includes/generator/class-wpcode-generator-schema-product-review.php:122
 msgid "Reviewer Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:122
+#: includes/generator/class-wpcode-generator-schema-product-review.php:123
 msgid "The name of the reviewer."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:125
+#: includes/generator/class-wpcode-generator-schema-product-review.php:128
 msgid "Enter reviewer name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:131
+#: includes/generator/class-wpcode-generator-schema-product-review.php:134
 #: includes/generator/class-wpcode-generator-schema-product.php:67
 msgid "Product Details"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:137
+#: includes/generator/class-wpcode-generator-schema-product-review.php:140
 #: includes/generator/class-wpcode-generator-schema-product.php:73
 msgid "Product Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:138
+#: includes/generator/class-wpcode-generator-schema-product-review.php:141
 msgid "The name of the product being reviewed."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:141
+#: includes/generator/class-wpcode-generator-schema-product-review.php:146
 #: includes/generator/class-wpcode-generator-schema-product.php:77
 msgid "Enter product name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:145
+#: includes/generator/class-wpcode-generator-schema-product-review.php:150
 #: includes/generator/class-wpcode-generator-schema-product.php:93
 msgid "Product URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:146
+#: includes/generator/class-wpcode-generator-schema-product-review.php:151
 #: includes/generator/class-wpcode-generator-schema-product.php:94
 msgid "The URL of the product page."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:155
+#: includes/generator/class-wpcode-generator-schema-product-review.php:160
 #: includes/generator/class-wpcode-generator-schema-product.php:105
 msgid "Product Image"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:156
+#: includes/generator/class-wpcode-generator-schema-product-review.php:161
 #: includes/generator/class-wpcode-generator-schema-product.php:106
 msgid "The URL of the product image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:166
-#: includes/generator/class-wpcode-generator-schema-product.php:114
+#: includes/generator/class-wpcode-generator-schema-product-review.php:173
+#: includes/generator/class-wpcode-generator-schema-product.php:116
 msgid "Product Brand"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:167
-#: includes/generator/class-wpcode-generator-schema-product.php:115
+#: includes/generator/class-wpcode-generator-schema-product-review.php:174
+#: includes/generator/class-wpcode-generator-schema-product.php:117
 msgid "The brand or manufacturer of the product."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:170
-#: includes/generator/class-wpcode-generator-schema-product.php:118
+#: includes/generator/class-wpcode-generator-schema-product-review.php:178
+#: includes/generator/class-wpcode-generator-schema-product.php:121
 msgid "Enter brand name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:174
-#: includes/generator/class-wpcode-generator-schema-product.php:124
+#: includes/generator/class-wpcode-generator-schema-product-review.php:182
+#: includes/generator/class-wpcode-generator-schema-product.php:127
 msgid "Product SKU"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:175
-#: includes/generator/class-wpcode-generator-schema-product.php:125
+#: includes/generator/class-wpcode-generator-schema-product-review.php:183
+#: includes/generator/class-wpcode-generator-schema-product.php:128
 msgid "The SKU or model number of the product."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product-review.php:178
-#: includes/generator/class-wpcode-generator-schema-product.php:128
+#: includes/generator/class-wpcode-generator-schema-product-review.php:187
+#: includes/generator/class-wpcode-generator-schema-product.php:132
 msgid "Enter SKU..."
 msgstr ""
 
@@ -7329,55 +7344,55 @@ msgstr ""
 msgid "Describe the product..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:132
+#: includes/generator/class-wpcode-generator-schema-product.php:136
 msgid "Product GTIN"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:133
+#: includes/generator/class-wpcode-generator-schema-product.php:137
 msgid "The GTIN (UPC, EAN, ISBN) of the product."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:136
+#: includes/generator/class-wpcode-generator-schema-product.php:141
 msgid "Enter GTIN..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:142
+#: includes/generator/class-wpcode-generator-schema-product.php:147
 msgid "Offer Details"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:149
+#: includes/generator/class-wpcode-generator-schema-product.php:154
 msgid "A name to identify this offer (e.g., Regular Price, Sale Price, Bundle Offer)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:154
+#: includes/generator/class-wpcode-generator-schema-product.php:160
 msgid "Regular Price"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:159
+#: includes/generator/class-wpcode-generator-schema-product.php:165
 msgid "The price of the product."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:179
+#: includes/generator/class-wpcode-generator-schema-product.php:187
 msgid "The availability status of the product."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:189
+#: includes/generator/class-wpcode-generator-schema-product.php:197
 msgid "Limited Availability"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:190
+#: includes/generator/class-wpcode-generator-schema-product.php:198
 msgid "Online Only"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:191
+#: includes/generator/class-wpcode-generator-schema-product.php:199
 msgid "Pre-sale"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:197
+#: includes/generator/class-wpcode-generator-schema-product.php:205
 msgid "Price Valid Until"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-product.php:198
+#: includes/generator/class-wpcode-generator-schema-product.php:206
 msgid "The date until which the price is valid."
 msgstr ""
 
@@ -7421,115 +7436,115 @@ msgstr ""
 msgid "URL of the recipe image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:103
+#: includes/generator/class-wpcode-generator-schema-recipe.php:105
 msgid "The name of the recipe author."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:108
+#: includes/generator/class-wpcode-generator-schema-recipe.php:110
 msgid "John Smith"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:114
+#: includes/generator/class-wpcode-generator-schema-recipe.php:116
 msgid "Recipe Category"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:115
+#: includes/generator/class-wpcode-generator-schema-recipe.php:117
 msgid "The category of the recipe (salad, dessert)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:118
+#: includes/generator/class-wpcode-generator-schema-recipe.php:121
 msgid "Dessert, Main Course, Appetizer"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:122
+#: includes/generator/class-wpcode-generator-schema-recipe.php:125
 msgid "Calories"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:123
+#: includes/generator/class-wpcode-generator-schema-recipe.php:126
 msgid "The calorie content of the recipe."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:126
+#: includes/generator/class-wpcode-generator-schema-recipe.php:130
 msgid "350 calories"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:130
+#: includes/generator/class-wpcode-generator-schema-recipe.php:134
 msgid "Ingredients"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:131
+#: includes/generator/class-wpcode-generator-schema-recipe.php:135
 msgid "List all ingredients, separated by commas."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:134
+#: includes/generator/class-wpcode-generator-schema-recipe.php:139
 msgid "2 cups all-purpose flour, 1 cup butter, 2 eggs, 1 cup sugar"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:138
+#: includes/generator/class-wpcode-generator-schema-recipe.php:143
 msgid "Recipe Cuisine"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:139
+#: includes/generator/class-wpcode-generator-schema-recipe.php:144
 msgid "The cuisine type (Italian, Mexican)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:142
+#: includes/generator/class-wpcode-generator-schema-recipe.php:148
 msgid "Italian, Mexican, Asian"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:148
+#: includes/generator/class-wpcode-generator-schema-recipe.php:154
 msgid "Prep Time"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:149
+#: includes/generator/class-wpcode-generator-schema-recipe.php:155
 msgid "Preparation time in ISO 8601 format (PT30M for 30 minutes)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:152
+#: includes/generator/class-wpcode-generator-schema-recipe.php:159
 msgid "PT30M (30 minutes)"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:156
+#: includes/generator/class-wpcode-generator-schema-recipe.php:163
 msgid "Cook Time"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:157
+#: includes/generator/class-wpcode-generator-schema-recipe.php:164
 msgid "Cooking time in ISO 8601 format (PT1H for 1 hour)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:160
+#: includes/generator/class-wpcode-generator-schema-recipe.php:168
 msgid "PT1H (1 hour)"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:165
+#: includes/generator/class-wpcode-generator-schema-recipe.php:173
 msgid "Total time in ISO 8601 format."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:168
+#: includes/generator/class-wpcode-generator-schema-recipe.php:177
 msgid "PT1H30M (1 hour 30 minutes)"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:172
+#: includes/generator/class-wpcode-generator-schema-recipe.php:181
 msgid "Recipe Yield"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:173
+#: includes/generator/class-wpcode-generator-schema-recipe.php:182
 msgid "Number of servings or yield amount."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:176
+#: includes/generator/class-wpcode-generator-schema-recipe.php:186
 msgid "4 servings"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:182
+#: includes/generator/class-wpcode-generator-schema-recipe.php:192
 msgid "Instructions"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:194
+#: includes/generator/class-wpcode-generator-schema-recipe.php:205
 msgid "Preheat the oven"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-recipe.php:204
+#: includes/generator/class-wpcode-generator-schema-recipe.php:216
 msgid "Preheat the oven to 350°F (175°C). Line a baking sheet with parchment paper."
 msgstr ""
 
@@ -7589,79 +7604,79 @@ msgstr ""
 msgid "The URL of the service image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:116
+#: includes/generator/class-wpcode-generator-schema-service.php:118
 msgid "Service Type"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:117
+#: includes/generator/class-wpcode-generator-schema-service.php:119
 msgid "The type of service (e.g., ProfessionalService, FinancialService)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:124
+#: includes/generator/class-wpcode-generator-schema-service.php:127
 msgid "Area Served"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:125
+#: includes/generator/class-wpcode-generator-schema-service.php:128
 msgid "The geographic area where the service is available."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:128
+#: includes/generator/class-wpcode-generator-schema-service.php:132
 msgid "Enter area served..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:134
+#: includes/generator/class-wpcode-generator-schema-service.php:138
 msgid "Service Provider"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:141
+#: includes/generator/class-wpcode-generator-schema-service.php:145
 msgid "The name of the service provider."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:144
+#: includes/generator/class-wpcode-generator-schema-service.php:148
 msgid "Enter provider name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:151
+#: includes/generator/class-wpcode-generator-schema-service.php:155
 msgid "The URL of the service provider."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:162
+#: includes/generator/class-wpcode-generator-schema-service.php:166
 msgid "Provider Logo"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:163
+#: includes/generator/class-wpcode-generator-schema-service.php:167
 msgid "The URL of the provider logo."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:171
+#: includes/generator/class-wpcode-generator-schema-service.php:177
 msgid "Provider Type"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:172
+#: includes/generator/class-wpcode-generator-schema-service.php:178
 msgid "The type of provider (e.g., Organization, Person)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:181
+#: includes/generator/class-wpcode-generator-schema-service.php:188
 msgid "Contact Information"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:188
+#: includes/generator/class-wpcode-generator-schema-service.php:195
 msgid "The contact email address."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:196
+#: includes/generator/class-wpcode-generator-schema-service.php:205
 msgid "The contact phone number."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:203
+#: includes/generator/class-wpcode-generator-schema-service.php:213
 msgid "Address"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:204
+#: includes/generator/class-wpcode-generator-schema-service.php:214
 msgid "The physical address."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-service.php:207
+#: includes/generator/class-wpcode-generator-schema-service.php:218
 msgid "Enter address..."
 msgstr ""
 
@@ -7721,60 +7736,60 @@ msgstr ""
 msgid "The URL of the software screenshot or logo."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:114
+#: includes/generator/class-wpcode-generator-schema-software.php:116
 msgid "Application Category"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:115
+#: includes/generator/class-wpcode-generator-schema-software.php:117
 msgid "The category of the software (e.g., BusinessApplication, GameApplication)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:122
+#: includes/generator/class-wpcode-generator-schema-software.php:125
 #: includes/lite/conditional-logic/class-wpcode-conditional-device.php:80
 msgid "Operating System"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:123
+#: includes/generator/class-wpcode-generator-schema-software.php:126
 msgid "The operating system(s) supported (e.g., Windows, macOS, Linux)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:126
+#: includes/generator/class-wpcode-generator-schema-software.php:130
 msgid "Enter operating system..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:133
+#: includes/generator/class-wpcode-generator-schema-software.php:137
 msgid "The version number of the software."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:141
+#: includes/generator/class-wpcode-generator-schema-software.php:146
 msgid "The date when the software was released."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:150
+#: includes/generator/class-wpcode-generator-schema-software.php:155
 msgid "Publisher Information"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:157
+#: includes/generator/class-wpcode-generator-schema-software.php:162
 msgid "The name of the software publisher."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:160
+#: includes/generator/class-wpcode-generator-schema-software.php:165
 msgid "Enter publisher name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:167
+#: includes/generator/class-wpcode-generator-schema-software.php:172
 msgid "The URL of the publisher website."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:177
+#: includes/generator/class-wpcode-generator-schema-software.php:182
 msgid "The URL of the publisher logo."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:194
+#: includes/generator/class-wpcode-generator-schema-software.php:201
 msgid "The price of the software."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-software.php:210
+#: includes/generator/class-wpcode-generator-schema-software.php:219
 msgid "The availability status of the software."
 msgstr ""
 
@@ -7834,51 +7849,51 @@ msgstr ""
 msgid "The URL of the embedded video (e.g., YouTube embed URL)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:113
+#: includes/generator/class-wpcode-generator-schema-video.php:114
 msgid "Video Thumbnail"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:114
+#: includes/generator/class-wpcode-generator-schema-video.php:115
 msgid "The URL of the video thumbnail image."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:124
+#: includes/generator/class-wpcode-generator-schema-video.php:127
 msgid "Video Duration"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:125
+#: includes/generator/class-wpcode-generator-schema-video.php:128
 msgid "The duration of the video in ISO 8601 format (e.g., PT1H30M for 1 hour 30 minutes)."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:132
+#: includes/generator/class-wpcode-generator-schema-video.php:136
 msgid "Upload Date"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:133
+#: includes/generator/class-wpcode-generator-schema-video.php:137
 msgid "The date when the video was uploaded."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:142
+#: includes/generator/class-wpcode-generator-schema-video.php:146
 msgid "Creator Information"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:148
+#: includes/generator/class-wpcode-generator-schema-video.php:152
 msgid "Creator Name"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:149
+#: includes/generator/class-wpcode-generator-schema-video.php:153
 msgid "The name of the video creator."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:152
+#: includes/generator/class-wpcode-generator-schema-video.php:158
 msgid "Enter creator name..."
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:156
+#: includes/generator/class-wpcode-generator-schema-video.php:162
 msgid "Creator URL"
 msgstr ""
 
-#: includes/generator/class-wpcode-generator-schema-video.php:157
+#: includes/generator/class-wpcode-generator-schema-video.php:163
 msgid "The URL of the creator website or profile."
 msgstr ""
 

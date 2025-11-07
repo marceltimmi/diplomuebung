@@ -70,10 +70,33 @@ abstract class WPCode_Conditional_Type {
 	 */
 	public function get_type_options() {
 		if ( ! isset( $this->options ) ) {
-			$this->load_type_options();
+			// If we're not in a context where translations are safe to load,
+			// and this method exists, load evaluation-only options.
+			if ( ! $this->can_load_translations() && method_exists( $this, 'load_evaluation_options' ) ) {
+				$this->load_evaluation_options();
+			} else {
+				$this->load_type_options();
+			}
 		}
 
 		return $this->options;
+	}
+
+	/**
+	 * Check if we can safely load translations.
+	 * Translations should only be loaded after 'init' hook or in admin context.
+	 *
+	 * @return bool
+	 */
+	protected function can_load_translations() {
+
+		// If 'init' hook has already fired, translations are loaded.
+		if ( did_action( 'init' ) ) {
+			return true;
+		}
+
+		// Otherwise, it's too early to load translations.
+		return false;
 	}
 
 	/**
@@ -97,7 +120,13 @@ abstract class WPCode_Conditional_Type {
 	 */
 	public function get_label() {
 		if ( ! isset( $this->label ) ) {
-			$this->set_label();
+			// Only load translated label if in appropriate context.
+			if ( $this->can_load_translations() ) {
+				$this->set_label();
+			} else {
+				// Return the type name as fallback before translations are loaded.
+				return $this->name;
+			}
 		}
 
 		return $this->label;

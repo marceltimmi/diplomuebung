@@ -390,15 +390,15 @@ function wpcode_get_shortcode_locations() {
 	$params[] = $per_page;
 	$params[] = $offset;
 
+	// Build query structure with sprintf, escaping prepare() placeholders with %%.
+	$query = sprintf(
+		"SELECT ID FROM {$wpdb->posts} WHERE post_type IN (%s) AND post_status != 'trash' AND (%s) LIMIT %%d OFFSET %%d",
+		$post_type_placeholders,
+		$where_like
+	);
+
 	$candidate_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-			"SELECT ID FROM {$wpdb->posts}  
-            WHERE post_type IN ($post_type_placeholders)
-            AND post_status != 'trash'
-            AND ($where_like) 
-            LIMIT %d OFFSET %d",
-			$params
-		)
+		$wpdb->prepare( $query, $params ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	);
 	$candidate_ids = array_unique( $candidate_ids );
 

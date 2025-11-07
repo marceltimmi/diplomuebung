@@ -98,7 +98,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
-        check_ajax_referer('dstb_admin_requests','dstb_nonce');
+        check_ajax_referer('dstb_admin_requests','nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -134,7 +134,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist löschen (Name oder ID) */
     public static function delete_artist() {
-        check_ajax_referer('dstb_admin_requests','dstb_nonce');
+        check_ajax_referer('dstb_admin_requests','nonce');
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -182,7 +182,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Liste aller Artists */
     public static function get_artists() {
-        check_ajax_referer('dstb_admin_requests','dstb_nonce');
+        check_ajax_referer('dstb_admin_requests','nonce');
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['msg'=>'Keine Berechtigung.']);
         }

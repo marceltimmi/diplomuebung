@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the dataset...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -129,6 +129,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The version of the dataset.', 'insert-headers-and-footers' ),
 							'id'          => 'version',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '1.0.0',
 						),
 						array(
@@ -137,6 +138,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The license under which the dataset is distributed.', 'insert-headers-and-footers' ),
 							'id'          => 'license',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'https://creativecommons.org/licenses/by/4.0/',
 						),
 					),
@@ -163,6 +165,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The format of the dataset file (e.g., CSV, JSON, XML).', 'insert-headers-and-footers' ),
 							'id'          => 'file_format',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'CSV',
 						),
 						array(
@@ -171,6 +174,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The size of the dataset file.', 'insert-headers-and-footers' ),
 							'id'          => 'file_size',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '10MB',
 						),
 					),
@@ -184,7 +188,7 @@ class WPCode_Generator_Schema_Dataset extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => 'Dataset',

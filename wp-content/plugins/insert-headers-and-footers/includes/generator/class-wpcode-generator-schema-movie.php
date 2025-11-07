@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the movie...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Thumbnail URL', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the movie poster or image.', 'insert-headers-and-footers' ),
-							'id'           => 'image_url',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/movie-poster.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Thumbnail URL', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the movie poster or image.', 'insert-headers-and-footers' ),
+							'id'              => 'image_url',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/movie-poster.jpg',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'date',
@@ -122,6 +124,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Duration', 'insert-headers-and-footers' ),
 							'description' => __( 'The duration of the movie in minutes.', 'insert-headers-and-footers' ),
 							'id'          => 'duration',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => '120',
 						),
@@ -133,6 +136,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The name of the movie director.', 'insert-headers-and-footers' ),
 							'id'          => 'director',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter director name...', 'insert-headers-and-footers' ),
 						),
 						array(
@@ -141,6 +145,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The genre of the movie (e.g., Action, Comedy, Drama).', 'insert-headers-and-footers' ),
 							'id'          => 'genre',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'Action, Adventure',
 						),
 						array(
@@ -150,6 +155,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'id'          => 'rating',
 							'default'     => '',
 							'placeholder' => 'PG-13',
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -157,6 +163,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The name of the production company.', 'insert-headers-and-footers' ),
 							'id'          => 'production_company',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter production company name...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -170,7 +177,7 @@ class WPCode_Generator_Schema_Movie extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Movie',

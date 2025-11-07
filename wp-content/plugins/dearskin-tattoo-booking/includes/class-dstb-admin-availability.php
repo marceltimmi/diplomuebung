@@ -143,6 +143,17 @@ class DSTB_Admin_Availability {
         echo '<button type="button" class="button" id="dstb-del-artist-btn">' . esc_html__('Artist löschen', 'dstb') . '</button>';
         echo '</div>';
 
+        // 🧩 Bestimmte Artists sollen keinen Kalender haben
+        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
+        $show_calendar = true;
+
+        if (!empty($current_artist) && in_array(trim($current_artist), $no_calendar_artists, true)) {
+            echo '<div style="margin:20px 0;padding:12px 16px;background:#1b1f27;color:#e9eef5;border-left:4px solid #cc0000;">';
+            echo '<strong>' . esc_html($current_artist) . '</strong> hat keinen individuellen Kalender.</div>';
+            $show_calendar = false;
+        }
+
+        if ($show_calendar) {
         echo '<table class="widefat striped" style="max-width:800px;">';
         echo '<thead><tr><th>' . esc_html__('Wochentag', 'dstb') . '</th><th>' . esc_html__('Zeiträume (von–bis)', 'dstb') . '</th></tr></thead><tbody>';
 
@@ -201,7 +212,7 @@ class DSTB_Admin_Availability {
         } else {
             echo '<p><em>' . esc_html__('Keine Urlaube eingetragen.', 'dstb') . '</em></p>';
         }
-
+    }
         echo '</form>';
 
         $delete_options = '';

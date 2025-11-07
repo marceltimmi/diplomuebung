@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Fact_Check extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the claim in detail...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -162,7 +162,7 @@ class WPCode_Generator_Schema_Fact_Check extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'      => 'https://schema.org',
 			'@type'         => 'ClaimReview',

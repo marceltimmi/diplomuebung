@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the product...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Product Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the product image.', 'insert-headers-and-footers' ),
-							'id'           => 'product_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/product-image.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Product Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the product image.', 'insert-headers-and-footers' ),
+							'id'              => 'product_image',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/product-image.jpg',
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'text',
@@ -115,6 +117,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The brand or manufacturer of the product.', 'insert-headers-and-footers' ),
 							'id'          => 'product_brand',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter brand name...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -125,6 +128,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The SKU or model number of the product.', 'insert-headers-and-footers' ),
 							'id'          => 'product_sku',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter SKU...', 'insert-headers-and-footers' ),
 						),
 						array(
@@ -133,6 +137,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The GTIN (UPC, EAN, ISBN) of the product.', 'insert-headers-and-footers' ),
 							'id'          => 'product_gtin',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter GTIN...', 'insert-headers-and-footers' ),
 						),
 					),
@@ -151,6 +156,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'name'        => 'offer_name[]',
 							'repeater'    => 'offer_items',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Regular Price', 'insert-headers-and-footers' ),
 						),
 						array(
@@ -161,6 +167,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'name'        => 'product_price[]',
 							'repeater'    => 'offer_items',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '99.99',
 						),
 						array(
@@ -171,6 +178,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 							'name'        => 'product_currency[]',
 							'repeater'    => 'offer_items',
 							'default'     => 'USD',
+							'smart_tags'  => true,
 							'placeholder' => 'USD',
 						),
 						array(
@@ -221,7 +229,7 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Product',
@@ -278,21 +286,21 @@ class WPCode_Generator_Schema_Product extends WPCode_Generator_Schema_Base {
 		}
 
 		// Get the offer items.
-		$offer_names = $this->get_value( 'offer_name' );
-		$product_prices = $this->get_value( 'product_price' );
-		$product_currencies = $this->get_value( 'product_currency' );
+		$offer_names          = $this->get_value( 'offer_name' );
+		$product_prices       = $this->get_value( 'product_price' );
+		$product_currencies   = $this->get_value( 'product_currency' );
 		$product_availability = $this->get_value( 'product_availability' );
-		$price_valid_until = $this->get_value( 'price_valid_until' );
+		$price_valid_until    = $this->get_value( 'price_valid_until' );
 
 		// If we have prices, add them to the schema.
 		if ( ! empty( $product_prices ) ) {
 			// Convert to arrays if single values.
 			if ( ! is_array( $product_prices ) ) {
-				$offer_names = array( $offer_names );
-				$product_prices = array( $product_prices );
-				$product_currencies = array( $product_currencies );
+				$offer_names          = array( $offer_names );
+				$product_prices       = array( $product_prices );
+				$product_currencies   = array( $product_currencies );
 				$product_availability = array( $product_availability );
-				$price_valid_until = array( $price_valid_until );
+				$price_valid_until    = array( $price_valid_until );
 			}
 
 			$schema['offers'] = array();

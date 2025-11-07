@@ -138,7 +138,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'facebook_pixel_id',
 				$this->get_option( 'facebook_pixel_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Facebook Pixel ID in the Facebook Ads Manager. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-facebook-pixel-id-and-conversions-api-token/', 'conversion-pixels', 'facebook', 'pixel' ) . '">',
 					'</a>'
@@ -156,6 +156,9 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 			),
 			'facebook_pixel_api_token'
 		);
+		?>
+		<button type="button" class="wpcode-button wpcode-button-secondary wpcode-add-pixel"><?php esc_html_e( 'Add Another Pixel', 'insert-headers-and-footers' ); ?></button>
+		<?php
 		$this->metabox_row(
 			__( 'Facebook Pixel Events', 'insert-headers-and-footers' ),
 			$this->get_checkbox_inputs(
@@ -167,7 +170,8 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 						'ecommerce'   => false,
 					),
 				),
-				'facebook_pixel_events' )
+				'facebook_pixel_events'
+			)
 		);
 		$this->metabox_row(
 			__( 'eCommerce Events Tracking', 'insert-headers-and-footers' ),
@@ -196,7 +200,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'google_analytics_id',
 				$this->get_option( 'google_analytics_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Google Analytics ID in the Google Analytics Admin panel. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-google-analytics-id/', 'conversion-pixels', 'google', 'pixel' ) . '">',
 					'</a>'
@@ -210,7 +214,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'google_ads_id',
 				$this->get_option( 'google_ads_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Google Ads Tag ID in the Google Ads Settings under Google Tag. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-google-ads-tag-id/', 'conversion-pixels', 'google', 'pixel' ) . '">',
 					'</a>'
@@ -224,7 +228,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'google_ads_label',
 				$this->get_option( 'google_ads_label', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'Add your Google Ads Conversion Label for tracking conversion events. %1$sLearn More%2$s.', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-google-ads-tag-id/', 'conversion-pixels', 'google', 'pixel' ) . '">',
 					'</a>'
@@ -232,6 +236,9 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 			),
 			'google_ads_label'
 		);
+		?>
+		<button type="button" class="wpcode-button wpcode-button-secondary wpcode-add-pixel"><?php esc_html_e( 'Add Google ID', 'insert-headers-and-footers' ); ?></button>
+		<?php
 		$this->metabox_row(
 			__( 'Google Events', 'insert-headers-and-footers' ),
 			$this->get_checkbox_inputs(
@@ -273,7 +280,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'pinterest_id',
 				$this->get_option( 'pinterest_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Tag id in your Pinterest Business account. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-pinterest-tag-id-and-conversion-access-token/', 'conversion-pixels', 'pinterest', 'pixel' ) . '">',
 					'</a>'
@@ -287,7 +294,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'pinterest_ad_account_id',
 				$this->get_option( 'pinterest_ad_account_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Ad Account ID in your Pinterest Business account. %1$sRead more%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-pinterest-tag-id-and-conversion-access-token/', 'conversion-pixels', 'pinterest', 'pixel' ) . '">',
 					'</a>'
@@ -301,7 +308,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'pinterest_conversion_token',
 				$this->get_option( 'pinterest_conversion_token', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Conversion Access Token under Ads > Conversions > Conversion access token. %1$sRead more%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-pinterest-tag-id-and-conversion-access-token/', 'conversion-pixels', 'pinterest', 'pixel' ) . '">',
 					'</a>'
@@ -337,7 +344,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'tiktok_pixel_id',
 				$this->get_option( 'tiktok_pixel_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Pixel id in your TikTok Business Account. %1$sRead our step by step directions%2$s.', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-tiktok-pixel-id-and-events-api-access-token/', 'conversion-pixels', 'tiktok', 'pixel' ) . '">',
 					'</a>'
@@ -351,7 +358,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'tiktok_access_token',
 				$this->get_option( 'tiktok_access_token', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can generate an access token in the Pixel Settings under Access Token Generation. %1$sRead more%2$s', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-tiktok-pixel-id-and-events-api-access-token/', 'conversion-pixels', 'tiktok', 'pixel' ) . '">',
 					'</a>'
@@ -387,7 +394,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 				'snapchat_pixel_id',
 				$this->get_option( 'snapchat_pixel_id', '' ),
 				sprintf(
-				// translators: %1$s and %2$s are the opening and closing anchor tags.
+						// translators: %1$s and %2$s are the opening and closing anchor tags.
 					__( 'You can find your Snapchat Pixel ID in the Snapchat Ads Manager. %1$sRead our step by step directions%2$s. ', 'insert-headers-and-footers' ),
 					'<a target="_blank" href="' . wpcode_utm_url( 'https://wpcode.com/docs/how-to-find-your-snapchat-pixel-id-and-conversions-api-token/', 'conversion-pixels', 'snapchat', 'pixel' ) . '">',
 					'</a>'
@@ -744,7 +751,7 @@ class WPCode_Admin_Page_Pixel extends WPCode_Admin_Page {
 						'',
 						'',
 						sprintf(
-						// Translators: %1$s is an opening anchor tag, %2$s is a closing anchor tag.
+								// Translators: %1$s is an opening anchor tag, %2$s is a closing anchor tag.
 							esc_html__( 'Define the HTML element that triggers the event upon clicking (button, link, etc). Input the appropriate CSS selector here. %1$sLearn more%2$s', 'insert-headers-and-footers' ),
 							'<a href="' . esc_url( wpcode_utm_url( 'https://wpcode.com/docs/finding-css-selector/' ) ) . '" target="_blank" rel="noopener noreferrer">',
 							'</a>'

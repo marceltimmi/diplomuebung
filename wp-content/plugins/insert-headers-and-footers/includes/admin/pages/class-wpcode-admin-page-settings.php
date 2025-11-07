@@ -319,7 +319,7 @@ class WPCode_Admin_Page_Settings extends WPCode_Admin_Page {
 
 		wpcode()->settings->bulk_update_options( $settings );
 
-		if ( true === $settings['headers_footers_mode'] ) {
+		if ( isset( $settings['headers_footers_mode'] ) && true === $settings['headers_footers_mode'] ) {
 			wp_safe_redirect(
 				add_query_arg(
 					array(
@@ -391,9 +391,7 @@ class WPCode_Admin_Page_Settings extends WPCode_Admin_Page {
 		ob_start();
 		?>
 		<div class="wpcode-metabox-form">
-			<p><?php esc_html_e( 'You\'re using WPCode Lite - no license needed. Enjoy!', 'insert-headers-and-footers' ); ?>
-				<img draggable="false" role="img" class="emoji" alt="🙂" src="https://s.w.org/images/core/emoji/14.0.0/svg/1f642.svg"> <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
-			</p>
+			<p><?php esc_html_e( 'You\'re using WPCode Lite - no license needed. Enjoy!', 'insert-headers-and-footers' ); ?> 🙂</p>
 			<p>
 				<?php
 				printf(
@@ -496,7 +494,7 @@ class WPCode_Admin_Page_Settings extends WPCode_Admin_Page {
 					'text' => esc_html__( 'Upgrade to WPCode PRO', 'insert-headers-and-footers' ),
 					'url'  => esc_url( wpcode_utm_url( 'https://wpcode.com/lite/', 'settings', 'tab-' . $this->view, 'email' ) ),
 				)
-			); 
+			);
 			?>
 		</div>
 		<?php

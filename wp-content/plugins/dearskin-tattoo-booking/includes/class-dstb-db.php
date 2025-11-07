@@ -154,14 +154,25 @@ class DSTB_DB {
         $end   = $date . ' 23:59:59';
         $rows = $wpdb->get_results($wpdb->prepare(
             "SELECT start_dt, end_dt FROM $table 
-             WHERE artist=%s AND status='confirmed'
-             AND start_dt <= %s AND end_dt >= %s",
+            WHERE LOWER(artist)=LOWER(%s) AND status='confirmed'
+            AND start_dt <= %s AND end_dt >= %s",
             $artist, $end, $start
         ), ARRAY_A);
-        return array_map(function($r){
-            return [ substr($r['start_dt'],11,5), substr($r['end_dt'],11,5) ];
-        }, $rows);
+
+        $result = [];
+        foreach ($rows as $r) {
+            $startHM = substr($r['start_dt'], 11, 5);
+            $endHM   = substr($r['end_dt'], 11, 5);
+
+            // 🔹 +1 Stunde Pufferzeit nach Termin-Ende
+            $endWithBuffer = date('H:i', strtotime($endHM . ' +1 hour'));
+
+            $result[] = [$startHM, $endWithBuffer];
+        }
+        return $result;
     }
+
+
 
     public static function insert_confirmed_booking($artist, $date, $start, $end, $request_id=null){
         global $wpdb;
@@ -200,33 +211,56 @@ class DSTB_DB {
 
     /** Aus Standard-Ranges & Buchungen freie Slots ableiten */
     public static function free_slots_for_date($artist, $date, $stepMinutes=30){
+        // Wenn Urlaub → nichts frei
         if ( self::date_is_vacation($artist, $date) ) return [];
+
+        // Wochentag + Grundverfügbarkeit laden
         $weekday_php = (int)date('N', strtotime($date)) - 1;
         $ranges_map = self::get_weekday_ranges_map($artist);
         $ranges = $ranges_map[$weekday_php] ?? [];
         if (empty($ranges)) return [];
+
+        // Gebuchte Termine laden
         $booked = self::get_bookings_for_day($artist, $date);
+
+        // 💡 Vorbereitungspuffer (in Minuten)
+        $buffer = 60;
+
+        // Alle gebuchten Blöcke inkl. Puffer blockieren
         $mark = [];
         foreach($ranges as $r){
-            $from = self::hm2min($r[0]); $to = self::hm2min($r[1]);
-            for($m=$from; $m<$to; $m+=$stepMinutes){ $mark[$m] = true; }
+            $from = self::hm2min($r[0]); 
+            $to   = self::hm2min($r[1]);
+            for($m=$from; $m<$to; $m+=$stepMinutes){ 
+                $mark[$m] = true; // standardmäßig frei
+            }
         }
+
         foreach($booked as $b){
-            $from = self::hm2min($b[0]); $to = self::hm2min($b[1]);
-            for($m=$from; $m<$to; $m+=$stepMinutes){ $mark[$m] = false; }
+            $from = max(0, self::hm2min($b[0]) - $buffer); // 1 h vor Beginn blocken
+            $to   = self::hm2min($b[1]) + $buffer;         // 1 h nach Ende blocken
+            for($m=$from; $m<=$to; $m+=$stepMinutes){ 
+                $mark[$m] = false; // belegt
+            }
         }
+
+        // Freie Zeitfenster generieren
         $free = [];
         $current = null;
         ksort($mark);
         foreach($mark as $m=>$ok){
-            if($ok && $current===null){ $current = $m; }
+            if($ok && $current===null){ 
+                $current = $m; 
+            }
             if((!$ok || !isset($mark[$m+$stepMinutes])) && $current!==null){
                 $free[] = [ self::min2hm($current), self::min2hm($ok ? $m+$stepMinutes : $m) ];
                 $current = null;
             }
         }
+
         return $free;
     }
+
 
     private static function hm2min($hm){ [$h,$m] = array_map('intval', explode(':',$hm)); return $h*60+$m; }
     private static function min2hm($min){ $h=floor($min/60); $m=$min%60; return sprintf('%02d:%02d',$h,$m); }

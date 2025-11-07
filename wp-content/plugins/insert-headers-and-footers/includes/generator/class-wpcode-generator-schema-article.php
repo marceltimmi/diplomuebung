@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Article extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the article...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 
 					),
@@ -136,14 +136,15 @@ class WPCode_Generator_Schema_Article extends WPCode_Generator_Schema_Base {
 							'placeholder' => '2025-01-02',
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Featured Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of the article\'s featured image.', 'insert-headers-and-footers' ),
-							'id'           => 'article_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/image.jpg',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Featured Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of the article\'s featured image.', 'insert-headers-and-footers' ),
+							'id'              => 'article_image',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/image.jpg',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -192,14 +193,15 @@ class WPCode_Generator_Schema_Article extends WPCode_Generator_Schema_Base {
 							'predefined_tags' => array( 'first_name' ),
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Publisher Logo', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of the publisher\'s logo.', 'insert-headers-and-footers' ),
-							'id'           => 'publisher_logo',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/logo.png',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Publisher Logo', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of the publisher\'s logo.', 'insert-headers-and-footers' ),
+							'id'              => 'publisher_logo',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/logo.png',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -212,7 +214,7 @@ class WPCode_Generator_Schema_Article extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => $this->get_value( 'article_type' ),

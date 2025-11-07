@@ -65,38 +65,40 @@ class WPCode_Settings {
 	 * @return array
 	 */
 	protected function load_options() {
-		return get_option(
-			$this->settings_key,
-			array(
-				'facebook_pixel_events'  => array(
-					'page_view'      => 1,
-					'add_to_cart'    => 1,
-					'view_content'   => 1,
-					'begin_checkout' => 1,
-					'purchase'       => 1,
-				),
-				'google_pixel_events'    => array(
-					'page_view'      => 1,
-					'add_to_cart'    => 1,
-					'view_item'      => 1,
-					'begin_checkout' => 1,
-					'purchase'       => 1,
-					'conversion'     => 1,
-				),
-				'pinterest_pixel_events' => array(
-					'pagevisit_product' => 1,
-					'begin_checkout'    => 1,
-					'add_to_cart'       => 1,
-					'purchase'          => 1,
-				),
-				'tiktok_pixel_events'    => array(
-					'view_content'   => 1,
-					'add_to_cart'    => 1,
-					'begin_checkout' => 1,
-					'purchase'       => 1,
-				),
-			)
+		$defaults = array(
+			'facebook_pixel_events'  => array(
+				'page_view'      => 1,
+				'add_to_cart'    => 1,
+				'view_content'   => 1,
+				'begin_checkout' => 1,
+				'purchase'       => 1,
+			),
+			'google_pixel_events'    => array(
+				'page_view'      => 1,
+				'add_to_cart'    => 1,
+				'view_item'      => 1,
+				'begin_checkout' => 1,
+				'purchase'       => 1,
+				'conversion'     => 1,
+			),
+			'pinterest_pixel_events' => array(
+				'pagevisit_product' => 1,
+				'begin_checkout'    => 1,
+				'add_to_cart'       => 1,
+				'purchase'          => 1,
+			),
+			'tiktok_pixel_events'    => array(
+				'view_content'   => 1,
+				'add_to_cart'    => 1,
+				'begin_checkout' => 1,
+				'purchase'       => 1,
+			),
 		);
+
+		$options = get_option( $this->settings_key, $defaults );
+
+		// Ensure we always return an array, even if the database contains corrupted data.
+		return is_array( $options ) ? $options : $defaults;
 	}
 
 	/**

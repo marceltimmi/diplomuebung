@@ -93,17 +93,18 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the event...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Event Image URL', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of an image representing the event.', 'insert-headers-and-footers' ),
-							'id'           => 'event_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/event-image.jpg',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Event Image URL', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of an image representing the event.', 'insert-headers-and-footers' ),
+							'id'              => 'event_image',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/event-image.jpg',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 					// Column 2 - Dates and status.
@@ -165,7 +166,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Event Center', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array('custom_field'),
+							'predefined_tags' => array( 'custom_field' ),
 						),
 					),
 					// Column 2 - Address information.
@@ -177,7 +178,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_street',
 							'default'     => '',
 							'placeholder' => __( '123 Main St', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -186,7 +187,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_city',
 							'default'     => '',
 							'placeholder' => __( 'New York', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -195,7 +196,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_postal',
 							'default'     => '',
 							'placeholder' => __( '10001', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -204,7 +205,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'id'          => 'location_country',
 							'default'     => '',
 							'placeholder' => __( 'US', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 					),
 				),
@@ -256,7 +257,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'repeater'    => 'offer_items',
 							'default'     => '',
 							'placeholder' => __( 'General Admission', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -267,7 +268,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'repeater'    => 'offer_items',
 							'default'     => '',
 							'placeholder' => __( '25.00', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'text',
@@ -278,7 +279,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'repeater'    => 'offer_items',
 							'default'     => 'USD',
 							'placeholder' => __( 'USD', 'insert-headers-and-footers' ),
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 					),
 					// Column 2 - Additional offer details.
@@ -303,7 +304,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 							'repeater'    => 'offer_items',
 							'default'     => '',
 							'placeholder' => 'https://example.com/tickets',
-							'smart_tags'  => false,
+							'smart_tags'  => true,
 						),
 						array(
 							'type'        => 'select',
@@ -340,7 +341,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 
 		$schema = array(
 			'@context'    => 'https://schema.org',
@@ -408,22 +409,22 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 		}
 
 		// Get the offer items.
-		$offer_names = $this->get_value( 'offer_name' );
-		$offer_prices = $this->get_value( 'offer_price' );
-		$offer_currencies = $this->get_value( 'offer_currency' );
-		$offer_valid_from = $this->get_value( 'offer_valid_from' );
-		$offer_urls = $this->get_value( 'offer_url' );
+		$offer_names        = $this->get_value( 'offer_name' );
+		$offer_prices       = $this->get_value( 'offer_price' );
+		$offer_currencies   = $this->get_value( 'offer_currency' );
+		$offer_valid_from   = $this->get_value( 'offer_valid_from' );
+		$offer_urls         = $this->get_value( 'offer_url' );
 		$offer_availability = $this->get_value( 'offer_availability' );
 
 		// If we have offer names, add them to the schema.
 		if ( ! empty( $offer_names ) ) {
 			// Convert to arrays if single values.
 			if ( ! is_array( $offer_names ) ) {
-				$offer_names = array( $offer_names );
-				$offer_prices = array( $offer_prices );
-				$offer_currencies = array( $offer_currencies );
-				$offer_valid_from = array( $offer_valid_from );
-				$offer_urls = array( $offer_urls );
+				$offer_names        = array( $offer_names );
+				$offer_prices       = array( $offer_prices );
+				$offer_currencies   = array( $offer_currencies );
+				$offer_valid_from   = array( $offer_valid_from );
+				$offer_urls         = array( $offer_urls );
 				$offer_availability = array( $offer_availability );
 			}
 
@@ -438,7 +439,7 @@ class WPCode_Generator_Schema_Event extends WPCode_Generator_Schema_Base {
 					);
 
 					if ( ! empty( $offer_prices[ $index ] ) ) {
-						$offer['price'] = $offer_prices[ $index ];
+						$offer['price']         = $offer_prices[ $index ];
 						$offer['priceCurrency'] = $offer_currencies[ $index ] ?? 'USD';
 					}
 

@@ -75,6 +75,7 @@ class WPCode_Generator_Schema_FAQ extends WPCode_Generator_Schema_Base {
 							'id'          => 'question',
 							'name'        => 'question[]',
 							'repeater'    => 'faq_items',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'What is your question?', 'insert-headers-and-footers' ),
 						),
@@ -85,6 +86,7 @@ class WPCode_Generator_Schema_FAQ extends WPCode_Generator_Schema_Base {
 							'id'          => 'answer',
 							'name'        => 'answer[]',
 							'repeater'    => 'faq_items',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => __( 'Enter your answer here...', 'insert-headers-and-footers' ),
 						),
@@ -107,7 +109,7 @@ class WPCode_Generator_Schema_FAQ extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'   => 'https://schema.org',
 			'@type'      => 'FAQPage',

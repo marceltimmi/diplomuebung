@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Course extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Description of the course...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -129,17 +129,19 @@ class WPCode_Generator_Schema_Course extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The course code or identifier.', 'insert-headers-and-footers' ),
 							'id'          => 'course_code',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'CS101',
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Course Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of the course image.', 'insert-headers-and-footers' ),
-							'id'           => 'course_image',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/course-image.jpg',
-							'smart_tags'   => false,
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Course Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of the course image.', 'insert-headers-and-footers' ),
+							'id'              => 'course_image',
+							'default'         => '',
+							'placeholder'     => 'https://example.com/course-image.jpg',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'is_image_url'    => true,
 						),
 					),
 				),
@@ -193,6 +195,7 @@ class WPCode_Generator_Schema_Course extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Price', 'insert-headers-and-footers' ),
 							'description' => __( 'The price of the course (leave empty for free courses).', 'insert-headers-and-footers' ),
 							'id'          => 'course_price',
+							'smart_tags'  => true,
 							'default'     => '',
 							'placeholder' => '99.99',
 						),
@@ -201,6 +204,7 @@ class WPCode_Generator_Schema_Course extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Currency', 'insert-headers-and-footers' ),
 							'description' => __( 'The currency code (e.g., USD, EUR).', 'insert-headers-and-footers' ),
 							'id'          => 'course_currency',
+							'smart_tags'  => true,
 							'default'     => 'USD',
 							'placeholder' => 'USD',
 						),
@@ -247,7 +251,7 @@ class WPCode_Generator_Schema_Course extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => 'Course',

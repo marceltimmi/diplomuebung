@@ -83,7 +83,7 @@ class WPCode_Generator_Schema_How_To extends WPCode_Generator_Schema_Base {
 							'description'     => __( 'A detailed description of the how-to guide.', 'insert-headers-and-footers' ),
 							'id'              => 'description',
 							'default'         => '',
-							'predefined_tags' => array( 'title' ),
+							'predefined_tags' => array( 'excerpt' ),
 							'smart_tags'      => true,
 						),
 						array(
@@ -91,6 +91,7 @@ class WPCode_Generator_Schema_How_To extends WPCode_Generator_Schema_Base {
 							'label'       => __( 'Total Time', 'insert-headers-and-footers' ),
 							'description' => __( 'The total time required to complete the task (e.g., "PT30M" for 30 minutes).', 'insert-headers-and-footers' ),
 							'id'          => 'total_time',
+							'smart_tags'  => true,
 							'default'     => '',
 						),
 					),
@@ -113,15 +114,14 @@ class WPCode_Generator_Schema_How_To extends WPCode_Generator_Schema_Base {
 							'smart_tags'      => true,
 						),
 						array(
-							'type'            => 'textarea',
-							'label'           => __( 'Step Text', 'insert-headers-and-footers' ),
-							'description'     => __( 'The detailed instructions for this step.', 'insert-headers-and-footers' ),
-							'id'              => 'step_text',
-							'name'            => 'step_text[]',
-							'repeater'        => 'steps',
-							'default'         => '',
-							'predefined_tags' => array( 'text' ),
-							'smart_tags'      => true,
+							'type'        => 'textarea',
+							'label'       => __( 'Step Text', 'insert-headers-and-footers' ),
+							'description' => __( 'The detailed instructions for this step.', 'insert-headers-and-footers' ),
+							'id'          => 'step_text',
+							'name'        => 'step_text[]',
+							'repeater'    => 'steps',
+							'default'     => '',
+							'smart_tags'  => true,
 						),
 						array(
 							'type'            => 'text',
@@ -135,14 +135,16 @@ class WPCode_Generator_Schema_How_To extends WPCode_Generator_Schema_Base {
 							'smart_tags'      => true,
 						),
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Step Image', 'insert-headers-and-footers' ),
-							'description'  => __( 'URL of an image for this step.', 'insert-headers-and-footers' ),
-							'id'           => 'step_image',
-							'name'         => 'step_image[]',
-							'repeater'     => 'steps',
-							'default'      => '',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Step Image', 'insert-headers-and-footers' ),
+							'description'     => __( 'URL of an image for this step.', 'insert-headers-and-footers' ),
+							'id'              => 'step_image',
+							'name'            => 'step_image[]',
+							'repeater'        => 'steps',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'default'         => '',
+							'is_image_url'    => true,
 						),
 					),
 					// Column 2 - Repeater button.
@@ -163,7 +165,7 @@ class WPCode_Generator_Schema_How_To extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context'    => 'https://schema.org',
 			'@type'       => 'HowTo',

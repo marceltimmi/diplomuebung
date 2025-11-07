@@ -86,7 +86,7 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 							'default'         => '',
 							'placeholder'     => __( 'Describe the person...', 'insert-headers-and-footers' ),
 							'smart_tags'      => true,
-							'predefined_tags' => array( 'custom_field' ),
+							'predefined_tags' => array( 'excerpt' ),
 						),
 						array(
 							'type'            => 'text',
@@ -101,13 +101,15 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 					),
 					array(
 						array(
-							'type'         => 'text',
-							'label'        => __( 'Image URL', 'insert-headers-and-footers' ),
-							'description'  => __( 'The URL of the person\'s photo.', 'insert-headers-and-footers' ),
-							'id'           => 'image_url',
-							'default'      => '',
-							'placeholder'  => 'https://example.com/photo.jpg',
-							'is_image_url' => true,
+							'type'            => 'text',
+							'label'           => __( 'Image URL', 'insert-headers-and-footers' ),
+							'description'     => __( 'The URL of the person\'s photo.', 'insert-headers-and-footers' ),
+							'id'              => 'image_url',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'featured_image' ),
+							'placeholder'     => 'https://example.com/photo.jpg',
+							'is_image_url'    => true,
 						),
 						array(
 							'type'        => 'text',
@@ -115,6 +117,7 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The person\'s job title or role.', 'insert-headers-and-footers' ),
 							'id'          => 'job_title',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter job title...', 'insert-headers-and-footers' ),
 						),
 						array(
@@ -123,17 +126,20 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The organization the person works for.', 'insert-headers-and-footers' ),
 							'id'          => 'works_for',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => __( 'Enter organization name...', 'insert-headers-and-footers' ),
 						),
 					),
 					array(
 						array(
-							'type'        => 'text',
-							'label'       => __( 'Email', 'insert-headers-and-footers' ),
-							'description' => __( 'The person\'s email address.', 'insert-headers-and-footers' ),
-							'id'          => 'email',
-							'default'     => '',
-							'placeholder' => 'person@example.com',
+							'type'            => 'text',
+							'label'           => __( 'Email', 'insert-headers-and-footers' ),
+							'description'     => __( 'The person\'s email address.', 'insert-headers-and-footers' ),
+							'id'              => 'email',
+							'default'         => '',
+							'smart_tags'      => true,
+							'predefined_tags' => array( 'email' ),
+							'placeholder'     => 'person@example.com',
 						),
 						array(
 							'type'        => 'text',
@@ -141,6 +147,7 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 							'description' => __( 'The person\'s telephone number.', 'insert-headers-and-footers' ),
 							'id'          => 'telephone',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => '+1-234-567-8900',
 						),
 						array(
@@ -149,6 +156,7 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 							'description' => __( 'URLs of the person\'s social media profiles (comma-separated).', 'insert-headers-and-footers' ),
 							'id'          => 'same_as',
 							'default'     => '',
+							'smart_tags'  => true,
 							'placeholder' => 'https://twitter.com/username, https://linkedin.com/in/username',
 						),
 					),
@@ -162,7 +170,7 @@ class WPCode_Generator_Schema_Person extends WPCode_Generator_Schema_Base {
 	 *
 	 * @return string
 	 */
-	protected function generate_snippet_code(): string {
+	protected function generate_snippet_code() {
 		$schema = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Person',

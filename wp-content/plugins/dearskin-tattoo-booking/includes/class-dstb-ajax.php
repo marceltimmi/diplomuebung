@@ -217,32 +217,71 @@ class DSTB_Ajax {
         wp_send_json_success(['msg' => 'Termin bestätigt – vielen Dank!']);
     }
 
-    /** ========= Kalender & Free Slots ========= */
     public static function calendar_data() {
         $artist = sanitize_text_field($_GET['artist'] ?? '');
         $year   = intval($_GET['year'] ?? date('Y'));
         $month  = intval($_GET['month'] ?? date('n'));
+
         $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $booked = [];
         $free = [];
+
+        // 🔹 Artists ohne individuellen Kalender
+        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
+
         for ($d = 1; $d <= $days; $d++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $d);
+
+            // Urlaubstage → vollständig geblockt
             if (DSTB_DB::date_is_vacation($artist, $date)) {
                 $booked[$d] = [['00:00','23:59']];
                 continue;
             }
-            $freeRanges   = DSTB_DB::free_slots_for_date($artist, $date);
+
+            // 🧠 Wenn Artist individuelle Verfügbarkeiten hat, diese nutzen
+            if (!in_array($artist, $no_calendar_artists, true)) {
+                $weekday = (date('N', strtotime($date)) - 1); // Mo=0...So=6
+                $ranges_map = DSTB_DB::get_weekday_ranges_map($artist);
+                $day_ranges = $ranges_map[$weekday] ?? [];
+            } else {
+                // Fallback: 08–18 Uhr
+                $day_ranges = [['08:00','18:00']];
+            }
+
+            // Berechne freie & gebuchte Slots
             $bookedRanges = DSTB_DB::get_bookings_for_day($artist, $date);
+            $freeRanges   = DSTB_DB::free_slots_for_date($artist, $date);
+
+            // Wenn Artist eigene Ranges hat, überschreiben wir freie Zeiten
+            if (!empty($day_ranges)) {
+                $freeRanges = $day_ranges;
+            }
+
             if (!empty($freeRanges))   $free[$d] = $freeRanges;
             if (!empty($bookedRanges)) $booked[$d] = $bookedRanges;
         }
-        wp_send_json(['artist'=>$artist, 'booked'=>$booked, 'free'=>$free]);
+
+        wp_send_json(['artist' => $artist, 'booked' => $booked, 'free' => $free]);
     }
+
 
     public static function free_slots() {
         $artist = sanitize_text_field($_GET['artist'] ?? '');
         $date   = sanitize_text_field($_GET['date'] ?? date('Y-m-d'));
-        $free   = DSTB_DB::free_slots_for_date($artist, $date);
+
+        // 🔹 Artists ohne individuellen Kalender
+        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
+
+        if (!in_array($artist, $no_calendar_artists, true)) {
+            $weekday = (date('N', strtotime($date)) - 1); // Mo=0...So=6
+            $ranges_map = DSTB_DB::get_weekday_ranges_map($artist);
+            $free = $ranges_map[$weekday] ?? [];
+        } else {
+            // Fallback: 08–18 Uhr
+            $free = [['08:00', '18:00']];
+        }
+
         wp_send_json(['free' => $free]);
     }
+
 }
