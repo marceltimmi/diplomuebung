@@ -153,9 +153,10 @@ class DSTB_DB {
         $start = $date . ' 00:00:00';
         $end   = $date . ' 23:59:59';
         $rows = $wpdb->get_results($wpdb->prepare(
-            "SELECT start_dt, end_dt FROM $table 
+            "SELECT start_dt, end_dt FROM $table
             WHERE LOWER(artist)=LOWER(%s) AND status='confirmed'
-            AND start_dt <= %s AND end_dt >= %s",
+            AND start_dt <= %s AND end_dt >= %s
+            ORDER BY start_dt ASC",
             $artist, $end, $start
         ), ARRAY_A);
 
