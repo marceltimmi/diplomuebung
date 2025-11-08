@@ -210,50 +210,72 @@ class DSTB_DB {
     }
 
     /** Aus Standard-Ranges & Buchungen freie Slots ableiten */
-    public static function free_slots_for_date($artist, $date, $stepMinutes=30){
-        // Wenn Urlaub → nichts frei
-        if ( self::date_is_vacation($artist, $date) ) return [];
+    /** Aus Standard-Ranges & Buchungen freie Slots ableiten */
+    public static function free_slots_for_date($artist, $date, $stepMinutes = 30) {
+        if (self::date_is_vacation($artist, $date)) return [];
 
-        // Wochentag + Grundverfügbarkeit laden
         $weekday_php = (int)date('N', strtotime($date)) - 1;
-        $ranges_map = self::get_weekday_ranges_map($artist);
-        $ranges = $ranges_map[$weekday_php] ?? [];
+        $ranges_map  = self::get_weekday_ranges_map($artist);
+        $ranges      = $ranges_map[$weekday_php] ?? [];
+
         if (empty($ranges)) return [];
 
-        // Gebuchte Termine laden
+        // --- Gebuchte Termine holen ---
         $booked = self::get_bookings_for_day($artist, $date);
 
-        // 💡 Vorbereitungspuffer (in Minuten)
-        $buffer = 60;
+        // --- 1h Vorbereitungszeit anhängen ---
+        $bookedWithBuffer = [];
+        foreach ($booked as $b) {
+            $from = self::hm2min($b[0]);
+            $to   = self::hm2min($b[1]) + 60; // +1h Nachbereitung
+            $bookedWithBuffer[] = [$from, $to];
+        }
 
-        // Alle gebuchten Blöcke inkl. Puffer blockieren
+        // --- 🔹 NEU: Alle Buchungen zeitlich sortieren ---
+        usort($bookedWithBuffer, function($a, $b) {
+            return $a[0] <=> $b[0];
+        });
+
+        // --- Gesamtzeitfenster laut Verfügbarkeit ---
         $mark = [];
-        foreach($ranges as $r){
-            $from = self::hm2min($r[0]); 
+        foreach ($ranges as $r) {
+            $from = self::hm2min($r[0]);
             $to   = self::hm2min($r[1]);
-            for($m=$from; $m<$to; $m+=$stepMinutes){ 
-                $mark[$m] = true; // standardmäßig frei
+            for ($m = $from; $m < $to; $m += $stepMinutes) {
+                $mark[$m] = true;
             }
         }
 
-        foreach($booked as $b){
-            $from = max(0, self::hm2min($b[0]) - $buffer); // 1 h vor Beginn blocken
-            $to   = self::hm2min($b[1]) + $buffer;         // 1 h nach Ende blocken
-            for($m=$from; $m<=$to; $m+=$stepMinutes){ 
-                $mark[$m] = false; // belegt
+        // --- Belegte Slots sperren ---
+        foreach ($bookedWithBuffer as $b) {
+            $from = $b[0];
+            $to   = $b[1];
+            for ($m = $from; $m < $to; $m += $stepMinutes) {
+                if (isset($mark[$m])) $mark[$m] = false;
             }
         }
 
-        // Freie Zeitfenster generieren
+        // --- 🔹 NEU: Markierungen stabil sortieren und überlappende Buchungen mergen ---
+        ksort($mark, SORT_NUMERIC);
+
+        // --- Freie Blöcke erkennen ---
         $free = [];
         $current = null;
-        ksort($mark);
-        foreach($mark as $m=>$ok){
-            if($ok && $current===null){ 
-                $current = $m; 
-            }
-            if((!$ok || !isset($mark[$m+$stepMinutes])) && $current!==null){
-                $free[] = [ self::min2hm($current), self::min2hm($ok ? $m+$stepMinutes : $m) ];
+        $keys = array_keys($mark);
+        $count = count($keys);
+
+        for ($i = 0; $i < $count; $i++) {
+            $m = $keys[$i];
+            $ok = $mark[$m];
+            $next = $keys[$i + 1] ?? null;
+
+            if ($ok && $current === null) {
+                $current = $m;
+            } elseif ((!$ok || $next === null) && $current !== null) {
+                $endMin = $ok && $next === null ? $m + $stepMinutes : $m;
+                if ($endMin > $current) {
+                    $free[] = [self::min2hm($current), self::min2hm($endMin)];
+                }
                 $current = null;
             }
         }

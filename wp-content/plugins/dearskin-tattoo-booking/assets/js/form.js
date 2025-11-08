@@ -125,37 +125,60 @@
   }
 
   /** ---------- Zeiten pro Zeile aktualisieren ---------- */
-  async function updateRowTimesForDate($row){
-    const artist = $('#dstb-artist').val();
-    const hasIndividualCalendar =
-    artist &&
-    artist.trim() !== '' &&
-    artist !== 'Kein bestimmter Artist' &&
-    artist !== 'Artist of Residence';
-    const dateStr = $row.find('input[type="date"]').val();
-    const $start = $row.find('select[data-kind="start"]');
+    async function updateRowTimesForDate($row){
+      const artist = $('#dstb-artist').val();
+      const dateStr = $row.find('input[type="date"]').val();
+      const $start = $row.find('select[data-kind="start"]');
 
-    const token = Date.now().toString();
-    $row.data('loadingToken', token);
-    $start.prop('disabled', true);
+      $start.prop('disabled', true);
+      $start.empty();
 
-    if (!dateStr || !hasIndividualCalendar) {
-      fillGeneric($start);
+      if (!artist || !dateStr) {
+        fillGeneric($start);
+        $start.prop('disabled', false);
+        return;
+      }
+
+      // Hole freie Ranges vom Server
+      const freeRanges = await fetchFreeForDate(artist, dateStr);
+
+      if (!Array.isArray(freeRanges) || freeRanges.length === 0) {
+        $start.append('<option value="">Keine freien Zeiten</option>');
+        $start.prop('disabled', false);
+        return;
+      }
+
+      // Erzeuge Liste aller 30-Minuten-Slots innerhalb der freien Ranges
+      const slots = [];
+      freeRanges.forEach(([from, to]) => {
+        const startT = hmToDate(from);
+        const endT = hmToDate(to);
+        let t = new Date(startT);
+        while (t < endT) {
+          slots.push(t.toTimeString().slice(0,5));
+          t.setMinutes(t.getMinutes() + 30);
+        }
+      });
+
+      // 🔒 Duplikate entfernen und sortieren
+      const uniqueSorted = [...new Set(slots)].sort();
+
+      // Dropdown füllen
+      if (uniqueSorted.length === 0) {
+        $start.append('<option value="">Keine freien Zeiten</option>');
+      } else {
+        uniqueSorted.forEach(t => {
+          const o = document.createElement('option');
+          o.value = t;
+          o.textContent = t;
+          $start.append(o);
+        });
+      }
+
       $start.prop('disabled', false);
-      return;
     }
 
-    const freeRanges = await fetchFreeForDate(artist, dateStr);
-    if ($row.data('loadingToken') !== token) return;
 
-    if (freeRanges.length){
-      populateRowFromRanges($row, freeRanges);
-    } else {
-      $start.empty().append('<option value="">Keine freien Zeiten</option>');
-    }
-
-    $start.prop('disabled', false);
-  }
 
   /** ---------- UI: Zeilen anlegen/entfernen ---------- */
   function createSlotRow(i){
