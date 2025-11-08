@@ -58,8 +58,12 @@
 
       // Arrays der aktuellen Tagesnummer
       const dkey = String(day);
-      const free = j.free[dkey] || [];
-      const booked = j.booked[dkey] || [];
+      const free = Array.isArray(j.free[dkey]) ? j.free[dkey] : [];
+      const bookedSource = Array.isArray(j.booked[dkey]) ? j.booked[dkey] : [];
+      const booked = bookedSource
+        .map(range => Array.isArray(range) ? range : [])
+        .filter(range => range.length >= 2)
+        .sort((a, b) => String(a[0]).localeCompare(String(b[0])));
 
       // 🔍 Entferne gebuchte Teilbereiche aus den freien Ranges
       const clean = [];

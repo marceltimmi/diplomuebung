@@ -151,7 +151,13 @@ class DSTB_Admin_Requests {
         // Anfrage löschen (hart)
         if (isset($_GET['delete'])) {
             $id = intval($_GET['delete']);
-            $wpdb->delete($req_table, ['id'=>$id]);
+            if ($id) {
+                $wpdb->delete($req_table, ['id'=>$id]);
+
+                // Zugehörige Vorschläge & gebuchte Termine entfernen
+                $wpdb->delete($sug_table, ['request_id' => $id]);
+                $wpdb->delete($wpdb->prefix . DSTB_DB::$bookings, ['request_id' => $id]);
+            }
             echo '<div class="updated"><p><strong>Anfrage gelöscht.</strong></p></div>';
         }
 
