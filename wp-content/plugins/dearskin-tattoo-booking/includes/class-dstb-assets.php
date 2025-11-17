@@ -45,9 +45,14 @@ class DSTB_Assets {
             true
         );
 
+        $default_no_artist_label = __('Kein bevorzugter Artist', 'dstb');
+
         $no_calendar_artists = class_exists('DSTB_Admin_Artists')
             ? DSTB_Admin_Artists::get_no_calendar_artists()
             : ['Kein bestimmter Artist', 'Artist of Residence'];
+
+        // Sicherstellen, dass die Standard-"kein Artist"-Option niemals einen Kalender anzeigt
+        $no_calendar_artists[] = $default_no_artist_label;
 
         wp_localize_script('dstb-calendar', 'DSTB_Ajax', [
             'url'                => admin_url('admin-ajax.php'),
