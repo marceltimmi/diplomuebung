@@ -71,7 +71,10 @@
   // ===== Calendar =====
   function renderTattooCalendar(container, artist) {
     const now = new Date();
-    let state = { month: now.getMonth(), year: now.getFullYear() };
+    const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const minMonth = minDate.getMonth();
+    const minYear = minDate.getFullYear();
+    let state = { month: minMonth, year: minYear };
     window.DSTB.currentArtist = artist;
 
     const card = el("div", "dstb-cal-card");
@@ -98,6 +101,9 @@
       title.textContent = new Date(state.year, state.month).toLocaleString("de-DE", { month: "long", year: "numeric" });
       grid.innerHTML = "";
 
+      const isAtMinMonth = state.year === minYear && state.month === minMonth;
+      prev.disabled = isAtMinMonth;
+
       const first = new Date(state.year, state.month, 1);
       const startOffset = (first.getDay() + 6) % 7;
 
@@ -111,6 +117,9 @@
       for (let d=1; d<=daysInMonth; d++){
         const dayEl = el("div", "dstb-day", d);
         const key = String(d);
+
+        const dayDate = new Date(state.year, state.month, d);
+        const isPastDay = dayDate < minDate;
 
         const hasBooked = Array.isArray(monthBookedMap[key]) && monthBookedMap[key].length > 0;
         const hasFree   = Array.isArray(monthFreeMap[key])   && monthFreeMap[key].length > 0;
@@ -126,6 +135,14 @@
           dayEl.classList.add("free");
         } else {
           dayEl.classList.add("neutral");
+        }
+
+        if (isPastDay) {
+          dayEl.classList.add("past");
+          dayEl.setAttribute("aria-disabled", "true");
+          dayEl.tabIndex = -1;
+          grid.append(dayEl);
+          continue;
         }
 
         dayEl.addEventListener("click", async ()=>{
@@ -183,7 +200,22 @@
       }
     }
 
-    prev.addEventListener("click", () => { if (--state.month<0){ state.month=11; state.year--; } render(); });
+    prev.addEventListener("click", () => {
+      let targetMonth = state.month - 1;
+      let targetYear = state.year;
+
+      if (targetMonth < 0) {
+        targetMonth = 11;
+        targetYear -= 1;
+      }
+
+      const isBeforeMin = targetYear < minYear || (targetYear === minYear && targetMonth < minMonth);
+      if (isBeforeMin) return;
+
+      state.month = targetMonth;
+      state.year = targetYear;
+      render();
+    });
     next.addEventListener("click", () => { if (++state.month>11){ state.month=0; state.year++; } render(); });
 
     render();
