@@ -191,12 +191,30 @@
 
   // Artist-Wechsel → Kalender (Anzeige)
   $(document).on("change", "#dstb-artist", function () {
-    const artist = $(this).val();
+    const artist = ($(this).val() || "").trim();
+
+    const normalize = (v) => (v === undefined || v === null) ? '' : String(v).trim().toLowerCase();
 
     // Diese Artists sollen KEINEN Kalender haben:
-    const noCalendarArtists = ["Kein bestimmter Artist", "Artist of Residence"];
+    const noCalendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.noCalendarArtists))
+      ? window.DSTB_Ajax.noCalendarArtists
+      : ["Kein bestimmter Artist", "Artist of Residence", "Kein bevorzugter Artist", ""];
 
-    const showCalendar = artist && !noCalendarArtists.includes(artist);
+    const calendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.calendarArtists))
+      ? window.DSTB_Ajax.calendarArtists
+      : [];
+
+    const normalizedNoCalendar = new Set(noCalendarArtists.map(normalize));
+    const normalizedCalendar   = new Set(calendarArtists.map(normalize));
+    const normalizedArtist     = normalize(artist);
+
+    // Standard: Kalender anzeigen, außer explizit als kalendarfrei markiert oder leerer Auswahl
+    let showCalendar = normalizedArtist !== '' && !normalizedNoCalendar.has(normalizedArtist);
+
+    // Falls eine explizite Liste an Kalender-Artists vorhanden ist, damit zusätzlich einschränken
+    if (showCalendar && normalizedCalendar.size) {
+      showCalendar = normalizedCalendar.has(normalizedArtist);
+    }
 
     $("#dstb-calendar-box").toggle(showCalendar);
     $("#dstb-slot-box").show();
