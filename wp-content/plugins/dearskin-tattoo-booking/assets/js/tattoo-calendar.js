@@ -198,7 +198,8 @@
       ? window.DSTB_Ajax.noCalendarArtists
       : ["Kein bestimmter Artist", "Artist of Residence"];
 
-    const showCalendar = artist && !noCalendarArtists.includes(artist);
+    const normalizedArtist = (artist || "").trim();
+    const showCalendar = normalizedArtist !== "" && !noCalendarArtists.includes(normalizedArtist);
 
     $("#dstb-calendar-box").toggle(showCalendar);
     $("#dstb-slot-box").show();
