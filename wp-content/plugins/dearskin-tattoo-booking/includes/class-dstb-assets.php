@@ -45,9 +45,23 @@ class DSTB_Assets {
             true
         );
 
+        $no_calendar_artists = class_exists('DSTB_Admin_Artists')
+            ? DSTB_Admin_Artists::get_no_calendar_artists()
+            : ['Kein bestimmter Artist', 'Artist of Residence'];
+
+        $calendar_artists = class_exists('DSTB_Admin_Artists')
+            ? DSTB_Admin_Artists::get_calendar_artists()
+            : ['Silvia', 'Sahrabie'];
+
+        // Standard-Label für "keine Präferenz" ebenfalls als kalendarlose Option übergeben
+        $no_calendar_artists[] = __('Kein bevorzugter Artist', 'dstb');
+        $no_calendar_artists[] = '';
+
         wp_localize_script('dstb-calendar', 'DSTB_Ajax', [
-            'url'   => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('dstb_front'),
+            'url'                => admin_url('admin-ajax.php'),
+            'nonce'              => wp_create_nonce('dstb_front'),
+            'noCalendarArtists'  => array_values(array_unique((array) $no_calendar_artists)),
+            'calendarArtists'    => array_values(array_unique((array) $calendar_artists)),
         ]);
 
         wp_enqueue_script('dstb-calendar');
