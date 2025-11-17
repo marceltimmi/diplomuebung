@@ -195,6 +195,29 @@
 
     const normalize = (v) => (v === undefined || v === null) ? '' : String(v).trim().toLowerCase();
 
+    const normalize = (v) => (v === undefined || v === null) ? '' : String(v).trim().toLowerCase();
+
+    // Diese Artists sollen KEINEN Kalender haben:
+    const noCalendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.noCalendarArtists))
+      ? window.DSTB_Ajax.noCalendarArtists
+      : ["Kein bestimmter Artist", "Artist of Residence", "Kein bevorzugter Artist", ""];
+
+    const calendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.calendarArtists))
+      ? window.DSTB_Ajax.calendarArtists
+      : [];
+
+    const normalizedNoCalendar = new Set(noCalendarArtists.map(normalize));
+    const normalizedCalendar   = new Set(calendarArtists.map(normalize));
+    const normalizedArtist     = normalize(artist);
+
+    const hasCalendar = normalizedArtist !== ''
+      && (
+        normalizedCalendar.size
+          ? normalizedCalendar.has(normalizedArtist)
+          : !normalizedNoCalendar.has(normalizedArtist)
+      );
+
+    const showCalendar = hasCalendar;
     // Diese Artists sollen KEINEN Kalender haben:
     const noCalendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.noCalendarArtists))
       ? window.DSTB_Ajax.noCalendarArtists
@@ -215,6 +238,9 @@
     if (showCalendar && normalizedCalendar.size) {
       showCalendar = normalizedCalendar.has(normalizedArtist);
     }
+      : ["Kein bestimmter Artist", "Artist of Residence"];
+
+    const showCalendar = artist !== "" && !noCalendarArtists.includes(artist);
 
     $("#dstb-calendar-box").toggle(showCalendar);
     $("#dstb-slot-box").show();
