@@ -227,7 +227,9 @@ class DSTB_Ajax {
         $free = [];
 
         // 🔹 Artists ohne individuellen Kalender
-        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
+        $no_calendar_artists = class_exists('DSTB_Admin_Artists')
+            ? DSTB_Admin_Artists::get_no_calendar_artists()
+            : ['Kein bestimmter Artist', 'Artist of Residence'];
 
         for ($d = 1; $d <= $days; $d++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $d);
@@ -270,7 +272,9 @@ class DSTB_Ajax {
         $date   = sanitize_text_field($_GET['date'] ?? date('Y-m-d'));
 
         // 🔹 Artists ohne individuellen Kalender
-        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
+        $no_calendar_artists = class_exists('DSTB_Admin_Artists')
+            ? DSTB_Admin_Artists::get_no_calendar_artists()
+            : ['Kein bestimmter Artist', 'Artist of Residence'];
 
         if (!in_array($artist, $no_calendar_artists, true)) {
             $weekday = (date('N', strtotime($date)) - 1); // Mo=0...So=6
