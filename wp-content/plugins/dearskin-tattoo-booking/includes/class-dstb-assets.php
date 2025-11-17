@@ -45,9 +45,14 @@ class DSTB_Assets {
             true
         );
 
+        $no_calendar_artists = class_exists('DSTB_Admin_Artists')
+            ? DSTB_Admin_Artists::get_no_calendar_artists()
+            : ['Kein bestimmter Artist', 'Artist of Residence'];
+
         wp_localize_script('dstb-calendar', 'DSTB_Ajax', [
-            'url'   => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('dstb_front'),
+            'url'                => admin_url('admin-ajax.php'),
+            'nonce'              => wp_create_nonce('dstb_front'),
+            'noCalendarArtists'  => array_values(array_unique((array) $no_calendar_artists)),
         ]);
 
         wp_enqueue_script('dstb-calendar');
