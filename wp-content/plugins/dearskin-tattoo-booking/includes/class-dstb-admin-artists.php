@@ -204,6 +204,36 @@ class DSTB_Admin_Artists {
         return array_values(array_unique($names));
     }
 
+    /**
+     * Liefert Artists, die explizit einen Kalender besitzen.
+     */
+    public static function get_calendar_artists() {
+        $ready = self::maybe_create_table();
+        $names = [];
+
+        if ($ready) {
+            global $wpdb;
+            $table = self::table();
+            $rows = $wpdb->get_col("SELECT name FROM $table WHERE has_calendar = 1 ORDER BY name ASC");
+            foreach ((array) $rows as $row) {
+                $row = trim((string) $row);
+                if ($row !== '') {
+                    $names[] = $row;
+                }
+            }
+        }
+
+        if (empty($names)) {
+            foreach (self::default_rows() as $row) {
+                if (!empty($row['name']) && !empty($row['has_calendar'])) {
+                    $names[] = $row['name'];
+                }
+            }
+        }
+
+        return array_values(array_unique($names));
+    }
+
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
         check_ajax_referer('dstb_admin_requests','nonce');
