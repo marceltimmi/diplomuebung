@@ -191,14 +191,15 @@
 
   // Artist-Wechsel → Kalender (Anzeige)
   $(document).on("change", "#dstb-artist", function () {
-    const artist = $(this).val();
+    const artist = ($(this).val() || "").trim();
 
     // Diese Artists sollen KEINEN Kalender haben:
     const noCalendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.noCalendarArtists))
       ? window.DSTB_Ajax.noCalendarArtists
+      : ["Kein bestimmter Artist", "Artist of Residence", "Kein bevorzugter Artist", ""];
       : ["Kein bestimmter Artist", "Artist of Residence"];
 
-    const showCalendar = artist && !noCalendarArtists.includes(artist);
+    const showCalendar = artist !== "" && !noCalendarArtists.includes(artist);
 
     $("#dstb-calendar-box").toggle(showCalendar);
     $("#dstb-slot-box").show();
