@@ -15,6 +15,7 @@
   const addForm = addModal ? addModal.querySelector('#dstb-add-artist-form') : null;
   const deleteForm = deleteModal ? deleteModal.querySelector('#dstb-delete-artist-form') : null;
   const addInput = addModal ? addModal.querySelector('#dstb-add-artist-input') : null;
+  const addTypeInputs = addModal ? addModal.querySelectorAll('input[name="has_calendar"]') : [];
   const addFeedback = addModal ? addModal.querySelector('.dstb-modal-feedback') : null;
   const deleteFeedback = deleteModal ? deleteModal.querySelector('.dstb-modal-feedback') : null;
   const deleteOptions = deleteModal ? deleteModal.querySelector('#dstb-delete-artist-options') : null;
@@ -141,8 +142,14 @@
       const span = document.createElement('span');
       span.textContent = item && item.name ? item.name : '';
 
+      const badge = document.createElement('span');
+      const hasCalendar = !(item && String(item.has_calendar) === '0');
+      badge.className = 'dstb-badge ' + (hasCalendar ? 'dstb-badge--calendar' : 'dstb-badge--no-calendar');
+      badge.textContent = hasCalendar ? 'mit Kalender' : 'ohne Kalender';
+
       label.appendChild(input);
       label.appendChild(span);
+      label.appendChild(badge);
       deleteOptions.appendChild(label);
     });
   }
@@ -190,8 +197,16 @@
         return;
       }
 
+      let hasCalendar = '1';
+      if (addTypeInputs && addTypeInputs.length) {
+        const checked = Array.prototype.find.call(addTypeInputs, function(input){ return input.checked; });
+        if (checked) {
+          hasCalendar = checked.value;
+        }
+      }
+
       showFeedback(addFeedback, i18n.loading || 'Bitte warten…', '');
-      sendRequest('dstb_add_artist', { name: name }).then(function(response){
+      sendRequest('dstb_add_artist', { name: name, has_calendar: hasCalendar }).then(function(response){
         if (!response || !response.success) {
           const message = response && response.data && response.data.msg ? response.data.msg : (i18n.error || 'Es ist ein Fehler aufgetreten.');
           showFeedback(addFeedback, message, 'error');

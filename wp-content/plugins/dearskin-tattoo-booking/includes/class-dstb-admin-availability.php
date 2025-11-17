@@ -27,8 +27,10 @@ class DSTB_Admin_Availability {
 
         if (class_exists('DSTB_Admin_Artists')) {
             $artists = DSTB_Admin_Artists::get_artist_names(true);
+            $no_calendar_artists = DSTB_Admin_Artists::get_no_calendar_artists();
         } else {
             $artists = $default_artists;
+            $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
         }
 
         if (!is_array($artists) || empty($artists)) {
@@ -144,7 +146,6 @@ class DSTB_Admin_Availability {
         echo '</div>';
 
         // 🧩 Bestimmte Artists sollen keinen Kalender haben
-        $no_calendar_artists = ['Kein bestimmter Artist', 'Artist of Residence'];
         $show_calendar = true;
 
         if (!empty($current_artist) && in_array(trim($current_artist), $no_calendar_artists, true)) {
@@ -238,6 +239,23 @@ class DSTB_Admin_Availability {
                             <span>' . esc_html__('Name des Artists', 'dstb') . '</span>
                             <input type="text" name="name" id="dstb-add-artist-input" required maxlength="150" autocomplete="off" placeholder="' . esc_attr__('z. B. Alex', 'dstb') . '">
                         </label>
+                        <fieldset class="dstb-modal-fieldset dstb-modal-fieldset--columns">
+                            <legend>' . esc_html__('Kalender-Typ', 'dstb') . '</legend>
+                            <label class="dstb-modal-option">
+                                <input type="radio" name="has_calendar" value="1" checked>
+                                <div>
+                                    <strong>' . esc_html__('Fixer Artist mit Terminkalender', 'dstb') . '</strong>
+                                    <div class="dstb-modal-hint">' . esc_html__('Individuelle Verfügbarkeiten und Urlaube pflegen.', 'dstb') . '</div>
+                                </div>
+                            </label>
+                            <label class="dstb-modal-option">
+                                <input type="radio" name="has_calendar" value="0">
+                                <div>
+                                    <strong>' . esc_html__('Artist ohne Kalender', 'dstb') . '</strong>
+                                    <div class="dstb-modal-hint">' . esc_html__('Nutze Sammel-Anfragen wie „Artist of Residence“ ohne individuelle Slots.', 'dstb') . '</div>
+                                </div>
+                            </label>
+                        </fieldset>
                         <p class="dstb-modal-hint">' . esc_html__('Der Artist erscheint automatisch im Formular und im Frontend.', 'dstb') . '</p>
                         <div class="dstb-modal-actions">
                             <button type="submit" class="button button-primary">' . esc_html__('Speichern', 'dstb') . '</button>
