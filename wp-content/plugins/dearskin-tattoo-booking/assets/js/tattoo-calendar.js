@@ -194,7 +194,9 @@
     const artist = $(this).val();
 
     // Diese Artists sollen KEINEN Kalender haben:
-    const noCalendarArtists = ["Kein bestimmter Artist", "Artist of Residence"];
+    const noCalendarArtists = (window.DSTB_Ajax && Array.isArray(window.DSTB_Ajax.noCalendarArtists))
+      ? window.DSTB_Ajax.noCalendarArtists
+      : ["Kein bestimmter Artist", "Artist of Residence"];
 
     const showCalendar = artist && !noCalendarArtists.includes(artist);
 
