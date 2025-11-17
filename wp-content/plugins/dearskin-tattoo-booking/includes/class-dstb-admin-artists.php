@@ -56,12 +56,30 @@ class DSTB_Admin_Artists {
         return $wpdb->prefix . 'dstb_artists';
     }
 
+    protected static function default_rows() {
+        $defaults = [
+            ['name' => 'Silvia', 'has_calendar' => 1],
+            ['name' => 'Sahrabie', 'has_calendar' => 1],
+            ['name' => 'Artist of Residence', 'has_calendar' => 0],
+        ];
+
+        return apply_filters('dstb_default_artist_rows', $defaults);
+    }
+
     protected static function default_names() {
-        if (function_exists('dstb_default_artist_names')) {
-            return dstb_default_artist_names();
+        $rows = function_exists('dstb_default_artist_names')
+            ? array_map(function($name){ return ['name' => $name, 'has_calendar' => 1]; }, (array) dstb_default_artist_names())
+            : self::default_rows();
+
+        $names = [];
+        foreach ($rows as $row) {
+            $name = isset($row['name']) ? trim((string) $row['name']) : '';
+            if ($name !== '') {
+                $names[] = $name;
+            }
         }
 
-        return ['Silvia', 'Sahrabie', 'Artist of Residence'];
+        return array_values(array_unique($names));
     }
 
     public static function get_artist_names($with_fallback = true) {
@@ -96,6 +114,96 @@ class DSTB_Admin_Artists {
         return self::default_names();
     }
 
+    public static function get_artist_rows($with_fallback = true) {
+        $ready = self::maybe_create_table();
+
+        if (!$ready) {
+            if (!$with_fallback) {
+                return [];
+            }
+
+            $fallback = [];
+            foreach (self::default_rows() as $row) {
+                $fallback[] = [
+                    'id'           => 0,
+                    'name'         => $row['name'],
+                    'has_calendar' => (int) ($row['has_calendar'] ?? 1),
+                ];
+            }
+
+            return $fallback;
+        }
+
+        global $wpdb;
+
+        $table = self::table();
+        $like  = $wpdb->esc_like($table);
+
+        $exists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $like));
+        $items  = [];
+
+        if ($exists === $table) {
+            $rows = $wpdb->get_results("SELECT id, name, has_calendar FROM $table ORDER BY name ASC", ARRAY_A);
+            foreach ((array) $rows as $row) {
+                $name = trim((string) ($row['name'] ?? ''));
+                if ($name === '') {
+                    continue;
+                }
+                $items[] = [
+                    'id'           => isset($row['id']) ? (int) $row['id'] : 0,
+                    'name'         => $name,
+                    'has_calendar' => isset($row['has_calendar']) ? (int) $row['has_calendar'] : 1,
+                ];
+            }
+        }
+
+        if (!empty($items) || !$with_fallback) {
+            return $items;
+        }
+
+        $fallback = [];
+        foreach (self::default_rows() as $row) {
+            $fallback[] = [
+                'id'           => 0,
+                'name'         => $row['name'],
+                'has_calendar' => (int) ($row['has_calendar'] ?? 1),
+            ];
+        }
+
+        return $fallback;
+    }
+
+    public static function get_no_calendar_artists($with_special = true) {
+        $ready = self::maybe_create_table();
+        $names = [];
+
+        if ($ready) {
+            global $wpdb;
+            $table = self::table();
+            $rows = $wpdb->get_col("SELECT name FROM $table WHERE has_calendar = 0 ORDER BY name ASC");
+            foreach ((array) $rows as $row) {
+                $row = trim((string) $row);
+                if ($row !== '') {
+                    $names[] = $row;
+                }
+            }
+        }
+
+        if (empty($names)) {
+            foreach (self::default_rows() as $row) {
+                if (!empty($row['name']) && empty($row['has_calendar'])) {
+                    $names[] = $row['name'];
+                }
+            }
+        }
+
+        if ($with_special) {
+            $names[] = 'Kein bestimmter Artist';
+        }
+
+        return array_values(array_unique($names));
+    }
+
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
         check_ajax_referer('dstb_admin_requests','nonce');
@@ -109,6 +217,8 @@ class DSTB_Admin_Artists {
         $table = self::table();
         $name = sanitize_text_field($_POST['name'] ?? '');
         $name = trim($name);
+        $has_calendar = isset($_POST['has_calendar']) ? intval($_POST['has_calendar']) : 1;
+        $has_calendar = $has_calendar ? 1 : 0;
 
         if (!$name) wp_send_json_error(['msg'=>'Name darf nicht leer sein.']);
 
@@ -116,7 +226,11 @@ class DSTB_Admin_Artists {
         $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE name=%s", $name));
         if ($exists) wp_send_json_error(['msg'=>'Artist existiert bereits.']);
 
-        $ok = $wpdb->insert($table, ['name'=>$name,'created_at'=>current_time('mysql')], ['%s','%s']);
+        $ok = $wpdb->insert($table, [
+            'name'        => $name,
+            'has_calendar'=> $has_calendar,
+            'created_at'  => current_time('mysql')
+        ], ['%s','%d','%s']);
         if (!$ok) wp_send_json_error(['msg'=>'Speichern fehlgeschlagen.']);
 
         if (function_exists('dstb_artists')) {
@@ -192,7 +306,7 @@ class DSTB_Admin_Artists {
         }
         global $wpdb;
         $table = self::table();
-        $rows = $wpdb->get_results("SELECT id, name FROM $table ORDER BY name ASC", ARRAY_A);
+        $rows = $wpdb->get_results("SELECT id, name, has_calendar FROM $table ORDER BY name ASC", ARRAY_A);
         wp_send_json_success($rows);
     }
 
@@ -209,12 +323,15 @@ class DSTB_Admin_Artists {
             $sql = "CREATE TABLE $table (
                 id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                 name VARCHAR(150) NOT NULL,
+                has_calendar TINYINT(1) NOT NULL DEFAULT 1,
                 created_at DATETIME NOT NULL,
                 PRIMARY KEY (id),
                 UNIQUE KEY (name)
             ) $charset;";
             dbDelta($sql);
         }
+
+        self::ensure_schema_up_to_date();
 
         self::seed_default_artists();
 
@@ -240,19 +357,41 @@ class DSTB_Admin_Artists {
 
         $count = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
         if ($count === 0) {
-            foreach (self::default_names() as $name) {
+            foreach (self::default_rows() as $row) {
+                $name = trim((string) ($row['name'] ?? ''));
+                if ($name === '') {
+                    continue;
+                }
+
                 $wpdb->insert(
                     $table,
                     [
-                        'name'       => $name,
-                        'created_at' => current_time('mysql'),
+                        'name'         => $name,
+                        'has_calendar' => (int) ($row['has_calendar'] ?? 1),
+                        'created_at'   => current_time('mysql'),
                     ],
-                    ['%s', '%s']
+                    ['%s', '%d', '%s']
                 );
             }
         }
 
         update_option('dstb_artists_seeded', '1');
+    }
+
+    protected static function ensure_schema_up_to_date() {
+        global $wpdb;
+        $table = self::table();
+
+        $exists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table)));
+        if ($exists !== $table) {
+            return;
+        }
+
+        $has_column = $wpdb->get_var("SHOW COLUMNS FROM $table LIKE 'has_calendar'");
+        if (!$has_column) {
+            $wpdb->query("ALTER TABLE $table ADD COLUMN has_calendar TINYINT(1) NOT NULL DEFAULT 1 AFTER name");
+            $wpdb->query($wpdb->prepare("UPDATE $table SET has_calendar = 0 WHERE name = %s", 'Artist of Residence'));
+        }
     }
 }
 

@@ -96,6 +96,11 @@ body.dstb-modal-open {
   margin-bottom: 18px;
 }
 
+.dstb-modal-fieldset--columns {
+  display: grid;
+  gap: 10px;
+}
+
 .dstb-modal-fieldset legend {
   padding: 0 6px;
   font-weight: 600;
@@ -128,6 +133,28 @@ body.dstb-modal-open {
 
 .dstb-modal-option input[type="radio"] {
   accent-color: #6c7fd6;
+}
+
+.dstb-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #e6e8f0;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.dstb-badge--no-calendar {
+  background: rgba(204, 0, 0, 0.12);
+  border-color: rgba(204, 0, 0, 0.4);
+  color: #ffb3b3;
+}
+
+.dstb-badge--calendar {
+  background: rgba(108, 127, 214, 0.14);
+  border-color: rgba(108, 127, 214, 0.4);
+  color: #cdd9ff;
 }
 
 .dstb-modal-actions {
