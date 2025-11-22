@@ -107,7 +107,12 @@
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      return response.json();
+
+      return response.json().catch(function(){
+        return response.text().then(function(text){
+          throw new Error(text || 'Invalid JSON response');
+        });
+      });
     });
   }
 
@@ -168,8 +173,9 @@
       }
       renderDeleteOptions(response.data || []);
       return response.data || [];
-    }).catch(function(){
-      showFeedback(deleteFeedback, i18n.error || 'Es ist ein Fehler aufgetreten.', 'error');
+    }).catch(function(error){
+      const message = (error && error.message) ? error.message : (i18n.error || 'Es ist ein Fehler aufgetreten.');
+      showFeedback(deleteFeedback, message, 'error');
       renderDeleteOptions([]);
       return [];
     });
@@ -219,8 +225,9 @@
           focus: response.data && response.data.focus ? response.data.focus : name,
           reload: true
         });
-      }).catch(function(){
-        showFeedback(addFeedback, i18n.error || 'Es ist ein Fehler aufgetreten.', 'error');
+      }).catch(function(error){
+        const message = (error && error.message) ? error.message : (i18n.error || 'Es ist ein Fehler aufgetreten.');
+        showFeedback(addFeedback, message, 'error');
       });
     });
   }
@@ -266,8 +273,9 @@
           focus: response.data && response.data.focus ? response.data.focus : '',
           reload: true
         });
-      }).catch(function(){
-        showFeedback(deleteFeedback, i18n.error || 'Es ist ein Fehler aufgetreten.', 'error');
+      }).catch(function(error){
+        const message = (error && error.message) ? error.message : (i18n.error || 'Es ist ein Fehler aufgetreten.');
+        showFeedback(deleteFeedback, message, 'error');
       });
     });
   }
