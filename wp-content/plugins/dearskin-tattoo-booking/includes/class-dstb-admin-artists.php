@@ -16,7 +16,15 @@ class DSTB_Admin_Artists {
     }
 
     public static function enqueue_assets($hook) {
-        if (strpos($hook, 'dstb-availability') === false) {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        $screen_id = $screen ? (string) $screen->id : '';
+        $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
+
+        $is_availability_screen = strpos((string) $hook, 'dstb-availability') !== false
+            || strpos($screen_id, 'dstb-availability') !== false
+            || $page === 'dstb-availability';
+
+        if (!$is_availability_screen) {
             return;
         }
 
@@ -304,9 +312,7 @@ class DSTB_Admin_Artists {
         if (!self::maybe_create_table()) {
             wp_send_json_error(['msg' => __('Artist-Tabelle konnte nicht erstellt werden.', 'dstb')]);
         }
-        global $wpdb;
-        $table = self::table();
-        $rows = $wpdb->get_results("SELECT id, name, has_calendar FROM $table ORDER BY name ASC", ARRAY_A);
+        $rows = self::get_artist_rows(true);
         wp_send_json_success($rows);
     }
 
