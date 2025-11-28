@@ -2,9 +2,11 @@
 /**
  * Plugin Name: Tattoo Anfragen Manager
  * Description: Anfrageformular mit Admin-Verwaltung & Terminvergabe inkl. blockierter Zeitfenster
- * Version: 1.4
+ * Version: 1.5
  * Author: Marcel Timmerer
  */
+
+define('TATTOO_ANFRAGE_PLUGIN_VERSION', '1.5');
 
 defined('ABSPATH') or die('Kein Zugriff erlaubt.');
 
@@ -62,6 +64,9 @@ function tattoo_anfragen_create_table() {
         nachname VARCHAR(100),
         email VARCHAR(100),
         geburtsdatum DATE,
+        adresse VARCHAR(255),
+        plz VARCHAR(20),
+        ort VARCHAR(100),
         taetowierer VARCHAR(100),
         stilrichtung VARCHAR(100),
         farbe VARCHAR(50),
@@ -84,6 +89,16 @@ function tattoo_anfragen_create_table() {
 
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta($sql);
+
+    update_option('tattoo_anfragen_plugin_version', TATTOO_ANFRAGE_PLUGIN_VERSION);
+}
+
+add_action('plugins_loaded', 'tattoo_anfragen_maybe_update_db');
+function tattoo_anfragen_maybe_update_db() {
+    $installed_version = get_option('tattoo_anfragen_plugin_version');
+    if ($installed_version !== TATTOO_ANFRAGE_PLUGIN_VERSION) {
+        tattoo_anfragen_create_table();
+    }
 }
 
 // 📨 Formular absenden
@@ -98,6 +113,9 @@ function tattoo_form_verarbeitung() {
             'nachname' => sanitize_text_field($_POST['nachname']),
             'email' => sanitize_email($_POST['email']),
             'geburtsdatum' => $_POST['geburtsdatum'],
+            'adresse' => sanitize_text_field($_POST['adresse']),
+            'plz' => sanitize_text_field($_POST['plz']),
+            'ort' => sanitize_text_field($_POST['ort']),
             'taetowierer' => sanitize_text_field($_POST['taetowierer']),
             'stilrichtung' => sanitize_text_field($_POST['stilrichtung']),
             'farbe' => sanitize_text_field($_POST['farbe']),
@@ -134,6 +152,7 @@ $kunden_nachricht = "
     <li><strong>Name:</strong> " . esc_html($_POST['vorname']) . " " . esc_html($_POST['nachname']) . "</li>
     <li><strong>E-Mail:</strong> " . esc_html($_POST['email']) . "</li>
     <li><strong>Telefon:</strong> " . esc_html($_POST['telefon']) . "</li>
+    <li><strong>Rechnungsadresse:</strong> " . esc_html($_POST['adresse']) . ", " . esc_html($_POST['plz']) . " " . esc_html($_POST['ort']) . "</li>
     <li><strong>Wunschtermin:</strong> " . esc_html($_POST['verfuegbarkeit_datum']) . " – " . esc_html($_POST['zeit_von']) . " bis " . esc_html($_POST['zeit_bis']) . "</li>
     <li><strong>Körperstelle:</strong> " . esc_html($_POST['koerperstelle']) . "</li>
     <li><strong>Beschreibung:</strong> " . nl2br(esc_html($_POST['beschreibung'])) . "</li>
@@ -149,6 +168,7 @@ $admin_nachricht = "
     <li><strong>Name:</strong> " . esc_html($_POST['vorname']) . " " . esc_html($_POST['nachname']) . "</li>
     <li><strong>E-Mail:</strong> " . esc_html($_POST['email']) . "</li>
     <li><strong>Telefon:</strong> " . esc_html($_POST['telefon']) . "</li>
+    <li><strong>Rechnungsadresse:</strong> " . esc_html($_POST['adresse']) . ", " . esc_html($_POST['plz']) . " " . esc_html($_POST['ort']) . "</li>
     <li><strong>Körperstelle:</strong> " . esc_html($_POST['koerperstelle']) . "</li>
     <li><strong>Datum:</strong> " . esc_html($_POST['verfuegbarkeit_datum']) . " (" . esc_html($_POST['zeit_von']) . " – " . esc_html($_POST['zeit_bis']) . ")</li>
     <li><strong>Beschreibung:</strong> " . nl2br(esc_html($_POST['beschreibung'])) . "</li>
@@ -205,6 +225,15 @@ function tattoo_formular_shortcode() {
 
         <label>Geburtsdatum*</label>
         <input type="date" name="geburtsdatum" required>
+
+        <label for="adresse">Rechnungsadresse (Straße &amp; Hausnummer)*</label>
+        <input type="text" id="adresse" name="adresse" required>
+
+        <label for="plz">PLZ*</label>
+        <input type="text" id="plz" name="plz" required>
+
+        <label for="ort">Ort*</label>
+        <input type="text" id="ort" name="ort" required>
 
         <label>Bevorzugte:r Tätowierer:in</label>
         <input type="text" name="taetowierer">
@@ -418,6 +447,7 @@ function tattoo_anfragen_admin_page() {
     echo '<table class="tattoo-anfrage-table"><thead><tr>
         <th>Name</th>
         <th>Email</th>
+        <th>Rechnungsadresse</th>
         <th>Körperstelle</th>
         <th>Wunsch-Zeitfenster</th>
         <th>Status</th>
@@ -429,6 +459,7 @@ function tattoo_anfragen_admin_page() {
         echo '<tr>';
         echo '<td>' . esc_html($anfrage->vorname . ' ' . $anfrage->nachname) . '</td>';
         echo '<td>' . esc_html($anfrage->email) . '</td>';
+        echo '<td>' . esc_html($anfrage->adresse) . '<br>' . esc_html($anfrage->plz) . ' ' . esc_html($anfrage->ort) . '</td>';
         echo '<td>' . esc_html($anfrage->koerperstelle) . '</td>';
         echo '<td>' . esc_html($anfrage->verfuegbarkeit_datum) . ' (' . esc_html($anfrage->zeit_von) . ' – ' . esc_html($anfrage->zeit_bis) . ')</td>';
         echo '<td>' . esc_html($anfrage->status) . '</td>';
