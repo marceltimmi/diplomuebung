@@ -32,6 +32,7 @@ class DSTB_Ajax {
         $name      = trim($firstname . ' ' . $lastname);
         $email     = sanitize_email($_POST['email'] ?? '');
         $phone     = sanitize_text_field($_POST['phone'] ?? '');
+        $address   = sanitize_text_field($_POST['address'] ?? '');
         $artist    = sanitize_text_field($_POST['artist'] ?? '');
         $style     = sanitize_text_field($_POST['style'] ?? '');
         $bodypart  = sanitize_text_field($_POST['bodypart'] ?? '');
@@ -40,8 +41,8 @@ class DSTB_Ajax {
         $desc      = wp_kses_post($_POST['desc'] ?? '');
         $gdpr      = !empty($_POST['gdpr']) ? 1 : 0;
 
-        if (!$firstname || !$lastname || !$email) {
-            wp_send_json_error(['msg' => 'Vorname, Nachname und E-Mail sind Pflichtfelder.']);
+        if (!$firstname || !$lastname || !$email || !$address) {
+            wp_send_json_error(['msg' => 'Vorname, Nachname, E-Mail und Adresse sind Pflichtfelder.']);
         }
 
         // bis zu 3 Zeitfenster (Datum + Start)
@@ -93,6 +94,7 @@ class DSTB_Ajax {
             'name'     => $name,
             'email'    => $email,
             'phone'    => $phone,
+            'address'  => $address,
             'artist'   => $artist,
             'style'    => $style,
             'bodypart' => $bodypart,

@@ -80,6 +80,7 @@ class DSTB_Emails {
                 self::dl('Name', esc_html($row['name'])).
                 self::dl('E-Mail', esc_html($row['email'])).
                 self::dl('Telefon', esc_html($row['phone'])).
+                self::dl('Adresse', esc_html($row['address'])).
                 self::dl('Artist', esc_html($row['artist'])).
                 self::dl('Stilrichtung', esc_html($row['style'])).
                 self::dl('Körperstelle', esc_html($row['bodypart'])).
@@ -103,6 +104,7 @@ class DSTB_Emails {
                 self::dl('Name', esc_html($row['name'])).
                 self::dl('E-Mail', esc_html($row['email'])).
                 self::dl('Telefon', esc_html($row['phone'])).
+                self::dl('Adresse', esc_html($row['address'])).
                 self::dl('Artist', esc_html($row['artist'])).
                 self::dl('Stilrichtung', esc_html($row['style'])).
                 self::dl('Körperstelle', esc_html($row['bodypart'])).

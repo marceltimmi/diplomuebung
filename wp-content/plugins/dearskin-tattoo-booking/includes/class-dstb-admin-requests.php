@@ -413,6 +413,7 @@ class DSTB_Admin_Requests {
               echo '<div>';
               if(!empty($r['email']))    echo '<div class="dstb-row"><strong>E-Mail:</strong> <a href="mailto:'.esc_attr($r['email']).'" style="color:#9fbfff">'.esc_html($r['email']).'</a></div>';
               if(!empty($r['phone']))    echo '<div class="dstb-row"><strong>Telefon:</strong> '.esc_html($r['phone']).'</div>';
+              if(!empty($r['address']))  echo '<div class="dstb-row"><strong>Adresse:</strong> '.esc_html($r['address']).'</div>';
               if(!empty($r['artist']))   echo '<div class="dstb-row"><strong>Artist:</strong> '.esc_html($r['artist']).'</div>';
               echo '</div><div>';
               if(!empty($r['style']))    echo '<div class="dstb-row"><strong>Stilrichtung:</strong> '.esc_html($r['style']).'</div>';
