@@ -232,9 +232,10 @@ var AppsEventTracking = exports.AppsEventTracking = /*#__PURE__*/function () {
     key: "sendKitImportStatus",
     value: function sendKitImportStatus() {
       var error = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var isError = !!error;
       return this.dispatchEvent(EVENTS_MAP.KIT_IMPORT_STATUS, _objectSpread({
-        kit_import_status: !error
-      }, error && {
+        kit_import_status: !isError
+      }, isError && {
         kit_import_error: error.message
       }));
     }
@@ -6765,6 +6766,10 @@ var importReducer = function importReducer(state, _ref) {
       return _objectSpread(_objectSpread({}, state), {}, {
         customization: _objectSpread(_objectSpread({}, state.customization), {}, (0, _defineProperty2.default)({}, payload.key, payload.value))
       });
+    case 'SET_DURATION':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        duration: payload
+      });
     default:
       return state;
   }
@@ -6785,7 +6790,8 @@ var initialState = {
     templates: null,
     content: null,
     plugins: null
-  }
+  },
+  duration: null
 };
 function ImportContextProvider(props) {
   var _data$uploadedData, _data$uploadedData2;
@@ -7035,9 +7041,13 @@ function useImportKit(_ref2) {
     _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
     error = _useState4[0],
     setError = _useState4[1];
+  var _useState5 = (0, _react.useState)(null),
+    _useState6 = (0, _slicedToArray2.default)(_useState5, 2),
+    startTime = _useState6[0],
+    setStartTime = _useState6[1];
   var runImportRunners = /*#__PURE__*/function () {
     var _ref3 = (0, _asyncToGenerator2.default)(/*#__PURE__*/_regenerator.default.mark(function _callee() {
-      var session, runners, stopIterations, _iterator, _step, runner, _result$data$imported, result, runnerKey, _t, _t2;
+      var session, runners, stopIterations, _iterator, _step, runner, _result$data$imported, result, runnerKey, endTime, millisecondsToSeconds, importDuration, _t, _t2;
       return _regenerator.default.wrap(function (_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
@@ -7098,6 +7108,15 @@ function useImportKit(_ref2) {
             _iterator.f();
             return _context.finish(10);
           case 11:
+            if (startTime) {
+              endTime = Date.now();
+              millisecondsToSeconds = 1000;
+              importDuration = (endTime - startTime) / millisecondsToSeconds;
+              dispatch({
+                type: 'SET_DURATION',
+                payload: Number(importDuration.toFixed(2))
+              });
+            }
             setImportStatus(IMPORT_PROCESSING_STATUS.DONE);
             dispatch({
               type: 'SET_IMPORT_STATUS',
@@ -7124,6 +7143,7 @@ function useImportKit(_ref2) {
           case 0:
             _context2.prev = 0;
             setError(null);
+            setStartTime(Date.now());
             setImportStatus(IMPORT_PROCESSING_STATUS.IN_PROGRESS);
             importData = {
               id: (_data$kitUploadParams = data.kitUploadParams) === null || _data$kitUploadParams === void 0 ? void 0 : _data$kitUploadParams.id,
@@ -7389,6 +7409,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = ImportComplete;
 var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js"));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "../node_modules/@babel/runtime/helpers/slicedToArray.js"));
 var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/router/es/index.js");
 var _ui = __webpack_require__(/*! @elementor/ui */ "@elementor/ui");
@@ -7398,19 +7419,24 @@ var _importContext = __webpack_require__(/*! ../context/import-context */ "../ap
 var _appsEventTracking = __webpack_require__(/*! elementor-app/event-track/apps-event-tracking */ "../app/assets/js/event-track/apps-event-tracking.js");
 var _utils = __webpack_require__(/*! ../../shared/utils/utils */ "../app/modules/import-export-customization/assets/js/shared/utils/utils.js");
 function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2.default)(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var handleDone = function handleDone() {
   window.top.location = elementorAppConfig.admin_url;
 };
 function ImportComplete() {
-  var _runnersState$templat2, _elementorAppConfig;
+  var _data$uploadedData, _data$kitUploadParams, _runnersState$templat2, _elementorAppConfig, _data$kitUploadParams2;
   var _useImportContext = (0, _importContext.useImportContext)(),
     data = _useImportContext.data,
     isCompleted = _useImportContext.isCompleted,
     runnersState = _useImportContext.runnersState;
   var includes = data.includes,
     analytics = data.analytics,
-    uploadedData = data.uploadedData;
+    uploadedData = data.uploadedData,
+    duration = data.duration;
   var navigate = (0, _router.useNavigate)();
+  var title = (data === null || data === void 0 || (_data$uploadedData = data.uploadedData) === null || _data$uploadedData === void 0 || (_data$uploadedData = _data$uploadedData.manifest) === null || _data$uploadedData === void 0 ? void 0 : _data$uploadedData.title) || '';
+  var kitId = (data === null || data === void 0 || (_data$kitUploadParams = data.kitUploadParams) === null || _data$kitUploadParams === void 0 ? void 0 : _data$kitUploadParams.id) || '';
   var getTemplatesSummary = (0, _react.useCallback)(function () {
     var _runnersState$templat, _elementorAppConfig$i;
     var templatesSummary = runnersState === null || runnersState === void 0 || (_runnersState$templat = runnersState.templates) === null || _runnersState$templat === void 0 ? void 0 : _runnersState$templat.succeed_summary;
@@ -7426,8 +7452,8 @@ function ImportComplete() {
       if (!label) {
         return null;
       }
-      var title = count > 1 ? label.plural : label.single;
-      return "".concat(count, " ").concat(title);
+      var itemTitle = count > 1 ? label.plural : label.single;
+      return "".concat(count, " ").concat(itemTitle);
     }).filter(function (part) {
       return part !== null;
     });
@@ -7493,8 +7519,8 @@ function ImportComplete() {
         count = _ref8[1];
       var label = summaryTitles[docType];
       if (label && count > 0) {
-        var title = count > 1 ? label.plural : label.single;
-        summaryParts.push("".concat(count, " ").concat(title));
+        var itemTitle = count > 1 ? label.plural : label.single;
+        summaryParts.push("".concat(count, " ").concat(itemTitle));
       }
     });
     if (totalTaxonomies > 0) {
@@ -7512,8 +7538,8 @@ function ImportComplete() {
     return runnersState !== null && runnersState !== void 0 && runnersState.plugins ? plugins.join(' | ') : (0, _i18n.__)('No plugins imported', 'elementor');
   }, [runnersState === null || runnersState === void 0 ? void 0 : runnersState.plugins]);
   var getSettingsSummary = (0, _react.useCallback)(function () {
-    var _data$customization, _data$uploadedData;
-    var siteSettings = data.includes.includes('settings') ? (data === null || data === void 0 || (_data$customization = data.customization) === null || _data$customization === void 0 ? void 0 : _data$customization.settings) || (data === null || data === void 0 || (_data$uploadedData = data.uploadedData) === null || _data$uploadedData === void 0 ? void 0 : _data$uploadedData.manifest['site-settings']) || {} : {};
+    var _data$customization, _data$uploadedData2;
+    var siteSettings = data.includes.includes('settings') ? (data === null || data === void 0 || (_data$customization = data.customization) === null || _data$customization === void 0 ? void 0 : _data$customization.settings) || (data === null || data === void 0 || (_data$uploadedData2 = data.uploadedData) === null || _data$uploadedData2 === void 0 ? void 0 : _data$uploadedData2.manifest['site-settings']) || {} : {};
     if (!Object.keys(siteSettings).length || !Object.keys(runnersState['site-settings'] || {}).length) {
       return (0, _i18n.__)('No settings imported', 'elementor');
     }
@@ -7570,18 +7596,26 @@ function ImportComplete() {
   (0, _react.useEffect)(function () {
     _appsEventTracking.AppsEventTracking.sendPageViewsWebsiteTemplates(elementorCommon.eventsManager.config.secondaryLocations.kitLibrary.kitImportSummary);
   }, []);
+  var kitSource = (data === null || data === void 0 || (_data$kitUploadParams2 = data.kitUploadParams) === null || _data$kitUploadParams2 === void 0 ? void 0 : _data$kitUploadParams2.source) || 'file';
+  var isFromKitsLibrary = 'kit-library' === kitSource;
   (0, _react.useEffect)(function () {
-    var _data$kitUploadParams, _uploadedData$manifes;
-    _appsEventTracking.AppsEventTracking.sendImportKitCustomization({
-      kit_source: (data === null || data === void 0 || (_data$kitUploadParams = data.kitUploadParams) === null || _data$kitUploadParams === void 0 ? void 0 : _data$kitUploadParams.source) || 'file',
+    var _uploadedData$manifes;
+    _appsEventTracking.AppsEventTracking.sendImportKitCustomization(_objectSpread(_objectSpread(_objectSpread({
+      kit_source: kitSource,
       kit_import_content: includes.includes('content'),
       kit_import_templates: includes.includes('templates'),
       kit_import_settings: includes.includes('settings'),
       kit_import_plugins: includes.includes('plugins'),
       kit_import_deselected: analytics === null || analytics === void 0 ? void 0 : analytics.customization,
       kit_description: !!(uploadedData !== null && uploadedData !== void 0 && (_uploadedData$manifes = uploadedData.manifest) !== null && _uploadedData$manifes !== void 0 && _uploadedData$manifes.description)
-    });
-  }, [includes, analytics, uploadedData, data]);
+    }, kitId && isFromKitsLibrary && {
+      kit_import_id: kitId
+    }), title && isFromKitsLibrary && {
+      kit_import_title: title
+    }), duration && {
+      kit_import_duration: duration
+    }));
+  }, [includes, analytics, uploadedData, data, kitId, title, duration, kitSource, isFromKitsLibrary]);
   return /*#__PURE__*/_react.default.createElement(_components.BaseLayout, {
     topBar: /*#__PURE__*/_react.default.createElement(_components.TopBar, null, headerContent),
     footer: /*#__PURE__*/_react.default.createElement(_components.Footer, null, footerContent)
@@ -7995,7 +8029,7 @@ function ImportProcess() {
   (0, _react.useEffect)(function () {
     if (!error) {
       if (_useImportKit2.IMPORT_PROCESSING_STATUS.DONE === status) {
-        _appsEventTracking.AppsEventTracking.sendKitImportStatus();
+        _appsEventTracking.AppsEventTracking.sendKitImportStatus(null);
         navigate('import-customization/complete');
       } else if (!isProcessing) {
         navigate('import-customization', {
@@ -28982,7 +29016,7 @@ module.exports = ReactDOM;
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
 /******/ 			if (chunkId === "vendors-node_modules_react-query_devtools_index_js") return "bb8b6cce5ae5b36077e0.bundle.js";
-/******/ 			if (chunkId === "kit-library") return "" + chunkId + ".b318572cfbb0d7ab505b.bundle.js";
+/******/ 			if (chunkId === "kit-library") return "" + chunkId + ".2e38a4b9ca626956b67f.bundle.js";
 /******/ 			if (chunkId === "app_modules_onboarding_assets_js_utils_modules_post-onboarding-tracker_js") return "476658b095f7fe3d4745.bundle.js";
 /******/ 			if (chunkId === "onboarding") return "" + chunkId + ".a7a34522c0205e4ea1ea.bundle.js";
 /******/ 			// return url for filenames based on template

@@ -157,7 +157,7 @@ add_filter('extendbuilder_wp_data', function ($value) {
 });
 
 add_filter('extendbuilder_wp_data', function ($value) {
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     $value['attachment_sizes'] = apply_filters('image_size_names_choose', array(
         'thumbnail' => __('Thumbnail', 'colibri-page-builder'),
         'medium' => __('Medium', 'colibri-page-builder'),

@@ -180,8 +180,9 @@ add_action("admin_init", function () {
     } catch (Exception $e) {
     }
 });
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $theme = wp_get_theme();
+//phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $__is_colibri_theme = ($theme->template == "colibri-wp");
 
 if ($theme && $__is_colibri_theme) {

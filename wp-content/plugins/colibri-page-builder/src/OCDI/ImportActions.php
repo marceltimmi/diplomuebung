@@ -123,6 +123,7 @@ class ImportActions {
             $log_file_path = $ocdi->get_log_file_path();
 
             ob_start();
+            //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
             do_action( $action, $selected_import );
             $message = ob_get_clean();
 

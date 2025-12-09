@@ -84,6 +84,7 @@ function registerBuilderAssets()
 
 function init_data() {
 	$init         = \ExtendBuilder\get_current_data();
+    //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 	$init_data    = apply_filters( prefix( 'init' ), array() );
 	$init['data'] = $init_data;
 

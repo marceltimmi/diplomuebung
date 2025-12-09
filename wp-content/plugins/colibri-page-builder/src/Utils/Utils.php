@@ -22,6 +22,7 @@ class Utils
 
     public static function getAllowCssProperties()
     {
+        //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
         return apply_filters('safe_style_css', array(
             'background',
             'background-color',

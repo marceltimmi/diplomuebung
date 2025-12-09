@@ -207,6 +207,7 @@ function colibri_cache_set($name, $value)
 	$colibri_cache          = isset($GLOBALS['__colibri_plugin_cache__']) ? $GLOBALS['__colibri_plugin_cache__'] : array();
 	$colibri_cache[$name] = $value;
 
+    //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['__colibri_plugin_cache__'] = $colibri_cache;
 }
 
@@ -283,6 +284,7 @@ function is_false($var)
 
 function get_template_part($slug, $name = null)
 {
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 	do_action("get_template_part_{$slug}", $slug, $name);
 
 	$templates = array();
@@ -604,9 +606,11 @@ function colibri_duplicate_post_as_draft($post_id, $title = null)
 
 
 			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+
+            //phpcs:ignore 			PluginCheck.Security.DirectDB.UnescapedDBParameter
 			$sql_query .= implode(" UNION ALL ", $sql_query_sel);
 
-            //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, 	WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+            //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->query($sql_query);
 		}
 		return $new_post_id;

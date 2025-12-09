@@ -211,7 +211,7 @@ add_action('admin_head', function () {
 });
 
 // the notifications content display actions
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function cp_notification_winter_holiday_2017_active_callback()
 {
     $compareTO = "mesmerize";
@@ -231,7 +231,7 @@ function cp_notification_winter_holiday_2017_active_callback()
         return false;
     }
 }
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 function cp_notification_discount_offer($data)
 {
     $props = isset($data['props']) ? $data['props'] : array();

@@ -6,7 +6,7 @@
  *
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
- * Version: 1.0.342
+ * Version: 1.0.357
  * Text Domain: colibri-page-builder
  */
 
@@ -18,12 +18,13 @@ if (!in_array(get_option('template'), $colibri_page_builder_supported_themes)) {
 	require_once 'recommendations/colibri-wp.php';
 	return;
 } else {
-    //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash,	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	$is_customize_page = (is_admin() && 'customize.php' == basename($_SERVER['PHP_SELF']));
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$theme = get_template();
     //phpcs:ignore 	WordPress.Security.NonceVerification.Recommended
 	if (isset($_GET['theme']) && $_GET['theme'] != get_stylesheet()) {
-        //phpcs:ignore  	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.NonceVerification.Recommended
+        //phpcs:ignore  	WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.NonceVerification.Recommended, 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		$theme = sanitize_text_field($_GET['theme']);
 	}
 
@@ -32,11 +33,13 @@ if (!in_array(get_option('template'), $colibri_page_builder_supported_themes)) {
 		return;
 	}
 }
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $current_file = basename(__FILE__);
 //is free
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $is_free = $current_file === 'colibri-page-builder.php';
 if ($is_free) {
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$pro_builder_is_active = false;
 
     add_action('shutdown', function () {
@@ -47,9 +50,12 @@ if ($is_free) {
         update_option('colibri_page_builder_activation_time', $time);
     });
 
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$active_plugins = get_option('active_plugins');
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	foreach ($active_plugins as $active_plugin) {
 		if (strpos($active_plugin, 'colibri-page-builder-pro') !== false) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			$pro_builder_is_active = true;
 		}
 	}
@@ -67,7 +73,7 @@ if (!defined("COLIBRI_PAGE_BUILDER_AUTOLOAD")) {
 }
 
 if (!defined("COLIBRI_PAGE_BUILDER_VERSION")) {
-	define("COLIBRI_PAGE_BUILDER_VERSION", "1.0.342");
+	define("COLIBRI_PAGE_BUILDER_VERSION", "1.0.357");
 }
 
 require_once 'support/wp-5.8.php';

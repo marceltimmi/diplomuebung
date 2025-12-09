@@ -1171,8 +1171,9 @@ class PageBuilder
 		}
 
 		if ($this->isMultipage()) {
-
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$title_placeholder = apply_filters(
+                //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				'enter_title_here',
 				__('Enter title here', 'colibri-page-builder'),
 				$post
@@ -1382,7 +1383,9 @@ class PageBuilder
 		if ($sitepress) {
 			$url           = get_page_link($post_id);
 			$args          = array('element_id' => $post_id, 'element_type' => 'page');
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$language_code = apply_filters('wpml_element_language_code', null, $args);
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$url           = apply_filters('wpml_permalink', $url, $language_code);
 		}
 

@@ -163,6 +163,7 @@ function colibri_parse_and_render_shortcodes($content, $only_tags = null)
 
         $attr =  shortcode_parse_atts($p['attr']);
 
+        //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
         $return = apply_filters('pre_do_shortcode_tag', false,  $p['tag'],  $attr, $m);
         if (false !== $return) {
             $results[] = array_merge($p, array('rendered' => $return));

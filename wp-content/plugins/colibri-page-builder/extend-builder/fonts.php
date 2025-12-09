@@ -27,6 +27,7 @@ function enqueue_google_fonts()
 {
     
     $fonts = array();
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     $fonts = apply_filters("extend_builder/google_fonts", $fonts);
 
     if (!count($fonts)) {

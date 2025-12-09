@@ -18,9 +18,10 @@
         <div class="popup-footer">
             <div class="footer-content">
                 <h2><?php
-                    //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                    //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                     echo esc_html( sprintf( __( 'This demo site is available only in %s',
                         'colibri-page-builder' ),
+                        //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                         apply_filters( "mesmerize_demos_available_in_pro", "Colibri Page Builder PRO" ) ) ); ?></h2>
                 <a href='http://colibriwp.com' class='button button-hero button-primary upgrade-to-pro'
                    target='_blank'><?php esc_html_e( 'Check all PRO features', 'colibri-page-builder' ); ?></a>

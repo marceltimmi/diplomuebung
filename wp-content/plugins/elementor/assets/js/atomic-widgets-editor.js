@@ -1124,7 +1124,7 @@ function createAtomicElementBaseView(type) {
           local[key] = value;
         }
       });
-      return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, attr), initialAttributes), customAttributes), local);
+      return _objectSpread(_objectSpread(_objectSpread({}, attr), initialAttributes), local);
     },
     // TODO: Copied from `views/column.js`.
     attachElContent: function attachElContent() {
@@ -1285,6 +1285,7 @@ function createAtomicElementBaseView(type) {
       return groups;
     },
     saveAsTemplate: function saveAsTemplate() {
+      elementor.templates.eventManager.sendNewSaveTemplateClickedEvent();
       $e.route('library/save-template', {
         model: this.model
       });

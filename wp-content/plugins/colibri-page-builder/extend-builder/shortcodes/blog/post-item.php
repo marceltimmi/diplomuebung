@@ -227,7 +227,7 @@ function colibri_post_title( $attrs = array() ) {
 function colibri_post_excerpt_length( $value ) {
 
 	if ( $length = colibri_cache_get( 'post_excerpt_length' ) ) {
-		$value = $length;
+        $value = intval($length);
 	}
 
 	return $value;
@@ -243,14 +243,17 @@ function colibri_post_excerpt( $attrs = array() ) {
 	);
 
 
-	if ( is_numeric( $atts['max_length'] ) ) {
-		colibri_cache_set( 'post_excerpt_length', $atts['max_length'] );
+    if ( is_numeric( $atts['max_length'] ) ) {
+        colibri_cache_set( 'post_excerpt_length', $atts['max_length'] );
 
-		if ( ! has_filter( 'excerpt_length', "\Extendbuilder\colibri_post_excerpt_length" ) ) {
-			add_filter( 'excerpt_length', "\Extendbuilder\colibri_post_excerpt_length" );
-		}
+        if ( ! has_filter( 'excerpt_length', "\Extendbuilder\colibri_post_excerpt_length" ) ) {
+            add_filter( 'excerpt_length', "\Extendbuilder\colibri_post_excerpt_length", PHP_INT_MAX, 1 );
+        }
+        if ( ! has_filter( 'get_the_excerpt', "wp_trim_excerpt" ) ) {
+            add_filter( 'get_the_excerpt', 'wp_trim_excerpt', 10, 2 );
+        }
 
-	}
+    }
 
 	return '<div class="colibri-post-excerpt">' . wp_kses_post(get_the_excerpt()) . '</div>';
 

@@ -23,6 +23,7 @@ class BaseSetting extends \WP_Customize_Setting
             if ($default ==="__cp_filter__") {
                 $filter = $this->cpData['filterOptions']['filter'];
                 $filterDefault = isset($this->cpData['filterOptions']['default'])? $this->cpData['filterOptions']['default']: false;
+                //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
                 $default = apply_filters($filter, $filterDefault) ;
             }
 

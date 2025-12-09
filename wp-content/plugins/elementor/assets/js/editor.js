@@ -10461,10 +10461,10 @@ var TemplateLibrarySaveTemplateView = Marionette.ItemView.extend({
     setTimeout(function () {
       return _this2.ui.templateNameInput.trigger('focus');
     });
+    var context = this.getOption('context');
     elementor.templates.eventManager.sendPageViewEvent({
       location: elementorCommon.eventsManager.config.secondaryLocations.templateLibrary["".concat(context, "Modal")]
     });
-    var context = this.getOption('context');
     if (_constants.SAVE_CONTEXTS.SAVE === context) {
       this.handleSaveAction();
     }
@@ -10555,7 +10555,6 @@ var TemplateLibrarySaveTemplateView = Marionette.ItemView.extend({
   onFormSubmit: function onFormSubmit(event) {
     var _this$templateHelpers3;
     event.preventDefault();
-    elementor.templates.eventManager.sendNewSaveTemplateClickedEvent();
     var formData = this.ui.form.elementorSerializeObject(),
       JSONParams = {
         remove: ['default']
@@ -15857,6 +15856,21 @@ ControlNumberItemView = ControlBaseDataView.extend({
         validationTerms: validationTerms
       }));
     }
+  }
+}, {
+  getStyleValue: function getStyleValue(placeholder, controlValue, controlData) {
+    if ('DEFAULT' === placeholder) {
+      return controlData.default;
+    }
+    if (null === controlValue || undefined === controlValue || '' === controlValue) {
+      return controlValue;
+    }
+    var numValue = Number(controlValue);
+    if (!isFinite(numValue) || isNaN(numValue)) {
+      var _controlData$default;
+      return (_controlData$default = controlData.default) !== null && _controlData$default !== void 0 ? _controlData$default : '';
+    }
+    return numValue;
   }
 });
 module.exports = ControlNumberItemView;
@@ -31558,6 +31572,7 @@ BaseElementView = BaseContainer.extend({
     return data;
   },
   save: function save() {
+    elementor.templates.eventManager.sendNewSaveTemplateClickedEvent();
     $e.route('library/save-template', {
       model: this.model
     });
@@ -33549,6 +33564,7 @@ var ContainerView = BaseElementView.extend({
    * @return {void}
    */
   saveAsTemplate: function saveAsTemplate() {
+    elementor.templates.eventManager.sendNewSaveTemplateClickedEvent();
     $e.route('library/save-template', {
       model: this.model
     });

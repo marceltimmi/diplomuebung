@@ -118,9 +118,10 @@ var AppsEventTracking = exports.AppsEventTracking = /*#__PURE__*/function () {
     key: "sendKitImportStatus",
     value: function sendKitImportStatus() {
       var error = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var isError = !!error;
       return this.dispatchEvent(EVENTS_MAP.KIT_IMPORT_STATUS, _objectSpread({
-        kit_import_status: !error
-      }, error && {
+        kit_import_status: !isError
+      }, isError && {
         kit_import_error: error.message
       }));
     }

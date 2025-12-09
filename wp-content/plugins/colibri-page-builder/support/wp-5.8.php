@@ -10,7 +10,7 @@ function colibriwp_fix_wp58_sidebar()
     }
 
     update_option('colibriwp_fix_wp58_sidebar', true);
-
+    //phpcs:ignore 	Generic.PHP.ForbiddenFunctions.Found
     $sidebars_widgets = wp_get_sidebars_widgets();
     $first_block = array_get_value($sidebars_widgets, 'colibri-sidebar-1.0');
     if ($first_block === 'block-2') {

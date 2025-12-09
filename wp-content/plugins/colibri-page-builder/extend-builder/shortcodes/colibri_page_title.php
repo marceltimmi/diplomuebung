@@ -119,6 +119,7 @@ function get_title( $titles ) {
 		global $post;
 		if ( $post ) {
 			// apply core filter
+            //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$title = apply_filters( 'single_post_title', $post->post_title, $post );
 		}
 		$final_title = $title ? str_replace( "{TITLE}", $title, $titles['singlePost'] ) : "";

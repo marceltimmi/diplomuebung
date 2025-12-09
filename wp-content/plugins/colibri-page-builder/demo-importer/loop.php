@@ -1,7 +1,13 @@
-<?php $demos = apply_filters( 'colibri_page_builder/demo-sites-list', \ColibriWP\Theme\View::getData( 'demos' ) ); ?>
+<?php
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$demos = apply_filters( 'colibri_page_builder/demo-sites-list', \ColibriWP\Theme\View::getData( 'demos' ) );
+?>
 
 <div class="colibri-ocdi-demo-list js-ocdi-gl-item-container">
-    <?php foreach ( $demos as $index => $demo ): ?>
+    <?php
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+    foreach ( $demos as $index => $demo ):
+        ?>
         <div class="colibri-ocdi-demo-item js-ocdi-gl-item">
             <div class="colibri-ocdi-demo-item-content-wrapper">
                 <?php if ( $demo['is_pro'] && ! \ColibriWP\PageBuilder\PageBuilder::instance()->isPRO() ): ?>
@@ -22,19 +28,19 @@
                 </div>
                 <div class="colibri-ocdi-demo-item-action">
                     <div class="colibri-ocdi-demo-item-name">
-                        <h4><?php echo esc_html($demo['import_file_name']); ?></h4>
+                        <h4><?php echo esc_html($demo['import_file_name']); //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?></h4>
                     </div>
                     <div class="colibri-ocdi-demo-item-import">
                         <a class="button" target="_blank"
-                           href="<?php echo esc_url( colibri_try_demo_url( $demo['slug'] ) ); ?>">
+                           href="<?php echo esc_url( colibri_try_demo_url( $demo['slug'] ) );  //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>">
                             <?php esc_html_e( 'Try Online', 'colibri-page-builder' ); ?>
                         </a>
-                        <button value="<?php echo esc_attr( $index ); ?>"
+                        <button value="<?php echo esc_attr( $index );  //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound  ?>"
                                 class="ocdi__gl-item-button button button-primary colibri-popup-import-button">
                             <?php esc_html_e( 'Import', 'colibri-page-builder' ); ?>
                         </button>
-                        <input data-colibri-demo-import-runner="<?php echo esc_attr( $index ); ?>" type="hidden"
-                               value="<?php echo esc_attr( $index ); ?>" class="js-ocdi-gl-import-data">
+                        <input data-colibri-demo-import-runner="<?php echo esc_attr( $index );  //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound  ?>" type="hidden"
+                               value="<?php echo esc_attr( $index );  //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound  ?>" class="js-ocdi-gl-import-data">
                     </div>
                 </div>
             </div>
