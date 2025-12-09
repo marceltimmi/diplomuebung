@@ -6,6 +6,11 @@ jQuery(function($){
       $('#dstb-msg').text(res && res.data ? res.data.msg : 'Fehler.');
       if(res && res.success){
         $('#dstb-confirm-form').fadeOut(200);
+        const isDecline = (extra || '').indexOf('decline=1') !== -1;
+        const redirect = (!isDecline && DSTB_Confirm.thankYou) ? DSTB_Confirm.thankYou : '';
+        if (redirect) {
+          setTimeout(function(){ window.location.href = redirect; }, 250);
+        }
       }
     }).fail(function(){
       $('#dstb-msg').text('Netzwerkfehler.');

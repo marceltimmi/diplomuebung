@@ -100,3 +100,27 @@ function dstb_upload_constraints(){
 return [ 'max_files'=>10, 'max_size_mb'=>8, 'allowed_mimes'=>['image/jpeg','image/png','image/webp'] ];
 }
 
+function dstb_thankyou_url(){
+    $url = '';
+
+    if (defined('DSTB_THANKYOU_URL') && filter_var(DSTB_THANKYOU_URL, FILTER_VALIDATE_URL)) {
+        $url = DSTB_THANKYOU_URL;
+    }
+
+    if (!$url) {
+        $opt = get_option('dstb_thankyou_url', '');
+        if ($opt && filter_var($opt, FILTER_VALIDATE_URL)) {
+            $url = $opt;
+        }
+    }
+
+    if (!$url) {
+        $page = get_page_by_path('thank-you') ?: get_page_by_path('danke');
+        if ($page) {
+            $url = get_permalink($page);
+        }
+    }
+
+    return apply_filters('dstb_thankyou_url', $url ?: '');
+}
+
