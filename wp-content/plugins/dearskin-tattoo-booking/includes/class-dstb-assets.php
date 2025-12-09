@@ -32,6 +32,7 @@ class DSTB_Assets {
             'nonce'      => wp_create_nonce('dstb_front'),
             'timeSteps'  => dstb_half_hour_steps(),
             'maxUploads' => dstb_upload_constraints()['max_files'],
+            'thankYou'   => dstb_thankyou_url(),
         ]);
 
         wp_enqueue_script('dstb-form');
