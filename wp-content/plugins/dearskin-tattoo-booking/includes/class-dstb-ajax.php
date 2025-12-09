@@ -125,6 +125,7 @@ class DSTB_Ajax {
         $req_id  = intval($_POST['req_id'] ?? 0);
         $sug_id  = intval($_POST['choice'] ?? 0);
         $decline = !empty($_POST['decline']);
+        $terms   = !empty($_POST['terms']);
 
         if (!$req_id) {
             wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
@@ -153,6 +154,10 @@ class DSTB_Ajax {
 
         if (!$sug_id) {
             wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
+        }
+
+        if (!$terms) {
+            wp_send_json_error(['msg' => 'Bitte bestätige die AGB sowie Anzahlung- und Storno-Bedingungen.']);
         }
 
         // Gewählten Vorschlag prüfen
@@ -187,6 +192,10 @@ class DSTB_Ajax {
         // Studio informieren
         if (method_exists('DSTB_Emails','send_confirmation_to_studio')) {
             DSTB_Emails::send_confirmation_to_studio($req_id, $sug_id);
+        }
+
+        if (method_exists('DSTB_Emails','send_confirmation_to_customer')) {
+            DSTB_Emails::send_confirmation_to_customer($req_id, $sug_id);
         }
 
         wp_send_json_success(['msg' => 'Danke! Dein Termin wurde bestätigt.']);

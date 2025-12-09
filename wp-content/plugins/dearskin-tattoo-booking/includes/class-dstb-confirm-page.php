@@ -98,6 +98,11 @@ class DSTB_Confirm_Page {
                     </tbody>
                 </table>
 
+                <label style="display:block;margin-top:14px;">
+                    <input type="checkbox" id="dstb-terms" name="terms" value="1" required>
+                    <span>Ich akzeptiere die <a href="<?php echo esc_url(site_url('/agb/')); ?>" target="_blank" rel="noopener">AGB</a> sowie die Anzahlung-, Storno- und No-Show-Bedingungen.</span>
+                </label>
+
                 <div class="dstb-actions" style="margin-top:12px;display:flex;gap:10px;">
                     <button type="submit" class="dstb-btn dstb-confirm-btn">Termin bestätigen</button>
                     <button type="button" id="dstb-decline" class="dstb-btn dstb-decline-btn">Keiner passt</button>
@@ -118,6 +123,7 @@ class DSTB_Confirm_Page {
         $req_id  = intval($_POST['req_id'] ?? 0);
         $sug_id  = intval($_POST['choice'] ?? 0);
         $decline = !empty($_POST['decline']);
+        $terms   = !empty($_POST['terms']);
 
         if (!$req_id) wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
 
@@ -139,6 +145,8 @@ class DSTB_Confirm_Page {
 
         // ✅ Kunde bestätigt einen Termin
         if (!$sug_id) wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
+
+        if (!$terms) wp_send_json_error(['msg' => 'Bitte bestätige die AGB sowie Anzahlung- und Storno-Bedingungen.']);
 
         // Vorschlag laden
         $sug = $wpdb->get_row($wpdb->prepare(
@@ -172,6 +180,10 @@ class DSTB_Confirm_Page {
         // 4️⃣ Studio per Mail informieren
         if (method_exists('DSTB_Emails','send_confirmation_to_studio')) {
             DSTB_Emails::send_confirmation_to_studio($req_id, $sug_id);
+        }
+
+        if (method_exists('DSTB_Emails','send_confirmation_to_customer')) {
+            DSTB_Emails::send_confirmation_to_customer($req_id, $sug_id);
         }
 
         wp_send_json_success(['msg' => 'Danke! Dein Termin wurde bestätigt.']);
