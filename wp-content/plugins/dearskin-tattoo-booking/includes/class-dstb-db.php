@@ -28,6 +28,7 @@ class DSTB_DB {
             name VARCHAR(190) NOT NULL,
             email VARCHAR(190) NOT NULL,
             phone VARCHAR(100) DEFAULT '',
+            address VARCHAR(255) NOT NULL DEFAULT '',
             artist VARCHAR(64) DEFAULT '',
             style VARCHAR(64) DEFAULT '',
             bodypart VARCHAR(64) DEFAULT '',
@@ -192,10 +193,14 @@ class DSTB_DB {
     public static function insert_request($data){
         global $wpdb;
         $table = self::table(self::$requests);
+
+        self::maybe_add_address_column();
+
         $wpdb->insert($table, [
             'name'   => $data['name'],
             'email'  => $data['email'],
             'phone'  => $data['phone'],
+            'address'=> $data['address'],
             'artist' => $data['artist'],
             'style'  => $data['style'],
             'bodypart'=> $data['bodypart'],
@@ -206,8 +211,23 @@ class DSTB_DB {
             'uploads'=> wp_json_encode($data['uploads']),
             'gdpr'   => $data['gdpr'],
             'confirm_token' => !empty($data['confirm_token']) ? $data['confirm_token'] : null
-        ], ['%s','%s','%s','%s','%s','%s','%s','%d','%s','%s','%s','%d','%s']);
+        ], ['%s','%s','%s','%s','%s','%s','%s','%s','%d','%s','%s','%s','%d','%s']);
         return $wpdb->insert_id;
+    }
+
+    /**
+     * Sicherstellen, dass die Spalte "address" auch bei bestehenden Installationen vorhanden ist.
+     */
+    public static function maybe_add_address_column() : void {
+        global $wpdb;
+        $table = self::table(self::$requests);
+        $column_exists = $wpdb->get_var(
+            $wpdb->prepare("SHOW COLUMNS FROM $table LIKE %s", 'address')
+        );
+
+        if ($column_exists === null) {
+            $wpdb->query("ALTER TABLE $table ADD COLUMN address VARCHAR(255) NOT NULL DEFAULT '' AFTER phone");
+        }
     }
 
     /** Aus Standard-Ranges & Buchungen freie Slots ableiten */

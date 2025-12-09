@@ -14,6 +14,11 @@ jQuery(function($){
 
   $('#dstb-confirm-form').on('submit', function(e){
     e.preventDefault();
+    const $terms = $('#dstb-terms');
+    if($terms.length && !$terms.is(':checked')){
+      $('#dstb-msg').text('Bitte bestätige die AGB und Bedingungen.');
+      return;
+    }
     postConfirm('');
   });
 
