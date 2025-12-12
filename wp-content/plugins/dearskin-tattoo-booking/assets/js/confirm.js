@@ -6,6 +6,11 @@ jQuery(function($){
       $('#dstb-msg').text(res && res.data ? res.data.msg : 'Fehler.');
       if(res && res.success){
         $('#dstb-confirm-form').fadeOut(200);
+        const isDecline = (extra || '').indexOf('decline=1') !== -1;
+        const redirect = (!isDecline && DSTB_Confirm.thankYou) ? DSTB_Confirm.thankYou : '';
+        if (redirect) {
+          setTimeout(function(){ window.location.href = redirect; }, 250);
+        }
       }
     }).fail(function(){
       $('#dstb-msg').text('Netzwerkfehler.');
@@ -14,6 +19,11 @@ jQuery(function($){
 
   $('#dstb-confirm-form').on('submit', function(e){
     e.preventDefault();
+    const $terms = $('#dstb-terms');
+    if($terms.length && !$terms.is(':checked')){
+      $('#dstb-msg').text('Bitte bestätige die AGB und Bedingungen.');
+      return;
+    }
     postConfirm('');
   });
 

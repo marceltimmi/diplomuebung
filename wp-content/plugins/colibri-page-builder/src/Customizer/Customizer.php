@@ -115,7 +115,7 @@ class Customizer {
 			if ( defined( "CP__addGlobalScript" ) ) {
 				return;
 			}
-
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 			define( "CP__addGlobalScript", "1" );
 
 			$isScriptDebugging           = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
@@ -253,6 +253,7 @@ class Customizer {
 			return;
 		}
 
+        //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		define( "CP__previewScript", "1" );
 
 		$self = $this;

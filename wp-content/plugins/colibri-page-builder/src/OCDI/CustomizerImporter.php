@@ -133,12 +133,14 @@ class CustomizerImporter {
         $use_wp_customize_save_hooks = apply_filters( 'extendthemes-ocdi/enable_wp_customize_save_hooks', false );
 
         if ( $use_wp_customize_save_hooks ) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             do_action( 'customize_save', $wp_customize );
         }
 
         // Loop through the mods and save the mods.
         foreach ( $data['mods'] as $key => $val ) {
             if ( $use_wp_customize_save_hooks ) {
+                //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
                 do_action( 'customize_save_' . $key, $wp_customize );
             }
 
@@ -146,6 +148,7 @@ class CustomizerImporter {
         }
 
         if ( $use_wp_customize_save_hooks ) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             do_action( 'customize_save_after', $wp_customize );
         }
     }

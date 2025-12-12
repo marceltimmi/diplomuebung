@@ -73,7 +73,9 @@ function get_post_in_language($post_id, $lang, $default = true)
         }
 
         if (colibri_wpml_is_active()) {
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             $post_id_lang = apply_filters('wpml_object_id', $post_id, "any", false, $lang);
+            //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             $translations = apply_filters('wpml_get_element_translations', null, $post_id, 'post_post');
             if (!$post_id_lang && isset($translations[$lang])) {
                 $post_id_lang = $translations[$lang]->element_id;

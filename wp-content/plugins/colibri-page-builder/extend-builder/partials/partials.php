@@ -82,6 +82,7 @@ function default_partial_post($type, $default_for = 'post', $lang = "default")
 {
     $post_default = get_default_partial_id($type, $default_for);
 
+    //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
     $template = apply_filters(prefix("default_partial"), -1, $type);
 
     if ($template == -1) {

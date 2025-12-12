@@ -3,6 +3,20 @@ if (!defined('ABSPATH')) exit;
 
 class DSTB_Admin_Artists {
 
+    /**
+     * Validates the AJAX nonce and returns a translated error if it is missing/invalid.
+     */
+    protected static function validate_nonce() {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+
+        if (!wp_verify_nonce($nonce, 'dstb_admin_requests')) {
+            wp_send_json_error(
+                ['msg' => __('Sitzung abgelaufen. Bitte Seite neu laden und erneut versuchen.', 'dstb')],
+                403
+            );
+        }
+    }
+
     public static function init() {
         add_action('plugins_loaded', [__CLASS__, 'maybe_create_table']);
 
@@ -16,7 +30,15 @@ class DSTB_Admin_Artists {
     }
 
     public static function enqueue_assets($hook) {
-        if (strpos($hook, 'dstb-availability') === false) {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        $screen_id = $screen ? (string) $screen->id : '';
+        $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
+
+        $is_availability_screen = strpos((string) $hook, 'dstb-availability') !== false
+            || strpos($screen_id, 'dstb-availability') !== false
+            || $page === 'dstb-availability';
+
+        if (!$is_availability_screen) {
             return;
         }
 
@@ -206,7 +228,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist hinzufügen */
     public static function add_artist() {
-        check_ajax_referer('dstb_admin_requests','nonce');
+        self::validate_nonce();
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -248,7 +270,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Artist löschen (Name oder ID) */
     public static function delete_artist() {
-        check_ajax_referer('dstb_admin_requests','nonce');
+        self::validate_nonce();
         if (!current_user_can('manage_options')) wp_send_json_error(['msg'=>'Keine Berechtigung.']);
 
         if (!self::maybe_create_table()) {
@@ -296,7 +318,7 @@ class DSTB_Admin_Artists {
 
     /** AJAX: Liste aller Artists */
     public static function get_artists() {
-        check_ajax_referer('dstb_admin_requests','nonce');
+        self::validate_nonce();
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['msg'=>'Keine Berechtigung.']);
         }
@@ -304,9 +326,7 @@ class DSTB_Admin_Artists {
         if (!self::maybe_create_table()) {
             wp_send_json_error(['msg' => __('Artist-Tabelle konnte nicht erstellt werden.', 'dstb')]);
         }
-        global $wpdb;
-        $table = self::table();
-        $rows = $wpdb->get_results("SELECT id, name, has_calendar FROM $table ORDER BY name ASC", ARRAY_A);
+        $rows = self::get_artist_rows(true);
         wp_send_json_success($rows);
     }
 

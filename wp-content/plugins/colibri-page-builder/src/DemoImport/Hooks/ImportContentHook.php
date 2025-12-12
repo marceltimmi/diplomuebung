@@ -212,7 +212,7 @@ class ImportContentHook extends ImportHook
 		}, array_keys($batch));
 		$query = "SELECT ID AS id, guid FROM $wpdb->posts WHERE guid IN (" . implode(",", $guids) . ")";
 
-        //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, 	WordPress.DB.DirectDatabaseQuery.NoCaching, 	WordPress.DB.DirectDatabaseQuery.DirectQuery
+        //phpcs:ignore 	WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.NoCaching, 	WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$entities = $wpdb->get_results($query);
 
 		$map = array();
@@ -361,8 +361,9 @@ class ImportContentHook extends ImportHook
 		if (class_exists('\WC_Install')) {
 			WC_Install::create_pages();
 
-
+            //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$pages = apply_filters(
+                //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				'woocommerce_create_pages',
 				array(
 					'shop'           => array(),

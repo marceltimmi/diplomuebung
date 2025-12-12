@@ -140,9 +140,10 @@ function handle_dynamic_template( $template, $type ) {
     $value = apply_filters("colibri_should_handle_template", "dynamic", $type, $template);
     return $value;
 }
-
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $partials_types_list = partials_types_list();
 
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 foreach ( $partials_types_list as $partial ) {
 	ThemeHooks::prefixed_add_filter("{$partial}_partial_type", function ( $template ) use ( $partial ) {
 		return handle_dynamic_template( $template, $partial );

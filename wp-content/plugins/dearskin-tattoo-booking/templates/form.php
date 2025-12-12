@@ -25,6 +25,11 @@
       </label>
 
       <label class="dstb-field">
+        <span>Adresse*</span>
+        <input type="text" name="address" autocomplete="street-address" required>
+      </label>
+
+      <label class="dstb-field">
         <span>Bevorzugter Artist</span>
         <select name="artist" id="dstb-artist">
           <?php foreach(dstb_artists() as $k=>$v): ?>
@@ -103,9 +108,18 @@
       <div id="dstb-previews"></div>
     </div>
 
+    <div class="dstb-info-box">
+      <strong>Wichtige Hinweise zur Terminanfrage</strong>
+      <ul>
+        <li>Dies ist eine unverbindliche Anfrage. Ein verbindlicher Termin entsteht erst nach schriftlicher Bestätigung und fristgerechter Anzahlung (25&nbsp;%).</li>
+        <li>Bei Nichterscheinen ohne rechtzeitige Stornierung kann der volle Betrag gemäß Studio-AGB verrechnet werden.</li>
+        <li>Die Adresse wird zur Terminzuordnung und für eine spätere Rechnungsstellung benötigt.</li>
+      </ul>
+    </div>
+
     <label class="dstb-check">
       <input type="checkbox" name="gdpr" required>
-      <span>Ich akzeptiere die DSGVO-Einverständniserklärung.</span>
+      <span>Ich stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Terminanfrage gemäß Datenschutzerklärung zu.</span>
     </label>
 
     <div class="dstb-actions">

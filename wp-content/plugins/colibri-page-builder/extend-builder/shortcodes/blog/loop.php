@@ -10,6 +10,14 @@ add_shortcode('colibri_item_template', function($attrs, $content = null) {
 
 add_shortcode('colibri_loop', '\ExtendBuilder\colibri_loop');
 
+
+/**
+ * Handles the [colibri_loop] shortcode used for rendering post loops on the frontend.
+ *
+ * @param array  $attrs   Shortcode attributes.
+ * @param string $content Template content rendered for each post item.
+ * @return string The rendered loop output.
+ */
 function colibri_loop($attrs, $content = null)
 {
     ob_start();
@@ -47,16 +55,31 @@ function colibri_loop($attrs, $content = null)
     }
 
     $content = urldecode($content);
-
+    $escaped_content = str_replace('<!---->', '', $content);
+    /**
+     * We sanitized the shortcode content this early using wp_kses_post() to ensure it is safe
+     * before running do_shortcode(). This step removes script and other disallowed
+     * HTML tags while preserving valid HTML structure and any nested shortcodes.
+     */
+    $filtered_content = wp_kses_post($escaped_content);
 
     if ($query) {
 
     if ($query->have_posts()):
         while ($query->have_posts()):
             $query->the_post();
-            $escaped_content = str_replace('<!---->', '', $content);
-            $shortcode_content = do_shortcode( $escaped_content );
 
+
+
+            $shortcode_content = do_shortcode( $filtered_content );
+
+
+            /**
+             * Output is intentionally not escaped here because $filtered_content has already been
+             * sanitized with wp_kses_post() prior to running do_shortcode(). Each nested shortcode
+             * must handle its own escaping or sanitization as needed. Escaping again at this point
+             * would strip or break valid HTML produced by those shortcodes.
+             */
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $shortcode_content;
         endwhile;

@@ -9,6 +9,7 @@ namespace ColibriWP\PageBuilder\OCDI;
 
 use ColibriWP\PageBuilder\PageBuilder;
 
+//phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $predefined_themes = array();
 
 wp_enqueue_script( 'extendthemes-ocdi-main-js', PageBuilder::instance()->assetsRootURL() . '/ocdi/main.js', array(
@@ -50,6 +51,7 @@ wp_localize_script( 'extendthemes-ocdi-main-js', 'extendthemes_ocdi',
 /**
  * Hook for adding the custom plugin page header
  */
+//phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 do_action( 'pt-ocdi/plugin_page_header' );
 
 ?>
@@ -123,4 +125,5 @@ do_action( 'pt-ocdi/plugin_page_header' );
 /**
  * Hook for adding the custom admin page footer
  */
+//phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 do_action( 'pt-ocdi/plugin_page_footer' );

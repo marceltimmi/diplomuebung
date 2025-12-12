@@ -32,6 +32,7 @@ class DSTB_Ajax {
         $name      = trim($firstname . ' ' . $lastname);
         $email     = sanitize_email($_POST['email'] ?? '');
         $phone     = sanitize_text_field($_POST['phone'] ?? '');
+        $address   = sanitize_text_field($_POST['address'] ?? '');
         $artist    = sanitize_text_field($_POST['artist'] ?? '');
         $style     = sanitize_text_field($_POST['style'] ?? '');
         $bodypart  = sanitize_text_field($_POST['bodypart'] ?? '');
@@ -40,8 +41,8 @@ class DSTB_Ajax {
         $desc      = wp_kses_post($_POST['desc'] ?? '');
         $gdpr      = !empty($_POST['gdpr']) ? 1 : 0;
 
-        if (!$firstname || !$lastname || !$email) {
-            wp_send_json_error(['msg' => 'Vorname, Nachname und E-Mail sind Pflichtfelder.']);
+        if (!$firstname || !$lastname || !$email || !$address) {
+            wp_send_json_error(['msg' => 'Vorname, Nachname, E-Mail und Adresse sind Pflichtfelder.']);
         }
 
         // bis zu 3 Zeitfenster (Datum + Start)
@@ -93,6 +94,7 @@ class DSTB_Ajax {
             'name'     => $name,
             'email'    => $email,
             'phone'    => $phone,
+            'address'  => $address,
             'artist'   => $artist,
             'style'    => $style,
             'bodypart' => $bodypart,
@@ -123,6 +125,7 @@ class DSTB_Ajax {
         $req_id  = intval($_POST['req_id'] ?? 0);
         $sug_id  = intval($_POST['choice'] ?? 0);
         $decline = !empty($_POST['decline']);
+        $terms   = !empty($_POST['terms']);
 
         if (!$req_id) {
             wp_send_json_error(['msg' => 'Fehlende Angaben: Anfrage-ID.']);
@@ -151,6 +154,10 @@ class DSTB_Ajax {
 
         if (!$sug_id) {
             wp_send_json_error(['msg' => 'Bitte wähle einen Termin aus.']);
+        }
+
+        if (!$terms) {
+            wp_send_json_error(['msg' => 'Bitte bestätige die AGB sowie Anzahlung- und Storno-Bedingungen.']);
         }
 
         // Gewählten Vorschlag prüfen
@@ -185,6 +192,10 @@ class DSTB_Ajax {
         // Studio informieren
         if (method_exists('DSTB_Emails','send_confirmation_to_studio')) {
             DSTB_Emails::send_confirmation_to_studio($req_id, $sug_id);
+        }
+
+        if (method_exists('DSTB_Emails','send_confirmation_to_customer')) {
+            DSTB_Emails::send_confirmation_to_customer($req_id, $sug_id);
         }
 
         wp_send_json_success(['msg' => 'Danke! Dein Termin wurde bestätigt.']);

@@ -80,6 +80,7 @@ class DSTB_Emails {
                 self::dl('Name', esc_html($row['name'])).
                 self::dl('E-Mail', esc_html($row['email'])).
                 self::dl('Telefon', esc_html($row['phone'])).
+                self::dl('Adresse', esc_html($row['address'])).
                 self::dl('Artist', esc_html($row['artist'])).
                 self::dl('Stilrichtung', esc_html($row['style'])).
                 self::dl('Körperstelle', esc_html($row['bodypart'])).
@@ -103,6 +104,7 @@ class DSTB_Emails {
                 self::dl('Name', esc_html($row['name'])).
                 self::dl('E-Mail', esc_html($row['email'])).
                 self::dl('Telefon', esc_html($row['phone'])).
+                self::dl('Adresse', esc_html($row['address'])).
                 self::dl('Artist', esc_html($row['artist'])).
                 self::dl('Stilrichtung', esc_html($row['style'])).
                 self::dl('Körperstelle', esc_html($row['bodypart'])).
@@ -196,6 +198,63 @@ class DSTB_Emails {
                 <li><strong>Preis:</strong> {$sug['price']} €</li>
                 <li><strong>Notiz:</strong> {$sug['note']}</li>
             </ul>";
+
+        self::send_html_mail($to, $subject, $body);
+    }
+
+    /** Kunde bestätigt einen Termin → Kunde bekommt finale Mail inkl. Anzahlungshinweis */
+    public static function send_confirmation_to_customer($req_id, $sug_id){
+        global $wpdb;
+        $req = DSTB_DB::get_request($req_id);
+        $table = $wpdb->prefix . DSTB_DB::$suggestions;
+        $sug = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id=%d", $sug_id), ARRAY_A);
+
+        if (!$req || !$sug) return;
+
+        $to = sanitize_email($req['email'] ?? '');
+        if (empty($to)) return;
+
+        $subject = 'Termin bestätigt – Anzahlung & nächste Schritte (#'.$req_id.')';
+        $price   = isset($sug['price']) ? intval($sug['price']).' €' : '';
+
+        $body  = '<p>Hallo '.esc_html($req['name']).',</p>';
+        $body .= '<p>dein Termin ist bestätigt. Zusammenfassung:</p>';
+        $body .= '<ul>';
+        $body .= '<li><strong>Datum:</strong> '.esc_html($sug['date']).'</li>';
+        $body .= '<li><strong>Start:</strong> '.esc_html($sug['start']).'</li>';
+        $body .= '<li><strong>Ende:</strong> '.esc_html($sug['end']).'</li>';
+        if ($price) $body .= '<li><strong>Preis:</strong> '.esc_html($price).'</li>';
+        if (!empty($sug['note'])) $body .= '<li><strong>Notiz:</strong> '.esc_html($sug['note']).'</li>';
+        $body .= '</ul>';
+
+        $body .= '<h3>Anzahlung</h3>';
+        $body .= '<p>Um dich in unsere Kundenkartei aufnehmen zu können, benötigen wir folgende Daten (liegen aus deiner Anfrage bereits vor – bitte nur bei Änderungen melden):</p>';
+        $body .= '<ul>';
+        $body .= '<li>Vollständiger Name (laut Ausweis)</li>';
+        $body .= '<li>Rechnungsadresse (Straße, PLZ, Ort, Land)</li>';
+        $body .= '<li>Mobilnummer und E‑Mail</li>';
+        $body .= '<li>Geburtsdatum (Ü18‑Nachweis)</li>';
+        $body .= '</ul>';
+
+        $body .= '<p><strong>Empfänger:</strong><br>dear skin</p>';
+        $body .= '<p><strong>IBAN:</strong><br>AT36 2070 6046 0079 5878</p>';
+        $body .= '<p><strong>Verwendungszweck:</strong> Vollständiger Name + „Anzahlung“</p>';
+        $body .= '<p><strong>Fixierung:</strong> Termin wird mit Screenshot der Anzahlung verbindlich.</p>';
+
+        $body .= '<h4>Storno/Umbuchung</h4>';
+        $body .= '<ul>';
+        $body .= '<li>1× kostenfrei bis 48h vor Termin</li>';
+        $body .= '<li>&lt;24h: Anzahlung verfällt</li>';
+        $body .= '<li>No‑Show: 100% des vereinbarten Preises fällig (Anzahlung wird angerechnet)</li>';
+        $body .= '</ul>';
+
+        $body .= '<h4>Design-Policy</h4>';
+        $body .= '<ul>';
+        $body .= '<li>Designs exklusiv am Termintag vor Ort, keine Vorab-Dateien/Versand.</li>';
+        $body .= '<li>Änderungen finalisieren wir gemeinsam im Termin.</li>';
+        $body .= '</ul>';
+
+        $body .= '<p>Mit der Anzahlung bestätigst du alles verstanden zu haben. Der Termin wird verbindlich.</p>';
 
         self::send_html_mail($to, $subject, $body);
     }

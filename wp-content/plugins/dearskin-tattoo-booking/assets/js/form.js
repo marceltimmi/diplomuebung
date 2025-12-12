@@ -280,6 +280,11 @@
     .then(j=>{
       $msg.text(j.success ? j.data.msg : (j.data?.msg || 'Fehler beim Senden'));
       if(j.success){
+        const redirect = (window.DSTB_Ajax && DSTB_Ajax.thankYou) ? DSTB_Ajax.thankYou : '';
+        if (redirect) {
+          window.location.href = redirect;
+          return;
+        }
         $('#dstb-form')[0].reset();
         $('#dstb-previews').empty();
         $('#dstb-slots').empty();

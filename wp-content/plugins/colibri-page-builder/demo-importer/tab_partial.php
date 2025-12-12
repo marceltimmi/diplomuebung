@@ -1,4 +1,5 @@
 <?php
+//phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $is_ocdi_installed = class_exists( "OCDI\OneClickDemoImport" ) || class_exists('ColibriWP\PageBuilder\OCDI\OneClickDemoImport');
 ?>
 

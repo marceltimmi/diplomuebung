@@ -85,6 +85,7 @@ function colibri_print_widget_area( $atts ) {
 	dynamic_sidebar( $id );
 	$content = ob_get_clean();
 
+    //phpcs:ignore 	Generic.PHP.ForbiddenFunctions.Found
 	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( empty( $sidebars_widgets[ $id ] ) || ! is_array( $sidebars_widgets[ $id ] ) ) {

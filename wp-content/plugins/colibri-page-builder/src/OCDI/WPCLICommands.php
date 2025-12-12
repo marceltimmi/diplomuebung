@@ -189,6 +189,7 @@ class WPCLICommands extends WP_CLI_Command {
             WP_CLI::log( sprintf( esc_html__( 'Executing action: %s ...', 'colibri-page-builder'), $action ) );
 
             ob_start();
+            //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
             do_action( $action, $import_files, $all_import_files, $selected_index );
             $message = ob_get_clean();
 

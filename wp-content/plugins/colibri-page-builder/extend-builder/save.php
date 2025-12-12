@@ -25,6 +25,7 @@ add_action('_wp_put_post_revision', function ($revision_id) {
 
     global $extb_post_revisions;
 
+    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
     $extb_post_revisions = is_array($extb_post_revisions) ? $extb_post_revisions : array();
     $extb_handled_posts = array('page', 'post', 'product', 'extb_post_main');
 
@@ -32,6 +33,7 @@ add_action('_wp_put_post_revision', function ($revision_id) {
     $parent_post = get_post($revision->post_parent);
 
     if ($parent_post->post_type === "extb_post_json") {
+        //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         $extb_post_revisions[$parent_post->ID] = array(
             'post_id' => $parent_post->ID,
             'revision_id' => $revision_id,
@@ -48,6 +50,7 @@ add_action('_wp_put_post_revision', function ($revision_id) {
             $json = $meta['json'];
         }
 
+        //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         $extb_post_revisions[$parent_post->ID] = array(
             'post_id' => $parent_post->ID,
             'revision_id' => $revision_id,

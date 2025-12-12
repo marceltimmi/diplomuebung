@@ -72,6 +72,7 @@ class Notification
                 if ($self->handle) {
                     call_user_func($self->handle, $self->data);
                 } else {
+                    //phpcs:ignore 	WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
                     do_action(\Mesmerize\Notify\Notification::NOTIFICATION_ACTION_PREFIX . $self->name, $self->data);
                 }
                 ?>

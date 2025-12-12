@@ -63,7 +63,9 @@ class NotificationsManager {
         $builder_pro_activation_time    = get_option('colibri_page_builder_pro_activation_time', "0");
 
 		$query = array(
+            //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             'theme'                 => apply_filters( 'mesmerize_notifications_template_slug', $theme ),
+            //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             'stylesheet'            => apply_filters( 'mesmerize_notifications_stylesheet_slug', get_stylesheet() ),
             'license'               => urlencode( '' ),
             'dev_mode'              => $dev_mode ? "1" : "0",
@@ -103,6 +105,7 @@ class NotificationsManager {
 		}
 
 		$notifications = NotificationsManager::addRemoteNotifications( $notifications );
+        //phpcs:ignore 		WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$notifications = apply_filters( 'cp_load_notifications', $notifications );
 
 		foreach ( $notifications as $notification ) {
