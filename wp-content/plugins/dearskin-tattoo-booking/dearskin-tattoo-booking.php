@@ -42,6 +42,7 @@ require_once DSTB_PATH . 'includes/class-dstb-db.php';
 require_once DSTB_PATH . 'includes/class-dstb-admin-availability.php';  
 require_once DSTB_PATH . 'includes/class-dstb-admin-requests.php';       // 💡 neues Admin-Dashboard
 require_once __DIR__ . '/includes/class-dstb-confirm-page.php';
+require_once __DIR__ . '/includes/class-dstb-thankyou.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-dstb-admin-artists.php';
 
 

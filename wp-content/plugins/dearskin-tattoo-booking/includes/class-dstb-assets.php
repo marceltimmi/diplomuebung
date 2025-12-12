@@ -18,6 +18,16 @@ class DSTB_Assets {
         );
         wp_enqueue_style('dstb-style');
 
+        add_action('wp_enquenue_scripts', function() {
+            wp_enquenue_style(
+                'dstb-thankyou',
+                plugins_url('assets/css/dstb-thankyou.css', __FILE__),
+                [],
+                '1.0'
+            );
+        }
+    );
+
         // === FORMULAR JS ===
         wp_register_script(
             'dstb-form',

@@ -1,0 +1,77 @@
+/* Wrapper wie Terminformular */
+.dstb-wrapper {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+/* Card Layout */
+.dstb-card {
+    background: #0f172a;
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    color: #e5e7eb;
+    text-align: center;
+}
+
+/* Icon */
+.dstb-thankyou-icon {
+    font-size: 46px;
+    margin-bottom: 16px;
+}
+
+.dstb-thankyou-icon.success {
+    color: #22c55e;
+}
+
+/* Headline */
+.dstb-card h2 {
+    font-size: 26px;
+    margin-bottom: 14px;
+    color: #ffffff;
+}
+
+/* Text */
+.dstb-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #cbd5f5;
+    margin-bottom: 26px;
+}
+
+/* Infobox */
+.dstb-info-box {
+    background: #020617;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 26px;
+    text-align: left;
+}
+
+.dstb-info-box.success {
+    border-left: 4px solid #22c55e;
+}
+
+.dstb-info-box h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.dstb-info-box ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.dstb-info-box li {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #cbd5f5;
+}
+
+/* Footer */
+.dstb-footer {
+    font-size: 14px;
+    color: #9ca3af;
+}
