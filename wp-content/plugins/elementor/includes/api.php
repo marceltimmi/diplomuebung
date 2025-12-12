@@ -170,14 +170,20 @@ class Api {
 	}
 
 	public static function get_promotion_widgets() {
-		$data = self::get_info_data();
+    $data = self::get_info_data();
 
-		if ( ! isset( $data['pro_widgets'] ) ) {
-			$data['pro_widgets'] = [];
-		}
+    // NEU: Absicherung
+    if (!is_array($data)) {
+        $data = [];
+    }
 
-		return $data['pro_widgets'];
-	}
+    if (!isset($data['pro_widgets'])) {
+        $data['pro_widgets'] = [];
+    }
+
+    return $data['pro_widgets'];
+}
+
 
 	/**
 	 * Get templates data.

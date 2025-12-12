@@ -1,0 +1,400 @@
+# Copyright (C) 2025 embedder-for-google-reviews
+# This file is distributed under the same license as the embedder-for-google-reviews package.
+msgid ""
+msgstr ""
+"Project-Id-Version: embedder-for-google-reviews\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-09 08:59+0000\n"
+"Project-Id-Version: undefined\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. translators: page title
+#. translators: menu title
+#: admin/includes/class-grwp-free-menu-pages.php:14, admin/includes/class-grwp-free-menu-pages.php:15, admin/includes/class-grwp-pro-menu-pages.php:13, admin/includes/class-grwp-pro-menu-pages.php:14
+msgid "How to"
+msgstr ""
+
+#. translators: search for your business
+#: admin/includes/class-grwp-free-settings.php:27, admin/includes/class-grwp-pro-settings.php:18
+msgid "Search for your business:"
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:90, admin/includes/class-grwp-pro-settings.php:77
+msgid "Search for your business"
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:94, admin/includes/class-grwp-pro-settings.php:81
+msgid "Search business"
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:97, admin/includes/class-grwp-free-settings.php:178, admin/includes/class-grwp-pro-settings.php:84
+msgid "Pull reviews"
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:106, admin/includes/class-grwp-pro-settings.php:93
+msgid "Details like country, state, city and/or phone number may help achieving more accurate results."
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:141
+msgid "How to use this plugin"
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:142
+msgid "Explained in less than 1 minute..."
+msgstr ""
+
+#. translators: placeholder text
+#: admin/includes/class-grwp-free-settings.php:175
+msgid "Paste the Place ID of your business here."
+msgstr ""
+
+#. translators: %s: video link
+#: admin/includes/class-grwp-free-settings.php:195
+msgid "Search for your business in the map below and copy/paste the Place ID into the field above (<a href=\"%s\" target=\"_blank\">short explainer video</a>)."
+msgstr ""
+
+#: admin/includes/class-grwp-free-settings.php:205
+msgid "Look up your Place ID and paste it in the field above."
+msgstr ""
+
+#. translators: page title
+#. translators: menu title
+#: admin/includes/class-grwp-global-menu-pages.php:15, admin/includes/class-grwp-global-menu-pages.php:17, admin/includes/class-grwp-global-menu-pages.php:37
+msgid "Google Reviews"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:48
+msgid "Connect Google"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:52
+msgid "Display Settings"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:56
+msgid "Slider Settings"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:63
+msgid "Upgrade to"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:63
+msgid "PRO"
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:81
+msgid "Preview"
+msgstr ""
+
+#. translators: Documentation link
+#: admin/includes/class-grwp-global-menu-pages.php:147, admin/includes/class-grwp-global-menu-pages.php:118, admin/includes/class-grwp-global-menu-pages.php:101
+msgid "Use this shortcode to display the widget (%s)."
+msgstr ""
+
+#: admin/includes/class-grwp-global-menu-pages.php:151, admin/includes/class-grwp-global-menu-pages.php:119, admin/includes/class-grwp-global-menu-pages.php:102
+msgid "Documentation"
+msgstr ""
+
+#. translators: Show dummy content
+#: admin/includes/class-grwp-global-settings.php:50
+msgid "Show dummy content"
+msgstr ""
+
+#. translators: Show dummy content
+#: admin/includes/class-grwp-global-settings.php:59
+msgid "Show 'verified' badge"
+msgstr ""
+
+#. translators: Reviews language
+#: admin/includes/class-grwp-global-settings.php:68
+msgid "Reviews language"
+msgstr ""
+
+#. translators: %s is replaced with "Attention" in bold.
+#: admin/includes/class-grwp-global-settings.php:88
+msgid "%s: the free version only allows for pulling 20 reviews."
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:89
+msgid "Attention"
+msgstr ""
+
+#. translators: %s: Upgrade to the PRO version
+#: admin/includes/class-grwp-global-settings.php:102
+msgid "<a href=\"%1$s\" target=\"_blank\">Upgrade to the PRO version</a> to show ALL your reviews, <strong>filter out bad reviews</strong> and <a href=\"%2$s\" target=\"_blank\">much more</a>."
+msgstr ""
+
+#. translators: Layout type
+#: admin/includes/class-grwp-global-settings.php:167
+msgid "Layout type"
+msgstr ""
+
+#. translators: Design type
+#: admin/includes/class-grwp-global-settings.php:176
+msgid "Design type"
+msgstr ""
+
+#. translators: Minimum rating (stars)
+#: admin/includes/class-grwp-global-settings.php:186
+msgid "Minimum rating (stars)"
+msgstr ""
+
+#. translators: Exclude reviews without text
+#: admin/includes/class-grwp-global-settings.php:195
+msgid "Exclude reviews without text"
+msgstr ""
+
+#. translators: Hide review date
+#: admin/includes/class-grwp-global-settings.php:204
+msgid "Hide review date"
+msgstr ""
+
+#. translators: Link to users Google prilfe
+#: admin/includes/class-grwp-global-settings.php:212
+msgid "Link to users Profile <br> (uncheck for better SEO)"
+msgstr ""
+
+#. translators: Filter by words (comma separated)
+#: admin/includes/class-grwp-global-settings.php:221
+msgid "Filter by words (comma separated)"
+msgstr ""
+
+#. translators: Layout type
+#: admin/includes/class-grwp-global-settings.php:250
+msgid "Slide Duration (seconds). <br> Use '0' to disable autoplay"
+msgstr ""
+
+#. translators: Layout type
+#: admin/includes/class-grwp-global-settings.php:259
+msgid "Hide slider arrows"
+msgstr ""
+
+#. translators: Layout type
+#: admin/includes/class-grwp-global-settings.php:268
+msgid "Disable slider endless loop"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:347, admin/includes/class-grwp-global-settings.php:386, admin/includes/class-grwp-global-settings.php:518, admin/includes/class-grwp-global-settings.php:544, admin/includes/class-grwp-global-settings.php:625, admin/includes/class-grwp-global-settings.php:662, admin/includes/class-grwp-global-settings.php:700
+msgid "Yes"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:484
+msgid "Global settings for showing reviews"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:490
+msgid "Display settings"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:496
+msgid "Slider settings"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:756
+msgid "Slider"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:760
+msgid "Grid"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:773
+msgid "Floating Badge"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:766
+msgid "Floating Badge (PRO)"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:791
+msgid "1"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:792
+msgid "2"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:793
+msgid "3"
+msgstr ""
+
+#. translators: Design
+#: admin/includes/class-grwp-global-settings.php:818
+msgid "Design #%s"
+msgstr ""
+
+#: admin/includes/class-grwp-global-settings.php:912
+msgid "Use this shortcode to show your reviews on pages and posts:"
+msgstr ""
+
+#. translators: %s: URL
+#: admin/includes/class-grwp-global-settings.php:919
+msgid "<a href=\"%s\" target=\"_blank\">See</a>, how to overwrite styles, widget types and other settings."
+msgstr ""
+
+#: admin/includes/how-to.php:10
+msgid "How to use the free version"
+msgstr ""
+
+#: admin/includes/how-to.php:12
+msgid "Enter your business name"
+msgstr ""
+
+#: admin/includes/how-to.php:13
+msgid "Click 'Search business'"
+msgstr ""
+
+#: admin/includes/how-to.php:14
+msgid "Choose your business from the list"
+msgstr ""
+
+#: admin/includes/how-to.php:15
+msgid "Choose your preferred language"
+msgstr ""
+
+#: admin/includes/how-to.php:16
+msgid "Click the 'Pull reviews' button"
+msgstr ""
+
+#: admin/includes/how-to.php:17
+msgid "Wait until the process is finished. The page will refresh automatically"
+msgstr ""
+
+#: admin/includes/how-to.php:18
+msgid "Now you should already see your reviews. If not, click the 'Pull reviews' button again"
+msgstr ""
+
+#: admin/includes/how-to.php:19
+msgid "Hit 'save'"
+msgstr ""
+
+#: admin/includes/how-to.php:20
+msgid "Use one of the shortcodes in order to display your reviews on pages, posts, Elementor, Beaver Builder, Bakery Builder etc."
+msgstr ""
+
+#. translators: %s: link to the documentation
+#: admin/includes/how-to.php:27
+msgid "Check the <a href=\"%s\" target=\"_blank\">documentation</a>, to learn how to modify the shortcode output"
+msgstr ""
+
+#. translators: %s: link to the upgrade page
+#: admin/includes/how-to.php:38
+msgid "<strong>Note:</strong> the free version only allows for pulling 20 reviews. To get around this, please <a href=\"%s\" target=\"_blank\">upgrade to the PRO version</a>, which will pull all your reviews"
+msgstr ""
+
+#: admin/includes/how-to.php:45
+msgid "Video tutorial"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:122
+msgid "year"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:123
+msgid "years"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:126
+msgid "month"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:127
+msgid "months"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:130, public/includes/class-grwp-google-reviews-output.php:152
+msgid "week"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:131, public/includes/class-grwp-google-reviews-output.php:152
+msgid "weeks"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:134
+msgid "day"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:135
+msgid "days"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:138
+msgid "hour"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:139
+msgid "hours"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:142
+msgid "minute"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:143
+msgid "minutes"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:146
+msgid "second"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:147
+msgid "seconds"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:166, public/includes/class-grwp-google-reviews-output.php:171
+msgid " ago"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:166, public/includes/class-grwp-google-reviews-output.php:171
+msgid "just now"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:208
+msgid "Lorem Ipsum"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:213
+msgid "three months ago"
+msgstr ""
+
+#: public/includes/class-grwp-google-reviews-output.php:214
+msgid "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+msgstr ""
+
+#. translators: %s: error message
+#. translators: No reviews available
+#. translators: no reviews available
+#: public/includes/class-grwp-reviews-widget-badge.php:16, public/includes/class-grwp-reviews-widget-grid.php:12, public/includes/class-grwp-reviews-widget-slider.php:16
+msgid "No reviews available"
+msgstr ""
+
+#. translators: %s: business name
+#: public/includes/class-grwp-reviews-widget-badge.php:61
+msgid "Our Google Reviews"
+msgstr ""
+
+#. translators: 'Verified by' badge
+#: public/includes/class-grwp-reviews-widget-badge.php:74, public/includes/class-grwp-reviews-widget-grid.php:61, public/includes/class-grwp-reviews-widget-slider.php:72
+msgid "Verified by"
+msgstr ""
+
+#. translators: Out of 5 stars
+#. translators: out of 5 stars
+#: public/includes/class-grwp-reviews-widget-grid.php:50, public/includes/class-grwp-reviews-widget-slider.php:61
+msgid "Out of 5 stars"
+msgstr ""
+
+#. translators: Overall rating out of %s Google reviews
+#. translators: %s: total reviews
+#: public/includes/class-grwp-reviews-widget-grid.php:55, public/includes/class-grwp-reviews-widget-slider.php:66
+msgid "Overall rating out of %s Google reviews"
+msgstr ""
