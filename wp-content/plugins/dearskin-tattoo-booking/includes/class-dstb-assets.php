@@ -38,11 +38,13 @@ class DSTB_Assets {
         );
 
         wp_localize_script('dstb-form', 'DSTB_Ajax', [
-            'url'        => admin_url('admin-ajax.php'),
-            'nonce'      => wp_create_nonce('dstb_front'),
-            'timeSteps'  => dstb_half_hour_steps(),
-            'maxUploads' => dstb_upload_constraints()['max_files'],
-            'thankYou'   => dstb_thankyou_url(),
+            'url'             => admin_url('admin-ajax.php'),
+            'nonce'           => wp_create_nonce('dstb_front'),
+            'timeSteps'       => dstb_half_hour_steps(),
+            'maxUploads'      => dstb_upload_constraints()['max_files'],
+            'thankYou'        => dstb_thankyou_request_url(), // legacy key
+            'thankYouRequest' => dstb_thankyou_request_url(),
+            'thankYouConfirm' => dstb_thankyou_confirm_url(),
         ]);
 
         wp_enqueue_script('dstb-form');
