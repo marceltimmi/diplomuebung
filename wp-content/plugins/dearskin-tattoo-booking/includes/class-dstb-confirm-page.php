@@ -24,9 +24,10 @@ class DSTB_Confirm_Page {
                 true
             );
             wp_localize_script('dstb-confirm', 'DSTB_Confirm', [
-                'ajax'      => admin_url('admin-ajax.php'),
-                'nonce'     => wp_create_nonce('dstb_front'),
-                'thankYou'  => dstb_thankyou_url(),
+                'ajax'             => admin_url('admin-ajax.php'),
+                'nonce'            => wp_create_nonce('dstb_front'),
+                'thankYou'         => dstb_thankyou_confirm_url(), // legacy key
+                'thankYouConfirm'  => dstb_thankyou_confirm_url(),
             ]);
 
             wp_enqueue_style(

@@ -7,9 +7,9 @@ jQuery(function($){
       if(res && res.success){
         $('#dstb-confirm-form').fadeOut(200);
         const isDecline = (extra || '').indexOf('decline=1') !== -1;
-        const redirect = (!isDecline && DSTB_Confirm.thankYou) ? DSTB_Confirm.thankYou : '';
-        if (redirect) {
-          setTimeout(function(){ window.location.href = redirect; }, 250);
+        const redirectKey = DSTB_Confirm.thankYouConfirm || DSTB_Confirm.thankYou || '';
+        if (!isDecline && redirectKey) {
+          setTimeout(function(){ window.location.href = redirectKey; }, 250);
         }
       }
     }).fail(function(){
