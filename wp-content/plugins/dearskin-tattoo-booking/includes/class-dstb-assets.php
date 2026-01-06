@@ -37,13 +37,17 @@ class DSTB_Assets {
             true
         );
 
-        wp_localize_script('dstb-form', 'DSTB_Ajax', [
-            'url'        => admin_url('admin-ajax.php'),
-            'nonce'      => wp_create_nonce('dstb_front'),
-            'timeSteps'  => dstb_half_hour_steps(),
-            'maxUploads' => dstb_upload_constraints()['max_files'],
-            'thankYou'   => dstb_thankyou_url(),
-        ]);
+        $localized_form = [
+            'url'             => admin_url('admin-ajax.php'),
+            'nonce'           => wp_create_nonce('dstb_front'),
+            'timeSteps'       => dstb_half_hour_steps(),
+            'maxUploads'      => dstb_upload_constraints()['max_files'],
+            'thankYou'        => dstb_thankyou_request_url(), // legacy key
+            'thankYouRequest' => dstb_thankyou_request_url(),
+            'thankYouConfirm' => dstb_thankyou_confirm_url(),
+        ];
+
+        wp_localize_script('dstb-form', 'DSTB_Ajax', $localized_form);
 
         wp_enqueue_script('dstb-form');
 
@@ -65,11 +69,9 @@ class DSTB_Assets {
         // Sicherstellen, dass die Standard-"kein Artist"-Option niemals einen Kalender anzeigt
         $no_calendar_artists[] = $default_no_artist_label;
 
-        wp_localize_script('dstb-calendar', 'DSTB_Ajax', [
-            'url'                => admin_url('admin-ajax.php'),
-            'nonce'              => wp_create_nonce('dstb_front'),
-            'noCalendarArtists'  => array_values(array_unique((array) $no_calendar_artists)),
-        ]);
+        wp_localize_script('dstb-calendar', 'DSTB_Ajax', array_merge($localized_form, [
+            'noCalendarArtists' => array_values(array_unique((array) $no_calendar_artists)),
+        ]));
 
         wp_enqueue_script('dstb-calendar');
     }

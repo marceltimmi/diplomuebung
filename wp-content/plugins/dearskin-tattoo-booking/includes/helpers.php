@@ -100,27 +100,69 @@ function dstb_upload_constraints(){
 return [ 'max_files'=>10, 'max_size_mb'=>8, 'allowed_mimes'=>['image/jpeg','image/png','image/webp'] ];
 }
 
-function dstb_thankyou_url(){
-    $url = '';
-
-    if (defined('DSTB_THANKYOU_URL') && filter_var(DSTB_THANKYOU_URL, FILTER_VALIDATE_URL)) {
-        $url = DSTB_THANKYOU_URL;
+/**
+ * Resolves an URL either from constants/options or matching page slugs.
+ */
+function dstb_resolve_url($constant, $option, array $slugs, $fallback = ''){
+    if ($constant && defined($constant) && filter_var(constant($constant), FILTER_VALIDATE_URL)) {
+        return constant($constant);
     }
 
-    if (!$url) {
-        $opt = get_option('dstb_thankyou_url', '');
+    if ($option) {
+        $opt = get_option($option, '');
         if ($opt && filter_var($opt, FILTER_VALIDATE_URL)) {
-            $url = $opt;
+            return $opt;
         }
     }
+
+    foreach ($slugs as $slug) {
+        $page = get_page_by_path($slug);
+        if ($page) {
+            return get_permalink($page);
+        }
+    }
+
+    return $fallback;
+}
+
+/**
+ * Thank-you page after a booking request was sent.
+ */
+function dstb_thankyou_request_url(){
+    $url = dstb_resolve_url(
+        'DSTB_THANKYOU_REQUEST_URL',
+        'dstb_thankyou_request_url',
+        ['danke-fuer-deine-anfrage', 'thank-you', 'danke']
+    );
 
     if (!$url) {
-        $page = get_page_by_path('thank-you') ?: get_page_by_path('danke');
-        if ($page) {
-            $url = get_permalink($page);
-        }
+        // Legacy fallback for earlier single thank-you configuration.
+        $url = dstb_resolve_url('DSTB_THANKYOU_URL', 'dstb_thankyou_url', ['thank-you', 'danke']);
     }
 
-    return apply_filters('dstb_thankyou_url', $url ?: '');
+    return apply_filters('dstb_thankyou_request_url', $url ?: '');
+}
+
+/**
+ * Thank-you page after a final appointment confirmation.
+ */
+function dstb_thankyou_confirm_url(){
+    $url = dstb_resolve_url(
+        'DSTB_THANKYOU_CONFIRM_URL',
+        'dstb_thankyou_confirm_url',
+        ['terminbestaetigung']
+    );
+
+    if (!$url) {
+        // Fallback to the request thank-you page if no dedicated confirmation page is found.
+        $url = dstb_thankyou_request_url();
+    }
+
+    return apply_filters('dstb_thankyou_confirm_url', $url ?: '');
+}
+
+// Backwards compatibility for existing usages.
+function dstb_thankyou_url(){
+    return dstb_thankyou_request_url();
 }
 
