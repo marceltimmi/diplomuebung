@@ -129,18 +129,21 @@ function dstb_resolve_url($constant, $option, array $slugs, $fallback = ''){
  * Thank-you page after a booking request was sent.
  */
 function dstb_thankyou_request_url(){
+    $fallback = home_url('/danke-fuer-deine-anfrage');
+
     $url = dstb_resolve_url(
         'DSTB_THANKYOU_REQUEST_URL',
         'dstb_thankyou_request_url',
-        ['danke-fuer-deine-anfrage', 'thank-you', 'danke']
+        ['danke-fuer-deine-anfrage', 'thank-you', 'danke'],
+        $fallback
     );
 
     if (!$url) {
         // Legacy fallback for earlier single thank-you configuration.
-        $url = dstb_resolve_url('DSTB_THANKYOU_URL', 'dstb_thankyou_url', ['thank-you', 'danke']);
+        $url = dstb_resolve_url('DSTB_THANKYOU_URL', 'dstb_thankyou_url', ['thank-you', 'danke'], $fallback);
     }
 
-    return apply_filters('dstb_thankyou_request_url', $url ?: '');
+    return apply_filters('dstb_thankyou_request_url', $url ?: $fallback);
 }
 
 /**
